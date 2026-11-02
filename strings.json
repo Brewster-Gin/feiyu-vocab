@@ -71,5 +71,10 @@
   "revShow": "看释义",
   "revHide": "收起释义",
   "btnNextDay": "继续背下一天",
-  "setPerDayHint": "每天背几个新词（1–60，改了会重排计划，已打卡天数保留）"
+  "setPerDayHint": "每天背几个新词（1–60，改了会重排计划，已打卡天数保留）",
+  "resetBtn": "重置当前词库…",
+  "resetTitle": "重置当前词库",
+  "resetBody": "将从当前词库的第一个词重新开始（今天 = 第 1 天），已打卡天数保留不变。",
+  "resetYes": "确定重置",
+  "resetNo": "取消"
 }

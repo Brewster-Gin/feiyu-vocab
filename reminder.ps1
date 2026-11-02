@@ -517,9 +517,28 @@ try {
             <TextBlock Name="SetPerDayHint" Text="" FontSize="11.5" Foreground="#999999" Margin="0,12,0,6"/>
             <TextBox Name="SetPerDay" FontSize="14" Padding="8,6" FontFamily="Consolas" Width="120" HorizontalAlignment="Left"/>
             <TextBlock Name="SetFeedback" Text="" FontSize="11.5" Foreground="#C0392B" Margin="0,10,0,0"/>
+            <Button Name="SetReset" Content="" Style="{StaticResource FlatBtn}" HorizontalAlignment="Left"
+                    Background="#FDECEA" Foreground="#C0392B" Margin="0,12,0,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
               <Button Name="SetSave" Content="" Style="{StaticResource FlatBtn}" Background="#1F4E79" Foreground="#FFFFFF"/>
               <Button Name="SetCancel" Content="" Style="{StaticResource FlatBtn}" Background="#FFFFFF" Foreground="#999999"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </Border>
+      <Border Name="ResetLayer" Grid.Row="0" Grid.RowSpan="3" CornerRadius="16"
+              Background="#8C1B2A3A" Visibility="Collapsed">
+        <Border Background="#FFFFFF" CornerRadius="12" Padding="26,22" MaxWidth="460"
+                VerticalAlignment="Center" HorizontalAlignment="Center">
+          <StackPanel>
+            <TextBlock Name="ResetTitle" Text="" FontSize="17" FontWeight="Bold" Foreground="#1A1A1A"/>
+            <TextBlock Name="ResetBody" Text="" FontSize="12" Foreground="#666666"
+                       TextWrapping="Wrap" LineHeight="19" Margin="0,10,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+              <Button Name="ResetNo" Content="" Style="{StaticResource FlatBtn}"
+                      Background="#EDF2F8" Foreground="#1F4E79"/>
+              <Button Name="ResetYes" Content="" Style="{StaticResource FlatBtn}"
+                      Background="#C0392B" Foreground="#FFFFFF"/>
             </StackPanel>
           </StackPanel>
         </Border>
@@ -595,6 +614,12 @@ try {
     $script:undoHandlerSet = $false
     $confirmLayer = $win.FindName('ConfirmLayer')
     $setLayer = $win.FindName('SetLayer')
+    $resetLayer = $win.FindName('ResetLayer')
+    $win.FindName('ResetTitle').Text = $S.resetTitle
+    $win.FindName('ResetBody').Text = $S.resetBody
+    $win.FindName('ResetYes').Content = $S.resetYes
+    $win.FindName('ResetNo').Content = $S.resetNo
+    $win.FindName('SetReset').Content = $S.resetBtn
     $win.FindName('SetTitle').Text = $S.setTitle
     $win.FindName('SetDateHint').Text = $S.setDateHint
     $win.FindName('SetLabelHint').Text = $S.setLabelHint
@@ -965,6 +990,28 @@ try {
         Start-Process -FilePath 'cmd.exe' -WindowStyle Hidden -ArgumentList '/c', ('timeout /t 2 /nobreak >nul & wscript.exe "' + (Join-Path $script:root 'launch.vbs') + '" preview')
     }
 
+    function Invoke-ResetDeck {
+        $cfgFile = Join-Path $script:root 'config.json'
+        $deckName = ''
+        if (Test-Path $cfgFile) {
+            try { $deckName = (Get-Content $cfgFile -Raw -Encoding UTF8 | ConvertFrom-Json).deck } catch { }
+        }
+        $deckPath = ''
+        if ($deckName) { $deckPath = Join-Path $script:root ('词库\' + $deckName + '.csv') }
+        if (-not (Test-Path $deckPath)) {
+            $first = Get-ChildItem (Join-Path $script:root '词库') -Filter '*.csv' -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($first) { $deckPath = $first.FullName }
+        }
+        if (-not (Test-Path $deckPath)) {
+            $script:statusText.Text = '找不到词库文件'
+            $script:resetLayer.Visibility = 'Collapsed'
+            return
+        }
+        Write-Log ('重置词库: ' + $deckPath)
+        $script:resetLayer.Visibility = 'Collapsed'
+        Invoke-DeckSwitch $deckPath
+    }
+
     function Find-Python {
         $dsh = Join-Path $env:USERPROFILE '.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe'
         if (Test-Path $dsh) { return $dsh }
@@ -1137,6 +1184,13 @@ try {
             param($s2, $e2)
             if ($e2.OriginalSource -eq $script:confirmLayer) { $script:confirmLayer.Visibility = 'Collapsed' }
         })
+    $win.FindName('SetReset').Add_Click({ $script:resetLayer.Visibility = 'Visible' })
+    $win.FindName('ResetYes').Add_Click({ Invoke-ResetDeck })
+    $win.FindName('ResetNo').Add_Click({ $script:resetLayer.Visibility = 'Collapsed' })
+    $resetLayer.Add_MouseLeftButtonDown({
+            param($s2, $e2)
+            if ($e2.OriginalSource -eq $script:resetLayer) { $script:resetLayer.Visibility = 'Collapsed' }
+        })
     $win.FindName('SetSave').Add_Click({ Save-Target })
     $win.FindName('SetCancel').Add_Click({ $script:setLayer.Visibility = 'Collapsed' })
     $setLayer.Add_MouseLeftButtonDown({
@@ -1209,6 +1263,7 @@ try {
         if ($env:CET6_TEST_DECK) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList }
         if ($env:CET6_TEST_DECKHELP) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList; $win.FindName('DeckFormat').Visibility = 'Visible' }
         if ($env:CET6_TEST_SET) { Open-SetLayer }
+        if ($env:CET6_TEST_RESET) { $win.FindName('ResetLayer').Visibility = 'Visible' }
         if ($env:CET6_TEST_REV) { foreach ($t in $flatList) { $t.Visibility = 'Collapsed' }; foreach ($t in $detailList) { $t.Visibility = 'Visible' }; $revToggle.Content = $S.revHide }
         if ($env:CET6_TEST_SCROLL) { $win.FindName('BodyPanel').Parent.ScrollToEnd() }
         $timer = New-Object Windows.Threading.DispatcherTimer
