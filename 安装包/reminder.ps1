@@ -216,7 +216,7 @@ function Resume-Pause {
     }
     if ($shift -gt 0) {
         try {
-            [void](Fix-PlanDates -Dir $script:root -Start $script:planStart.AddDays($shift))
+            [void](Fix-PlanDates -Dir $script:root -Start $script:planStart.AddDays($shift) -Exam $script:planExam)
             Write-Log ('手动恢复，计划顺延 ' + $shift + ' 天')
             $script:planStart = $script:planStart.AddDays($shift)
         } catch {
@@ -254,8 +254,19 @@ function Confirm-Saved([string]$text) {
     $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#2E7D4F')
     $script:statusText.Text = $text
     foreach ($c in $script:btnPanel.Children) { $c.IsEnabled = $false }
+
+    # 打卡完成后给一个「继续背下一天」的入口，8 秒后自动关
+    $nextBtn = New-Object Windows.Controls.Button
+    $nextBtn.Content = $script:S.btnNextDay
+    $nextBtn.Style = $script:win.Resources['FlatBtn']
+    $nextBtn.Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#EDF2F8')
+    $nextBtn.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1F4E79')
+    $nextBtn.IsEnabled = $true
+    $nextBtn.Add_Click({ param($s2, $e2) Start-NextDay })
+    $script:btnPanel.Children.Add($nextBtn) | Out-Null
+
     $script:closeTimer = New-Object Windows.Threading.DispatcherTimer
-    $script:closeTimer.Interval = [TimeSpan]::FromMilliseconds(1000)
+    $script:closeTimer.Interval = [TimeSpan]::FromMilliseconds(8000)
     $script:closeTimer.Add_Tick({ $script:closeTimer.Stop(); $script:win.Close() })
     $script:closeTimer.Start()
 }
@@ -327,7 +338,7 @@ try {
                 $shift = [int]($untilDate - $fromDate).TotalDays
                 if ($shift -gt 0) {
                     try {
-                        [void](Fix-PlanDates -Dir $root -Start $start.AddDays($shift))
+                        [void](Fix-PlanDates -Dir $root -Start $start.AddDays($shift) -Exam $exam)
                         Write-Log ('暂停到期，计划顺延 ' + $shift + ' 天')
                         $plan = Get-Content (Join-Path $root 'words.json') -Raw -Encoding UTF8 | ConvertFrom-Json
                         $start = [datetime]::ParseExact($plan.start, 'yyyy-MM-dd', $null)
@@ -503,6 +514,8 @@ try {
             <TextBox Name="SetDate" FontSize="14" Padding="8,6" FontFamily="Consolas"/>
             <TextBlock Name="SetLabelHint" Text="" FontSize="11.5" Foreground="#999999" Margin="0,12,0,6"/>
             <TextBox Name="SetLabel" FontSize="14" Padding="8,6"/>
+            <TextBlock Name="SetPerDayHint" Text="" FontSize="11.5" Foreground="#999999" Margin="0,12,0,6"/>
+            <TextBox Name="SetPerDay" FontSize="14" Padding="8,6" FontFamily="Consolas" Width="120" HorizontalAlignment="Left"/>
             <TextBlock Name="SetFeedback" Text="" FontSize="11.5" Foreground="#C0392B" Margin="0,10,0,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
               <Button Name="SetSave" Content="" Style="{StaticResource FlatBtn}" Background="#1F4E79" Foreground="#FFFFFF"/>
@@ -585,6 +598,7 @@ try {
     $win.FindName('SetTitle').Text = $S.setTitle
     $win.FindName('SetDateHint').Text = $S.setDateHint
     $win.FindName('SetLabelHint').Text = $S.setLabelHint
+    $win.FindName('SetPerDayHint').Text = $S.setPerDayHint
     $win.FindName('SetSave').Content = $S.setSave
     $win.FindName('SetCancel').Content = $S.setCancel
 
@@ -652,6 +666,8 @@ try {
         $script:targetDate = $targetDate
         $script:targetLabel = $targetLabel
         $script:planStart = $start
+        $script:planPerDay = [int]$plan.perDay
+        $script:planIntervals = @($plan.intervals)
         $script:planExam = $exam
         $sub0 = $win.FindName('SubText')
         $sub0.ToolTip = '点这里设置目标日期'
@@ -823,6 +839,7 @@ try {
             $win.FindName('SetDate').Text = ''
         }
         $win.FindName('SetLabel').Text = $script:targetLabel
+        $win.FindName('SetPerDay').Text = [string]$script:planPerDay
         $script:setLayer.Visibility = 'Visible'
         $win.FindName('SetDate').Focus() | Out-Null
     }
@@ -858,6 +875,17 @@ try {
             $script:targetDate = $d2
         }
         $script:targetLabel = $label
+
+        # 每天词数：改了才重建计划
+        $perRaw = $win.FindName('SetPerDay').Text.Trim()
+        $perNew = 0
+        if ($perRaw) {
+            if (-not [int]::TryParse($perRaw, [ref]$perNew) -or $perNew -lt 1 -or $perNew -gt 60) {
+                $win.FindName('SetFeedback').Text = '每天词数要填 1–60 之间的整数'
+                return
+            }
+        }
+
         ($cfg | ConvertTo-Json) | Set-Content $cfgFile -Encoding UTF8
         Write-Log ('目标日期: ' + $(if ($script:targetOn) { $cfg['target'] } else { '关闭' }))
 
@@ -866,6 +894,67 @@ try {
         $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#2E7D4F')
         $script:statusText.Text = $script:S.setOk
         $script:setLayer.Visibility = 'Collapsed'
+
+        if ($perNew -gt 0 -and $perNew -ne $script:planPerDay) {
+            Invoke-RebuildPlan $perNew
+        }
+    }
+
+    function Invoke-RebuildPlan([int]$perDay) {
+        $py = Find-Python
+        if (-not $py) {
+            $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
+            $script:statusText.Text = '找不到 Python，无法重排计划'
+            return
+        }
+        $cfgFile = Join-Path $script:root 'config.json'
+        $deckName = ''
+        if (Test-Path $cfgFile) {
+            try { $deckName = (Get-Content $cfgFile -Raw -Encoding UTF8 | ConvertFrom-Json).deck } catch { }
+        }
+        $deckPath = ''
+        if ($deckName) { $deckPath = Join-Path $script:root ('词库\' + $deckName + '.csv') }
+        if (-not (Test-Path $deckPath)) {
+            $first = Get-ChildItem (Join-Path $script:root '词库') -Filter '*.csv' -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($first) { $deckPath = $first.FullName }
+        }
+        if (-not (Test-Path $deckPath)) {
+            $script:statusText.Text = '找不到词库文件'
+            return
+        }
+        $script:statusText.Text = '正在按新的每日词数重排…'
+        & $py (Join-Path $script:root '工具\build_plan.py') --deck $deckPath --per-day $perDay `
+            --intervals ($script:planIntervals -join ',') --start (Get-Date -Format 'yyyy-MM-dd') `
+            --exam $script:planExam.ToString('yyyy-MM-dd') 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
+            $script:statusText.Text = '重排失败'
+            return
+        }
+        Write-Log ('重排计划: 每天 ' + $perDay)
+        $script:win.Close()
+        Start-Process -FilePath 'cmd.exe' -WindowStyle Hidden -ArgumentList '/c', ('timeout /t 2 /nobreak >nul & wscript.exe "' + (Join-Path $script:root 'launch.vbs') + '" preview')
+    }
+
+    function Start-NextDay {
+        $planFile = Join-Path $script:root 'words.json'
+        $plan = Get-Content $planFile -Raw -Encoding UTF8 | ConvertFrom-Json
+        $curStart = [datetime]::ParseExact($plan.start, 'yyyy-MM-dd', $null)
+        $newStart = $curStart.AddDays(-1)
+
+        # 今天的打卡记录挪到昨天（它就是"下一天"的前一天）
+        $todayFile = Join-Path $script:stateDir ($script:today.ToString('yyyy-MM-dd') + '.txt')
+        $yestFile = Join-Path $script:stateDir ($script:today.AddDays(-1).ToString('yyyy-MM-dd') + '.txt')
+        if (Test-Path $todayFile) {
+            Copy-Item $todayFile $yestFile -Force
+            Remove-Item $todayFile -Force
+        }
+
+        Fix-PlanDates -Dir $script:root -Start $newStart -Exam $script:planExam | Out-Null
+        Write-Log ('提前一天: 计划起点改为 ' + $newStart.ToString('yyyy-MM-dd'))
+        $script:closeTimer.Stop()
+        $script:win.Close()
+        Start-Process -FilePath 'cmd.exe' -WindowStyle Hidden -ArgumentList '/c', ('timeout /t 2 /nobreak >nul & wscript.exe "' + (Join-Path $script:root 'launch.vbs') + '" preview')
     }
 
     function Find-Python {
@@ -1108,6 +1197,7 @@ try {
         if ($env:CET6_TEST_PAUSE) { $win.FindName('PauseLayer').Visibility = 'Visible' }
         if ($env:CET6_TEST_DECK) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList }
         if ($env:CET6_TEST_DECKHELP) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList; $win.FindName('DeckFormat').Visibility = 'Visible' }
+        if ($env:CET6_TEST_SET) { Open-SetLayer }
         if ($env:CET6_TEST_REV) { foreach ($t in $flatList) { $t.Visibility = 'Collapsed' }; foreach ($t in $detailList) { $t.Visibility = 'Visible' }; $revToggle.Content = $S.revHide }
         if ($env:CET6_TEST_SCROLL) { $win.FindName('BodyPanel').Parent.ScrollToEnd() }
         $timer = New-Object Windows.Threading.DispatcherTimer

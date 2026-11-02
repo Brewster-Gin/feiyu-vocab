@@ -1,16 +1,24 @@
-# Shift the whole 40-day plan to a new start date.
+﻿# Shift the whole 40-day plan to a new start date.
 # Rewrites words.json day dates + the workbook's date cells.
 function Fix-PlanDates {
     param(
         [Parameter(Mandatory = $true)][string]$Dir,
-        [Parameter(Mandatory = $true)][datetime]$Start
+        [Parameter(Mandatory = $true)][datetime]$Start,
+        [datetime]$Exam = [datetime]::MinValue
     )
 
     $epoch = [datetime]'1899-12-30'
-    $exam = $Start.AddDays(40)
 
     $jsonPath = Join-Path $Dir 'words.json'
     $plan = Get-Content $jsonPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    $dayCount = @($plan.days).Count
+    $perDay = 10
+    if ($plan.perDay) { $perDay = [int]$plan.perDay }
+    $wordCount = 0
+    foreach ($d in $plan.days) { $wordCount += @($d.words).Count }
+    $keepExam = $Exam
+    $exam = $Start.AddDays($dayCount)
+    if ($keepExam -ne [datetime]::MinValue) { $exam = $keepExam }
     $i = 0
     foreach ($d in $plan.days) {
         $d.date = $Start.AddDays($i).ToString('yyyy-MM-dd')
@@ -32,12 +40,12 @@ function Fix-PlanDates {
         try {
             $jobs = @{}
             $jobs['xl/worksheets/sheet1.xml'] = @{}
-            for ($r = 2; $r -le 41; $r++) {
+            for ($r = 2; $r -le ($dayCount + 1); $r++) {
                 $jobs['xl/worksheets/sheet1.xml']['B' + $r] = [int]($Start.AddDays($r - 2) - $epoch).TotalDays
             }
             $jobs['xl/worksheets/sheet2.xml'] = @{}
-            for ($r = 2; $r -le 401; $r++) {
-                $dayIndex = [math]::Floor(($r - 2) / 10)
+            for ($r = 2; $r -le ($wordCount + 1); $r++) {
+                $dayIndex = [math]::Floor(($r - 2) / $perDay)
                 $jobs['xl/worksheets/sheet2.xml']['C' + $r] = [int]($Start.AddDays($dayIndex) - $epoch).TotalDays
             }
             $jobs['xl/worksheets/sheet3.xml'] = @{
