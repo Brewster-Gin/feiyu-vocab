@@ -1,0 +1,5 @@
+state/
+*.log
+config.json
+*.xlsx
+词库/四六级核心词/

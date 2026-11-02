@@ -1,0 +1,3052 @@
+{
+ "start": "2026-11-02",
+ "exam": "2026-12-12",
+ "intervals": [
+  1,
+  4,
+  15
+ ],
+ "perDay": 10,
+ "days": [
+  {
+   "day": 1,
+   "date": "2026-11-02",
+   "words": [
+    {
+     "w": "advocate",
+     "pos": "v.",
+     "cn": "提倡，主张",
+     "ph": "advocate reform 主张改革",
+     "ipa": "/ˈædvəkeɪt/"
+    },
+    {
+     "w": "assess",
+     "pos": "v.",
+     "cn": "评估，评定",
+     "ph": "assess the risk 评估风险",
+     "ipa": "/əˈsɛs/"
+    },
+    {
+     "w": "assume",
+     "pos": "v.",
+     "cn": "假定；承担",
+     "ph": "assume responsibility 承担责任",
+     "ipa": "/əˈsuːm/"
+    },
+    {
+     "w": "attribute",
+     "pos": "v.",
+     "cn": "把……归因于",
+     "ph": "attribute success to luck 把成功归因于运气",
+     "ipa": "/əˈtrɪbjuːt/"
+    },
+    {
+     "w": "acknowledge",
+     "pos": "v.",
+     "cn": "承认；致谢",
+     "ph": "acknowledge the fact 承认事实",
+     "ipa": "/əkˈnɒlɪdʒ/"
+    },
+    {
+     "w": "alter",
+     "pos": "v.",
+     "cn": "改变，更改",
+     "ph": "alter the plan 改变计划",
+     "ipa": "/ˈɑltɚ/"
+    },
+    {
+     "w": "accelerate",
+     "pos": "v.",
+     "cn": "加速，促进",
+     "ph": "accelerate growth 加速增长",
+     "ipa": "/ækˈsɛləˌreɪt/"
+    },
+    {
+     "w": "diminish",
+     "pos": "v.",
+     "cn": "减少，削弱",
+     "ph": "diminish in value 贬值",
+     "ipa": "/dɪˈmɪnɪʃ/"
+    },
+    {
+     "w": "enhance",
+     "pos": "v.",
+     "cn": "提高，增强",
+     "ph": "enhance efficiency 提高效率",
+     "ipa": "/ɪnˈhɑːns/"
+    },
+    {
+     "w": "deteriorate",
+     "pos": "v.",
+     "cn": "恶化，变坏",
+     "ph": "health deteriorated 健康恶化了",
+     "ipa": "/dɪˈtɪərɪəreɪt/"
+    }
+   ]
+  },
+  {
+   "day": 2,
+   "date": "2026-11-03",
+   "words": [
+    {
+     "w": "articulate",
+     "pos": "v.",
+     "cn": "清晰地表达",
+     "ph": "articulate one's views 表达观点",
+     "ipa": "/ɑːrˈtɪkjʊlət/"
+    },
+    {
+     "w": "convey",
+     "pos": "v.",
+     "cn": "传达，表达；运送",
+     "ph": "convey a message 传达信息",
+     "ipa": "/kənˈveɪ/"
+    },
+    {
+     "w": "persuade",
+     "pos": "v.",
+     "cn": "说服，劝说",
+     "ph": "persuade sb. into doing 说服某人做",
+     "ipa": "/pəˈsweɪd/"
+    },
+    {
+     "w": "contradict",
+     "pos": "v.",
+     "cn": "反驳；与……矛盾",
+     "ph": "contradict oneself 自相矛盾",
+     "ipa": "/kɒntrəˈdɪkt/"
+    },
+    {
+     "w": "elaborate",
+     "pos": "v.",
+     "cn": "详细阐述",
+     "ph": "elaborate on the point 详述这一点",
+     "ipa": "/ɪˈlæbəreɪt/"
+    },
+    {
+     "w": "impose",
+     "pos": "v.",
+     "cn": "强加；征收",
+     "ph": "impose a ban on 对……实施禁令",
+     "ipa": "/ɪmˈpəʊz/"
+    },
+    {
+     "w": "restrain",
+     "pos": "v.",
+     "cn": "抑制，约束",
+     "ph": "restrain oneself 克制自己",
+     "ipa": "/rɪˈstreɪn/"
+    },
+    {
+     "w": "violate",
+     "pos": "v.",
+     "cn": "违反，侵犯",
+     "ph": "violate the law 违法",
+     "ipa": "/ˈvaɪəˌleɪt/"
+    },
+    {
+     "w": "comply",
+     "pos": "v.",
+     "cn": "遵守，服从",
+     "ph": "comply with rules 遵守规则",
+     "ipa": "/kəmˈplaɪ/"
+    },
+    {
+     "w": "enforce",
+     "pos": "v.",
+     "cn": "执行，强制实施",
+     "ph": "enforce the law 执法",
+     "ipa": "/ɪnˈfɔːs/"
+    }
+   ]
+  },
+  {
+   "day": 3,
+   "date": "2026-11-04",
+   "words": [
+    {
+     "w": "allocate",
+     "pos": "v.",
+     "cn": "分配，拨给",
+     "ph": "allocate funds 分配资金",
+     "ipa": "/ˈæləkeɪt/"
+    },
+    {
+     "w": "compensate",
+     "pos": "v.",
+     "cn": "补偿，赔偿",
+     "ph": "compensate for the loss 赔偿损失",
+     "ipa": "/ˈkɒmpənseɪt/"
+    },
+    {
+     "w": "consume",
+     "pos": "v.",
+     "cn": "消耗；消费",
+     "ph": "consume energy 消耗能量",
+     "ipa": "/kənˈsjuːm/"
+    },
+    {
+     "w": "distribute",
+     "pos": "v.",
+     "cn": "分发，分配",
+     "ph": "distribute resources 分配资源",
+     "ipa": "/dɨˈstrɪbjuːt/"
+    },
+    {
+     "w": "invest",
+     "pos": "v.",
+     "cn": "投资；投入",
+     "ph": "invest in education 投资教育",
+     "ipa": "/ɪnˈvɛst/"
+    },
+    {
+     "w": "conceive",
+     "pos": "v.",
+     "cn": "构想，设想；怀孕",
+     "ph": "conceive of an idea 构想一个主意",
+     "ipa": "/kənˈsiːv/"
+    },
+    {
+     "w": "deduce",
+     "pos": "v.",
+     "cn": "推断，演绎",
+     "ph": "deduce from evidence 从证据推断",
+     "ipa": "/dɪˈdjuːs/"
+    },
+    {
+     "w": "distinguish",
+     "pos": "v.",
+     "cn": "区分，辨别",
+     "ph": "distinguish A from B 区分A和B",
+     "ipa": "/dɪsˈtɪŋɡwɪʃ/"
+    },
+    {
+     "w": "perceive",
+     "pos": "v.",
+     "cn": "察觉，认为",
+     "ph": "perceive as a threat 视为威胁",
+     "ipa": "/pəˈsiːv/"
+    },
+    {
+     "w": "speculate",
+     "pos": "v.",
+     "cn": "推测；投机",
+     "ph": "speculate on the outcome 推测结果",
+     "ipa": "/ˈspekjuleɪt/"
+    }
+   ]
+  },
+  {
+   "day": 4,
+   "date": "2026-11-05",
+   "words": [
+    {
+     "w": "accomplish",
+     "pos": "v.",
+     "cn": "完成，实现",
+     "ph": "accomplish a goal 实现目标",
+     "ipa": "/əˈkɐmplɪʃ/"
+    },
+    {
+     "w": "endeavor",
+     "pos": "v./n.",
+     "cn": "努力，尽力",
+     "ph": "endeavor to improve 努力改进",
+     "ipa": "/ɪnˈdɛvə/"
+    },
+    {
+     "w": "undertake",
+     "pos": "v.",
+     "cn": "承担，着手",
+     "ph": "undertake a project 承担项目",
+     "ipa": "/ʌndəˈteɪk/"
+    },
+    {
+     "w": "pursue",
+     "pos": "v.",
+     "cn": "追求，从事",
+     "ph": "pursue a career 追求事业",
+     "ipa": "/pəˈʃu/"
+    },
+    {
+     "w": "attain",
+     "pos": "v.",
+     "cn": "达到，获得",
+     "ph": "attain success 获得成功",
+     "ipa": "/əˈteɪn/"
+    },
+    {
+     "w": "confront",
+     "pos": "v.",
+     "cn": "面对，正视",
+     "ph": "confront a challenge 直面挑战",
+     "ipa": "/kɒnˈfrɒnt/"
+    },
+    {
+     "w": "cope",
+     "pos": "v.",
+     "cn": "应对，处理",
+     "ph": "cope with stress 应对压力",
+     "ipa": "/kəʊp/"
+    },
+    {
+     "w": "tackle",
+     "pos": "v.",
+     "cn": "处理，解决",
+     "ph": "tackle the problem 解决问题",
+     "ipa": "/ˈtækəl/"
+    },
+    {
+     "w": "resolve",
+     "pos": "v.",
+     "cn": "解决；决心",
+     "ph": "resolve a conflict 解决冲突",
+     "ipa": "/riːˈzɒlv/"
+    },
+    {
+     "w": "endure",
+     "pos": "v.",
+     "cn": "忍受；持续",
+     "ph": "endure hardship 忍受艰辛",
+     "ipa": "/ɪnˈdjɔːr/"
+    }
+   ]
+  },
+  {
+   "day": 5,
+   "date": "2026-11-06",
+   "words": [
+    {
+     "w": "consequence",
+     "pos": "n.",
+     "cn": "后果，结果",
+     "ph": "as a consequence of 由于",
+     "ipa": "/ˈkɒnsɪkwɛns/"
+    },
+    {
+     "w": "circumstance",
+     "pos": "n.",
+     "cn": "情况，环境",
+     "ph": "under no circumstances 决不",
+     "ipa": "/-æns/"
+    },
+    {
+     "w": "phenomenon",
+     "pos": "n.",
+     "cn": "现象",
+     "ph": "a social phenomenon 社会现象",
+     "ipa": "/fɪˈnɒmənɒn/"
+    },
+    {
+     "w": "tendency",
+     "pos": "n.",
+     "cn": "趋势，倾向",
+     "ph": "a tendency to do 做……的倾向",
+     "ipa": "/ˈtɛndənsi/"
+    },
+    {
+     "w": "discrepancy",
+     "pos": "n.",
+     "cn": "差异，不一致",
+     "ph": "a discrepancy between 两者间的差异",
+     "ipa": "/dɪsˈkrɛpənsi/"
+    },
+    {
+     "w": "consensus",
+     "pos": "n.",
+     "cn": "共识，一致意见",
+     "ph": "reach a consensus 达成共识",
+     "ipa": "/kənˈsensəs/"
+    },
+    {
+     "w": "controversy",
+     "pos": "n.",
+     "cn": "争议，争论",
+     "ph": "a heated controversy 激烈争议",
+     "ipa": "/ˈkɑntrəˌvɝsi/"
+    },
+    {
+     "w": "dilemma",
+     "pos": "n.",
+     "cn": "困境，两难",
+     "ph": "face a dilemma 面临两难",
+     "ipa": "/daɪˈlɛmə/"
+    },
+    {
+     "w": "prejudice",
+     "pos": "n.",
+     "cn": "偏见，成见",
+     "ph": "racial prejudice 种族偏见",
+     "ipa": "/ˈprɛd͡ʒədɪs/"
+    },
+    {
+     "w": "discrimination",
+     "pos": "n.",
+     "cn": "歧视；辨别力",
+     "ph": "gender discrimination 性别歧视",
+     "ipa": "/dɪskrɪmɪˈneɪʃən/"
+    }
+   ]
+  },
+  {
+   "day": 6,
+   "date": "2026-11-07",
+   "words": [
+    {
+     "w": "budget",
+     "pos": "n.",
+     "cn": "预算",
+     "ph": "a tight budget 紧张的预算",
+     "ipa": "/ˈbʌdʒɪt/"
+    },
+    {
+     "w": "revenue",
+     "pos": "n.",
+     "cn": "收入，税收",
+     "ph": "tax revenue 税收",
+     "ipa": "/ˈrɛvənjuː/"
+    },
+    {
+     "w": "expenditure",
+     "pos": "n.",
+     "cn": "支出，开销",
+     "ph": "public expenditure 公共支出",
+     "ipa": "/ɛkˈspɛndɪt͡ʃə/"
+    },
+    {
+     "w": "inflation",
+     "pos": "n.",
+     "cn": "通货膨胀",
+     "ph": "curb inflation 抑制通胀",
+     "ipa": "/ɪnˈfleɪʃən/"
+    },
+    {
+     "w": "prosperity",
+     "pos": "n.",
+     "cn": "繁荣，兴旺",
+     "ph": "economic prosperity 经济繁荣",
+     "ipa": "/prɒˈspɛrɪti/"
+    },
+    {
+     "w": "competence",
+     "pos": "n.",
+     "cn": "能力，胜任",
+     "ph": "professional competence 专业能力",
+     "ipa": "/ˈkɒmpətəns/"
+    },
+    {
+     "w": "initiative",
+     "pos": "n.",
+     "cn": "主动性；倡议",
+     "ph": "take the initiative 采取主动",
+     "ipa": "/ɪˈnɪʃətɪv/"
+    },
+    {
+     "w": "incentive",
+     "pos": "n.",
+     "cn": "激励，动机",
+     "ph": "a financial incentive 经济激励",
+     "ipa": "/ɪnˈsɛntɪv/"
+    },
+    {
+     "w": "productivity",
+     "pos": "n.",
+     "cn": "生产率，生产力",
+     "ph": "boost productivity 提高生产率",
+     "ipa": "/ˌprɒdʌkˈtɪvəti/"
+    },
+    {
+     "w": "supervision",
+     "pos": "n.",
+     "cn": "监督，管理",
+     "ph": "under supervision 在监督下",
+     "ipa": "/ˌsjuːpəˈvɪʒən/"
+    }
+   ]
+  },
+  {
+   "day": 7,
+   "date": "2026-11-08",
+   "words": [
+    {
+     "w": "hypothesis",
+     "pos": "n.",
+     "cn": "假设，假说",
+     "ph": "test a hypothesis 检验假设",
+     "ipa": "/-əsəs/"
+    },
+    {
+     "w": "criterion",
+     "pos": "n.",
+     "cn": "标准，准则（复 criteria）",
+     "ph": "meet the criteria 符合标准",
+     "ipa": "/kraɪˈtɪəriən/"
+    },
+    {
+     "w": "methodology",
+     "pos": "n.",
+     "cn": "方法论，研究方法",
+     "ph": "research methodology 研究方法",
+     "ipa": "/meθəˈdɒlədʒi/"
+    },
+    {
+     "w": "implication",
+     "pos": "n.",
+     "cn": "含义；影响",
+     "ph": "far-reaching implications 深远影响",
+     "ipa": "/ˌɪmpləˈkeɪʃən/"
+    },
+    {
+     "w": "correlation",
+     "pos": "n.",
+     "cn": "相关性，关联",
+     "ph": "a strong correlation 强相关",
+     "ipa": "/kɒrəˈleɪʃən/"
+    },
+    {
+     "w": "emission",
+     "pos": "n.",
+     "cn": "排放（物）",
+     "ph": "carbon emissions 碳排放",
+     "ipa": "/ɪˈmɪʃn/"
+    },
+    {
+     "w": "conservation",
+     "pos": "n.",
+     "cn": "保护，保存",
+     "ph": "wildlife conservation 野生动物保护",
+     "ipa": "/ˌkɑnsərˈveɪʃən/"
+    },
+    {
+     "w": "ecology",
+     "pos": "n.",
+     "cn": "生态；生态学",
+     "ph": "ecological balance 生态平衡",
+     "ipa": "/ɛˈkɒlədʒi/"
+    },
+    {
+     "w": "pollution",
+     "pos": "n.",
+     "cn": "污染",
+     "ph": "air pollution 空气污染",
+     "ipa": "/pəˈljuːʃn/"
+    },
+    {
+     "w": "resource",
+     "pos": "n.",
+     "cn": "资源",
+     "ph": "natural resources 自然资源",
+     "ipa": "/rɪˈsɔrs/"
+    }
+   ]
+  },
+  {
+   "day": 8,
+   "date": "2026-11-09",
+   "words": [
+    {
+     "w": "integrity",
+     "pos": "n.",
+     "cn": "正直；完整性",
+     "ph": "personal integrity 个人操守",
+     "ipa": "/ɪnˈtɛɡrəti/"
+    },
+    {
+     "w": "dignity",
+     "pos": "n.",
+     "cn": "尊严，庄重",
+     "ph": "human dignity 人的尊严",
+     "ipa": "/ˈdɪɡnɪti/"
+    },
+    {
+     "w": "tolerance",
+     "pos": "n.",
+     "cn": "宽容，忍耐",
+     "ph": "religious tolerance 宗教宽容",
+     "ipa": "/ˈtɒlərəns/"
+    },
+    {
+     "w": "sympathy",
+     "pos": "n.",
+     "cn": "同情，同感",
+     "ph": "have sympathy for 同情",
+     "ipa": "/ˈsɪmpəθi/"
+    },
+    {
+     "w": "gratitude",
+     "pos": "n.",
+     "cn": "感激，感谢",
+     "ph": "express gratitude 表达感激",
+     "ipa": "/ˈɡrætɪtjud/"
+    },
+    {
+     "w": "privilege",
+     "pos": "n.",
+     "cn": "特权；荣幸",
+     "ph": "a privilege to do 做……的荣幸",
+     "ipa": "/ˈprɪvɪlɪdʒ/"
+    },
+    {
+     "w": "obstacle",
+     "pos": "n.",
+     "cn": "障碍，阻碍",
+     "ph": "overcome obstacles 克服障碍",
+     "ipa": "/ˈɒbstəkl/"
+    },
+    {
+     "w": "burden",
+     "pos": "n.",
+     "cn": "负担，重担",
+     "ph": "a financial burden 经济负担",
+     "ipa": "/ˈbɜːdn/"
+    },
+    {
+     "w": "dimension",
+     "pos": "n.",
+     "cn": "维度，方面；尺寸",
+     "ph": "a new dimension 新层面",
+     "ipa": "/daɪˈmɛnʃən/"
+    },
+    {
+     "w": "boundary",
+     "pos": "n.",
+     "cn": "边界，界限",
+     "ph": "cross the boundary 越过界限",
+     "ipa": "/ˈbaʊndri/"
+    }
+   ]
+  },
+  {
+   "day": 9,
+   "date": "2026-11-10",
+   "words": [
+    {
+     "w": "essential",
+     "pos": "adj.",
+     "cn": "必不可少的；本质的",
+     "ph": "essential to health 对健康必需",
+     "ipa": "/ɪˈsɛnʃəl/"
+    },
+    {
+     "w": "crucial",
+     "pos": "adj.",
+     "cn": "至关重要的",
+     "ph": "play a crucial role 起关键作用",
+     "ipa": "/ˈkruːʃəl/"
+    },
+    {
+     "w": "vital",
+     "pos": "adj.",
+     "cn": "至关重要的；有活力的",
+     "ph": "vital to success 对成功至关重要",
+     "ipa": "/ˈvaɪt̬əl/"
+    },
+    {
+     "w": "fundamental",
+     "pos": "adj.",
+     "cn": "根本的，基本的",
+     "ph": "fundamental principles 基本原则",
+     "ipa": "/ˌfʌndəˈmɛntəl/"
+    },
+    {
+     "w": "indispensable",
+     "pos": "adj.",
+     "cn": "不可或缺的",
+     "ph": "an indispensable tool 必不可少的工具",
+     "ipa": "/ɪndɪˈspɛnsəbəl/"
+    },
+    {
+     "w": "considerable",
+     "pos": "adj.",
+     "cn": "相当大的，可观的",
+     "ph": "a considerable amount 相当大的数量",
+     "ipa": "/kənˈsɪdərəbl/"
+    },
+    {
+     "w": "substantial",
+     "pos": "adj.",
+     "cn": "大量的；实质的",
+     "ph": "substantial progress 实质性进展",
+     "ipa": "/səbˈstænʃəl/"
+    },
+    {
+     "w": "excessive",
+     "pos": "adj.",
+     "cn": "过度的，过分的",
+     "ph": "excessive pressure 过大压力",
+     "ipa": "/ɪkˈsɛsɪv/"
+    },
+    {
+     "w": "moderate",
+     "pos": "adj.",
+     "cn": "适度的，温和的",
+     "ph": "moderate exercise 适度锻炼",
+     "ipa": "/ˈmɑdəreɪt/"
+    },
+    {
+     "w": "marginal",
+     "pos": "adj.",
+     "cn": "微小的；边缘的",
+     "ph": "a marginal difference 细微差别",
+     "ipa": "/ˈmɑːˌdʒɪnəl/"
+    }
+   ]
+  },
+  {
+   "day": 10,
+   "date": "2026-11-11",
+   "words": [
+    {
+     "w": "reluctant",
+     "pos": "adj.",
+     "cn": "不情愿的，勉强的",
+     "ph": "be reluctant to do 不愿做",
+     "ipa": "/rɪˈlʌktənt/"
+    },
+    {
+     "w": "skeptical",
+     "pos": "adj.",
+     "cn": "怀疑的",
+     "ph": "be skeptical about 对……怀疑",
+     "ipa": "/ˈskeptɪkəl/"
+    },
+    {
+     "w": "optimistic",
+     "pos": "adj.",
+     "cn": "乐观的",
+     "ph": "optimistic about the future 对未来乐观",
+     "ipa": "/ˌɒptɪˈmɪstɪk/"
+    },
+    {
+     "w": "pessimistic",
+     "pos": "adj.",
+     "cn": "悲观的",
+     "ph": "a pessimistic view 悲观看法",
+     "ipa": "/ˌpɛsəˈmɪstɪk/"
+    },
+    {
+     "w": "indifferent",
+     "pos": "adj.",
+     "cn": "漠不关心的；平庸的",
+     "ph": "indifferent to 对……漠然",
+     "ipa": "/ɪnˈdɪfərənt/"
+    },
+    {
+     "w": "ambiguous",
+     "pos": "adj.",
+     "cn": "模棱两可的，含糊的",
+     "ph": "an ambiguous answer 含糊的回答",
+     "ipa": "/æmˈbɪɡjuəs/"
+    },
+    {
+     "w": "explicit",
+     "pos": "adj.",
+     "cn": "明确的，清楚的",
+     "ph": "explicit instructions 明确指示",
+     "ipa": "/ɪkˈsplɪsɪt/"
+    },
+    {
+     "w": "implicit",
+     "pos": "adj.",
+     "cn": "含蓄的，隐含的",
+     "ph": "implicit meaning 隐含意义",
+     "ipa": "/ɪmˈplɪsɪt/"
+    },
+    {
+     "w": "inherent",
+     "pos": "adj.",
+     "cn": "固有的，内在的",
+     "ph": "inherent risks 固有风险",
+     "ipa": "/ɪnˈhɛrənt/"
+    },
+    {
+     "w": "inevitable",
+     "pos": "adj.",
+     "cn": "不可避免的",
+     "ph": "an inevitable result 必然结果",
+     "ipa": "/ɪnˈɛvɪtəbəl/"
+    }
+   ]
+  },
+  {
+   "day": 11,
+   "date": "2026-11-12",
+   "words": [
+    {
+     "w": "capable",
+     "pos": "adj.",
+     "cn": "有能力的，能干的",
+     "ph": "capable of doing 有能力做",
+     "ipa": "/ˈkeɪpəbl/"
+    },
+    {
+     "w": "competent",
+     "pos": "adj.",
+     "cn": "胜任的，有能力的",
+     "ph": "a competent teacher 称职的老师",
+     "ipa": "/ˈkɒmpətənt/"
+    },
+    {
+     "w": "eligible",
+     "pos": "adj.",
+     "cn": "有资格的，合格的",
+     "ph": "eligible for the scholarship 有资格申请奖学金",
+     "ipa": "/ˈɛlɪdʒəbəl/"
+    },
+    {
+     "w": "feasible",
+     "pos": "adj.",
+     "cn": "可行的",
+     "ph": "a feasible plan 可行的计划",
+     "ipa": "/ˈfiːzəbəl/"
+    },
+    {
+     "w": "vulnerable",
+     "pos": "adj.",
+     "cn": "易受伤害的，脆弱的",
+     "ph": "vulnerable to attack 易受攻击",
+     "ipa": "/ˈvʌlnərəbl/"
+    },
+    {
+     "w": "diverse",
+     "pos": "adj.",
+     "cn": "多样的，不同的",
+     "ph": "a diverse culture 多元文化",
+     "ipa": "/daɪˈvɜːs/"
+    },
+    {
+     "w": "urban",
+     "pos": "adj.",
+     "cn": "城市的",
+     "ph": "urban development 城市发展",
+     "ipa": "/ˈɜːbən/"
+    },
+    {
+     "w": "rural",
+     "pos": "adj.",
+     "cn": "农村的",
+     "ph": "rural areas 农村地区",
+     "ipa": "/ˈrɔːrəl/"
+    },
+    {
+     "w": "sustainable",
+     "pos": "adj.",
+     "cn": "可持续的",
+     "ph": "sustainable development 可持续发展",
+     "ipa": "/səˈsteɪnəbəl/"
+    },
+    {
+     "w": "contemporary",
+     "pos": "adj.",
+     "cn": "当代的；同时代的",
+     "ph": "contemporary art 当代艺术",
+     "ipa": "/kənˈtɛmpəri/"
+    }
+   ]
+  },
+  {
+   "day": 12,
+   "date": "2026-11-13",
+   "words": [
+    {
+     "w": "nevertheless",
+     "pos": "adv.",
+     "cn": "然而，不过",
+     "ph": "nevertheless, it works 然而它有效",
+     "ipa": "/ˈnɛvəðəlɛs/"
+    },
+    {
+     "w": "consequently",
+     "pos": "adv.",
+     "cn": "因此，所以",
+     "ph": "consequently, prices rose 因此价格上涨",
+     "ipa": "/ˈkɒnsɪˌkwɛntli/"
+    },
+    {
+     "w": "furthermore",
+     "pos": "adv.",
+     "cn": "此外，而且",
+     "ph": "furthermore, it is cheap 而且它便宜",
+     "ipa": "/ˈfɜːrðərmɔːr/"
+    },
+    {
+     "w": "presumably",
+     "pos": "adv.",
+     "cn": "大概，想必",
+     "ph": "presumably he agreed 想必他同意了",
+     "ipa": "/prɪˈzjuːməbli/"
+    },
+    {
+     "w": "inevitably",
+     "pos": "adv.",
+     "cn": "不可避免地",
+     "ph": "inevitably, costs rise 成本必然上升",
+     "ipa": "/ɪˈnɛvətəbli/"
+    },
+    {
+     "w": "emphasize",
+     "pos": "v.",
+     "cn": "强调，着重",
+     "ph": "emphasize the importance 强调重要性",
+     "ipa": "/ˈɛmfəsaɪz/"
+    },
+    {
+     "w": "illustrate",
+     "pos": "v.",
+     "cn": "说明，阐明；加插图",
+     "ph": "illustrate the point 说明这一点",
+     "ipa": "/ɪˈlʌstreɪt/"
+    },
+    {
+     "w": "demonstrate",
+     "pos": "v.",
+     "cn": "证明；演示；示威",
+     "ph": "demonstrate the ability 展示能力",
+     "ipa": "/ˈdɛmənstreɪt/"
+    },
+    {
+     "w": "justify",
+     "pos": "v.",
+     "cn": "证明……正当",
+     "ph": "justify the decision 为决定辩护",
+     "ipa": "/ˈdʒʌstɪfaɪ/"
+    },
+    {
+     "w": "verify",
+     "pos": "v.",
+     "cn": "核实，证实",
+     "ph": "verify the data 核实数据",
+     "ipa": "/ˈverɪfaɪ/"
+    }
+   ]
+  },
+  {
+   "day": 13,
+   "date": "2026-11-14",
+   "words": [
+    {
+     "w": "support",
+     "pos": "v./n.",
+     "cn": "支持；支撑；赡养",
+     "ph": "support the proposal 支持提议",
+     "ipa": "/səˈpɔːt/"
+    },
+    {
+     "w": "oppose",
+     "pos": "v.",
+     "cn": "反对，抵制",
+     "ph": "oppose the plan 反对计划",
+     "ipa": "/əˈpəʊz/"
+    },
+    {
+     "w": "object",
+     "pos": "v.",
+     "cn": "反对（object to）",
+     "ph": "object to the change 反对改变",
+     "ipa": "/ˈɒbd͡ʒɛkt/"
+    },
+    {
+     "w": "approve",
+     "pos": "v.",
+     "cn": "批准；赞成",
+     "ph": "approve of the idea 赞成这个想法",
+     "ipa": "/əˈpruːv/"
+    },
+    {
+     "w": "resist",
+     "pos": "v.",
+     "cn": "抵抗，抵制；忍住",
+     "ph": "resist temptation 抵制诱惑",
+     "ipa": "/rəˈzɪst/"
+    },
+    {
+     "w": "expand",
+     "pos": "v.",
+     "cn": "扩大，扩展",
+     "ph": "expand the business 扩大业务",
+     "ipa": "/ɛkˈspænd/"
+    },
+    {
+     "w": "shrink",
+     "pos": "v.",
+     "cn": "收缩，缩小；退缩",
+     "ph": "shrink in size 尺寸缩小",
+     "ipa": "/ˈʃrɪŋk/"
+    },
+    {
+     "w": "boost",
+     "pos": "v./n.",
+     "cn": "促进，提高",
+     "ph": "boost confidence 增强信心",
+     "ipa": "/buːst/"
+    },
+    {
+     "w": "decline",
+     "pos": "v./n.",
+     "cn": "下降；婉拒",
+     "ph": "a sharp decline 急剧下降",
+     "ipa": "/dɪˈklaɪn/"
+    },
+    {
+     "w": "fluctuate",
+     "pos": "v.",
+     "cn": "波动，起伏",
+     "ph": "prices fluctuate 价格波动",
+     "ipa": "/ˈflʌktʃueɪt/"
+    }
+   ]
+  },
+  {
+   "day": 14,
+   "date": "2026-11-15",
+   "words": [
+    {
+     "w": "influence",
+     "pos": "v./n.",
+     "cn": "影响，影响力",
+     "ph": "influence the decision 影响决定",
+     "ipa": "/ˈɪnfluəns/"
+    },
+    {
+     "w": "affect",
+     "pos": "v.",
+     "cn": "影响；感动",
+     "ph": "affect the result 影响结果",
+     "ipa": "/əˈfekt/"
+    },
+    {
+     "w": "impact",
+     "pos": "n./v.",
+     "cn": "影响，冲击",
+     "ph": "have an impact on 对……有影响",
+     "ipa": "/ˈɪmpækt/"
+    },
+    {
+     "w": "transform",
+     "pos": "v.",
+     "cn": "转变，改造",
+     "ph": "transform society 改变社会",
+     "ipa": "/trænzˈfɔːm/"
+    },
+    {
+     "w": "undermine",
+     "pos": "v.",
+     "cn": "削弱，破坏",
+     "ph": "undermine confidence 削弱信心",
+     "ipa": "/ʌndəˈmaɪn/"
+    },
+    {
+     "w": "acquire",
+     "pos": "v.",
+     "cn": "获得；习得",
+     "ph": "acquire knowledge 获取知识",
+     "ipa": "/əˈkwaɪə/"
+    },
+    {
+     "w": "obtain",
+     "pos": "v.",
+     "cn": "获得，取得",
+     "ph": "obtain permission 获得许可",
+     "ipa": "/əbˈteɪn/"
+    },
+    {
+     "w": "abandon",
+     "pos": "v.",
+     "cn": "放弃；抛弃",
+     "ph": "abandon the plan 放弃计划",
+     "ipa": "/əˈbændən/"
+    },
+    {
+     "w": "sacrifice",
+     "pos": "v./n.",
+     "cn": "牺牲，献出",
+     "ph": "sacrifice time 牺牲时间",
+     "ipa": "/ˈsækrɪfaɪs/"
+    },
+    {
+     "w": "deprive",
+     "pos": "v.",
+     "cn": "剥夺，使丧失",
+     "ph": "deprive sb. of sth. 剥夺某人某物",
+     "ipa": "/dɪˈpraɪv/"
+    }
+   ]
+  },
+  {
+   "day": 15,
+   "date": "2026-11-16",
+   "words": [
+    {
+     "w": "candidate",
+     "pos": "n.",
+     "cn": "候选人；考生",
+     "ph": "a strong candidate 有力人选",
+     "ipa": "/ˈkændɪdət/"
+    },
+    {
+     "w": "colleague",
+     "pos": "n.",
+     "cn": "同事",
+     "ph": "a close colleague 亲密同事",
+     "ipa": "/ˈkɒliːɡ/"
+    },
+    {
+     "w": "opponent",
+     "pos": "n.",
+     "cn": "对手，反对者",
+     "ph": "a political opponent 政敌",
+     "ipa": "/ɒpəʊnənt/"
+    },
+    {
+     "w": "participant",
+     "pos": "n.",
+     "cn": "参与者",
+     "ph": "an active participant 积极参与者",
+     "ipa": "/pɑːˈtɪsɪpənt/"
+    },
+    {
+     "w": "volunteer",
+     "pos": "n./v.",
+     "cn": "志愿者；自愿做",
+     "ph": "volunteer work 志愿工作",
+     "ipa": "/vɒlənˈtɪə/"
+    },
+    {
+     "w": "survey",
+     "pos": "n./v.",
+     "cn": "调查；勘测",
+     "ph": "conduct a survey 开展调查",
+     "ipa": "/ˈsɜːveɪ/"
+    },
+    {
+     "w": "questionnaire",
+     "pos": "n.",
+     "cn": "问卷",
+     "ph": "fill in a questionnaire 填写问卷",
+     "ipa": "/ˌkwestjəˈnɛə/"
+    },
+    {
+     "w": "statistic",
+     "pos": "n.",
+     "cn": "统计数字（statistics 统计学）",
+     "ph": "official statistics 官方统计",
+     "ipa": "/stəˈtɪstɪk/"
+    },
+    {
+     "w": "sample",
+     "pos": "n.",
+     "cn": "样本，样品",
+     "ph": "a random sample 随机样本",
+     "ipa": "/sæːmpəl/"
+    },
+    {
+     "w": "evidence",
+     "pos": "n.",
+     "cn": "证据，迹象",
+     "ph": "scientific evidence 科学证据",
+     "ipa": "/[ˈɛvəɾəns]/"
+    }
+   ]
+  },
+  {
+   "day": 16,
+   "date": "2026-11-17",
+   "words": [
+    {
+     "w": "crisis",
+     "pos": "n.",
+     "cn": "危机，紧要关头",
+     "ph": "an economic crisis 经济危机",
+     "ipa": "/ˈkraɪsɪs/"
+    },
+    {
+     "w": "conflict",
+     "pos": "n./v.",
+     "cn": "冲突，矛盾",
+     "ph": "resolve a conflict 解决冲突",
+     "ipa": "/kənˈflɪkt/"
+    },
+    {
+     "w": "dispute",
+     "pos": "n./v.",
+     "cn": "争端，争论",
+     "ph": "settle a dispute 解决争端",
+     "ipa": "/ˈdɪspjuːt/"
+    },
+    {
+     "w": "threat",
+     "pos": "n.",
+     "cn": "威胁，恐吓",
+     "ph": "pose a threat 构成威胁",
+     "ipa": "/θrɛt/"
+    },
+    {
+     "w": "risk",
+     "pos": "n./v.",
+     "cn": "风险；冒……的危险",
+     "ph": "take a risk 冒险",
+     "ipa": "/rɪsk/"
+    },
+    {
+     "w": "innovation",
+     "pos": "n.",
+     "cn": "创新，革新",
+     "ph": "technological innovation 技术创新",
+     "ipa": "/ˌɪnəˈveɪʃən/"
+    },
+    {
+     "w": "strategy",
+     "pos": "n.",
+     "cn": "策略，战略",
+     "ph": "a marketing strategy 营销策略",
+     "ipa": "/ˈstrætədʒi/"
+    },
+    {
+     "w": "reform",
+     "pos": "n./v.",
+     "cn": "改革，改造",
+     "ph": "economic reform 经济改革",
+     "ipa": "/rɪˈfɔːm/"
+    },
+    {
+     "w": "transition",
+     "pos": "n.",
+     "cn": "过渡，转变",
+     "ph": "a transition period 过渡期",
+     "ipa": "/trænˈzɪʃən/"
+    },
+    {
+     "w": "prospect",
+     "pos": "n.",
+     "cn": "前景，前途",
+     "ph": "job prospects 就业前景",
+     "ipa": "/ˈprɒspɛkt/"
+    }
+   ]
+  },
+  {
+   "day": 17,
+   "date": "2026-11-18",
+   "words": [
+    {
+     "w": "alleviate",
+     "pos": "v.",
+     "cn": "减轻，缓解",
+     "ph": "alleviate pain 减轻痛苦",
+     "ipa": "/əˈlivieɪt/"
+    },
+    {
+     "w": "aggravate",
+     "pos": "v.",
+     "cn": "加重，恶化",
+     "ph": "aggravate the problem 使问题恶化",
+     "ipa": "/ˈæɡrəveɪ̯t/"
+    },
+    {
+     "w": "facilitate",
+     "pos": "v.",
+     "cn": "促进，使便利",
+     "ph": "facilitate communication 促进交流",
+     "ipa": "/fəˈsɪləteɪt/"
+    },
+    {
+     "w": "hinder",
+     "pos": "v.",
+     "cn": "阻碍，妨碍",
+     "ph": "hinder progress 阻碍进步",
+     "ipa": "/ˈhɪndə/"
+    },
+    {
+     "w": "prolong",
+     "pos": "v.",
+     "cn": "延长，拖延",
+     "ph": "prolong life 延长寿命",
+     "ipa": "/proʊˈlɑŋ/"
+    },
+    {
+     "w": "anticipate",
+     "pos": "v.",
+     "cn": "预期，预料",
+     "ph": "anticipate problems 预见问题",
+     "ipa": "/ænˈtɪsɪpeɪt/"
+    },
+    {
+     "w": "integrate",
+     "pos": "v.",
+     "cn": "整合，融入",
+     "ph": "integrate into society 融入社会",
+     "ipa": "/ˈɪntəɡreɪt/"
+    },
+    {
+     "w": "manipulate",
+     "pos": "v.",
+     "cn": "操纵，控制",
+     "ph": "manipulate public opinion 操纵舆论",
+     "ipa": "/məˈnɪpjʊleɪt/"
+    },
+    {
+     "w": "negotiate",
+     "pos": "v.",
+     "cn": "谈判，协商",
+     "ph": "negotiate a deal 谈成一笔交易",
+     "ipa": "/nəˈɡəʊʃieɪt/"
+    },
+    {
+     "w": "intervene",
+     "pos": "v.",
+     "cn": "干预，介入",
+     "ph": "intervene in the dispute 介入争端",
+     "ipa": "/ˌɪntəˈviːn/"
+    }
+   ]
+  },
+  {
+   "day": 18,
+   "date": "2026-11-19",
+   "words": [
+    {
+     "w": "profound",
+     "pos": "adj.",
+     "cn": "深刻的，深远的",
+     "ph": "a profound impact 深远影响",
+     "ipa": "/prəˈfaʊnd/"
+    },
+    {
+     "w": "sophisticated",
+     "pos": "adj.",
+     "cn": "复杂精密的；老练的",
+     "ph": "sophisticated technology 精密技术",
+     "ipa": "/səˈfɪstɪkeɪtɪd/"
+    },
+    {
+     "w": "pragmatic",
+     "pos": "adj.",
+     "cn": "务实的，实用主义的",
+     "ph": "a pragmatic approach 务实的方法",
+     "ipa": "/præɡˈmætɪk/"
+    },
+    {
+     "w": "rational",
+     "pos": "adj.",
+     "cn": "理性的，合理的",
+     "ph": "a rational choice 理性选择",
+     "ipa": "/ˈræʃənəl/"
+    },
+    {
+     "w": "arbitrary",
+     "pos": "adj.",
+     "cn": "任意的，武断的",
+     "ph": "an arbitrary decision 武断的决定",
+     "ipa": "/ˈɑrbɪtrɛəri/"
+    },
+    {
+     "w": "controversial",
+     "pos": "adj.",
+     "cn": "有争议的",
+     "ph": "a controversial issue 争议话题",
+     "ipa": "/kɒntrəˈvɜːsjəl/"
+    },
+    {
+     "w": "prevalent",
+     "pos": "adj.",
+     "cn": "普遍的，流行的",
+     "ph": "a prevalent view 普遍观点",
+     "ipa": "/ˈprɛvələnt/"
+    },
+    {
+     "w": "rigorous",
+     "pos": "adj.",
+     "cn": "严格的，严谨的",
+     "ph": "rigorous training 严格训练",
+     "ipa": "/ˈrɪɡərəs/"
+    },
+    {
+     "w": "transparent",
+     "pos": "adj.",
+     "cn": "透明的，易懂的",
+     "ph": "a transparent process 透明流程",
+     "ipa": "/træntsˈpærənt/"
+    },
+    {
+     "w": "flexible",
+     "pos": "adj.",
+     "cn": "灵活的，可弯曲的",
+     "ph": "a flexible schedule 灵活的安排",
+     "ipa": "/ˈflɛksəbəl/"
+    }
+   ]
+  },
+  {
+   "day": 19,
+   "date": "2026-11-20",
+   "words": [
+    {
+     "w": "perspective",
+     "pos": "n.",
+     "cn": "视角，观点；透视",
+     "ph": "from a global perspective 从全球视角",
+     "ipa": "/pɚˈspɛktɪv/"
+    },
+    {
+     "w": "insight",
+     "pos": "n.",
+     "cn": "洞察力，深刻见解",
+     "ph": "gain insight into 深入了解",
+     "ipa": "/ˈɪnsaɪt/"
+    },
+    {
+     "w": "notion",
+     "pos": "n.",
+     "cn": "概念，观念",
+     "ph": "the notion that 认为……的观念",
+     "ipa": "/ˈnəʊʃən/"
+    },
+    {
+     "w": "paradox",
+     "pos": "n.",
+     "cn": "悖论，自相矛盾的事",
+     "ph": "a strange paradox 奇怪的悖论",
+     "ipa": "/ˈparədɒks/"
+    },
+    {
+     "w": "hierarchy",
+     "pos": "n.",
+     "cn": "等级制度，层级",
+     "ph": "a social hierarchy 社会等级",
+     "ipa": "/ˈhaɪərɑːrki/"
+    },
+    {
+     "w": "capacity",
+     "pos": "n.",
+     "cn": "能力；容量",
+     "ph": "the capacity to learn 学习能力",
+     "ipa": "/kəˈpæsɪti/"
+    },
+    {
+     "w": "potential",
+     "pos": "n./adj.",
+     "cn": "潜力；潜在的",
+     "ph": "great potential 巨大潜力",
+     "ipa": "/pəˈtɛnʃəl/"
+    },
+    {
+     "w": "priority",
+     "pos": "n.",
+     "cn": "优先事项，优先权",
+     "ph": "top priority 首要任务",
+     "ipa": "/praɪˈɒrɨti/"
+    },
+    {
+     "w": "proportion",
+     "pos": "n.",
+     "cn": "比例，部分",
+     "ph": "a large proportion of 很大一部分",
+     "ipa": "/prəˈpɔːʃən/"
+    },
+    {
+     "w": "scale",
+     "pos": "n.",
+     "cn": "规模；刻度；天平",
+     "ph": "on a large scale 大规模地",
+     "ipa": "/skeɪl/"
+    }
+   ]
+  },
+  {
+   "day": 20,
+   "date": "2026-11-21",
+   "words": [
+    {
+     "w": "convert",
+     "pos": "v.",
+     "cn": "转换，改变（信仰）",
+     "ph": "convert into 转化为",
+     "ipa": "/ˈkɒnvəːt/"
+    },
+    {
+     "w": "modify",
+     "pos": "v.",
+     "cn": "修改，调整",
+     "ph": "modify the plan 修改计划",
+     "ipa": "/ˈmɒdɪfaɪ/"
+    },
+    {
+     "w": "regulate",
+     "pos": "v.",
+     "cn": "规范，调节，管理",
+     "ph": "regulate the market 规范市场",
+     "ipa": "/ˈrɛɡjəleɪt/"
+    },
+    {
+     "w": "supervise",
+     "pos": "v.",
+     "cn": "监督，管理",
+     "ph": "supervise the work 监督工作",
+     "ipa": "/ˈsuːpəvaɪz/"
+    },
+    {
+     "w": "collaborate",
+     "pos": "v.",
+     "cn": "合作，协作",
+     "ph": "collaborate with 与……合作",
+     "ipa": "/kəˈlabəreɪt/"
+    },
+    {
+     "w": "extensive",
+     "pos": "adj.",
+     "cn": "广泛的，大量的",
+     "ph": "extensive research 广泛研究",
+     "ipa": "/ɛksˈtɛnsɪv/"
+    },
+    {
+     "w": "intensive",
+     "pos": "adj.",
+     "cn": "密集的，集中的",
+     "ph": "intensive training 强化训练",
+     "ipa": "/ɪnˈtɛnsɪv/"
+    },
+    {
+     "w": "overwhelming",
+     "pos": "adj.",
+     "cn": "压倒性的，巨大的",
+     "ph": "an overwhelming majority 绝大多数",
+     "ipa": "/ˌəʊvəˈwɛlmɪŋ/"
+    },
+    {
+     "w": "deliberate",
+     "pos": "adj./v.",
+     "cn": "故意的；深思熟虑的；商议",
+     "ph": "a deliberate attempt 蓄意之举",
+     "ipa": "/dɪˈlɪbərət/"
+    },
+    {
+     "w": "spontaneous",
+     "pos": "adj.",
+     "cn": "自发的，自然的",
+     "ph": "a spontaneous reaction 自然反应",
+     "ipa": "/spɒnˈteɪniəs/"
+    }
+   ]
+  },
+  {
+   "day": 21,
+   "date": "2026-11-22",
+   "words": [
+    {
+     "w": "barely",
+     "pos": "adv.",
+     "cn": "几乎不；仅仅",
+     "ph": "barely enough 勉强够",
+     "ipa": "/ˈbɛərli/"
+    },
+    {
+     "w": "assign",
+     "pos": "v.",
+     "cn": "分配，指派",
+     "ph": "assign tasks 分配任务",
+     "ipa": "/əˈsaɪn/"
+    },
+    {
+     "w": "compete",
+     "pos": "v.",
+     "cn": "竞争，比赛",
+     "ph": "compete with rivals 与对手竞争",
+     "ipa": "/kəmˈpiːt/"
+    },
+    {
+     "w": "abstract",
+     "pos": "adj.",
+     "cn": "抽象的",
+     "ph": "an abstract idea 抽象概念",
+     "ipa": "/ˈæbˌstrækt/"
+    },
+    {
+     "w": "correspond",
+     "pos": "v.",
+     "cn": "符合；通信",
+     "ph": "correspond with 与……一致",
+     "ipa": "/ˌkɒrəˈspɒnd/"
+    },
+    {
+     "w": "define",
+     "pos": "v.",
+     "cn": "下定义；界定",
+     "ph": "define the problem 界定问题",
+     "ipa": "/dɪˈfaɪn/"
+    },
+    {
+     "w": "confidence",
+     "pos": "n.",
+     "cn": "信心，信任",
+     "ph": "build confidence 建立信心",
+     "ipa": "/ˈkɒnfɪdəns/"
+    },
+    {
+     "w": "assert",
+     "pos": "v.",
+     "cn": "断言；维护",
+     "ph": "assert one's rights 维护权利",
+     "ipa": "/əˈsɜːt/"
+    },
+    {
+     "w": "generate",
+     "pos": "v.",
+     "cn": "产生，引起",
+     "ph": "generate income 产生收入",
+     "ipa": "/ˈdʒɛnəreɪt/"
+    },
+    {
+     "w": "autonomy",
+     "pos": "n.",
+     "cn": "自治，自主",
+     "ph": "regional autonomy 地区自治",
+     "ipa": "/ɑˈtɑnəmi/"
+    }
+   ]
+  },
+  {
+   "day": 22,
+   "date": "2026-11-23",
+   "words": [
+    {
+     "w": "expose",
+     "pos": "v.",
+     "cn": "暴露，揭露",
+     "ph": "expose to risk 使面临风险",
+     "ipa": "/ɪkˈspəʊz/"
+    },
+    {
+     "w": "adjust",
+     "pos": "v.",
+     "cn": "调整，调节",
+     "ph": "adjust the plan 调整计划",
+     "ipa": "/əˈdʒʌst/"
+    },
+    {
+     "w": "consist",
+     "pos": "v.",
+     "cn": "由……组成",
+     "ph": "consist of 由……构成",
+     "ipa": "/kənˈsɪst/"
+    },
+    {
+     "w": "classify",
+     "pos": "v.",
+     "cn": "分类，归类",
+     "ph": "classify into groups 分成几类",
+     "ipa": "/ˈklæsɪfaɪ/"
+    },
+    {
+     "w": "appropriate",
+     "pos": "adj.",
+     "cn": "合适的，恰当的",
+     "ph": "appropriate measures 恰当措施",
+     "ipa": "/əˈprəʊpriət/"
+    },
+    {
+     "w": "alternative",
+     "pos": "n.",
+     "cn": "替代方案",
+     "ph": "an alternative to 替代……的方案",
+     "ipa": "/ɒlˈtɜːrnətɪv/"
+    },
+    {
+     "w": "dependent",
+     "pos": "adj.",
+     "cn": "依赖的，依靠的",
+     "ph": "dependent on 依赖于",
+     "ipa": "/dɪˈpɛndənt/"
+    },
+    {
+     "w": "evaluate",
+     "pos": "v.",
+     "cn": "评价，评估",
+     "ph": "evaluate performance 评估表现",
+     "ipa": "/ɨˈvaljʊeɪt/"
+    },
+    {
+     "w": "constant",
+     "pos": "adj.",
+     "cn": "持续的；不变的",
+     "ph": "constant pressure 持续压力",
+     "ipa": "/ˈkɒnstənt/"
+    },
+    {
+     "w": "domestic",
+     "pos": "adj.",
+     "cn": "国内的；家庭的",
+     "ph": "domestic market 国内市场",
+     "ipa": "/dəˈmɛstɪk/"
+    }
+   ]
+  },
+  {
+   "day": 23,
+   "date": "2026-11-24",
+   "words": [
+    {
+     "w": "exchange",
+     "pos": "v./n.",
+     "cn": "交换，交流",
+     "ph": "exchange ideas 交流想法",
+     "ipa": "/ɛksˈtʃeɪndʒ/"
+    },
+    {
+     "w": "deny",
+     "pos": "v.",
+     "cn": "否认；拒绝给予",
+     "ph": "deny the charge 否认指控",
+     "ipa": "/dɪˈnaɪ/"
+    },
+    {
+     "w": "cater",
+     "pos": "v.",
+     "cn": "迎合；供应饮食",
+     "ph": "cater to needs 迎合需求",
+     "ipa": "/ˈkeɪtə/"
+    },
+    {
+     "w": "attach",
+     "pos": "v.",
+     "cn": "附上；重视",
+     "ph": "attach importance to 重视",
+     "ipa": "/əˈtætʃ/"
+    },
+    {
+     "w": "declare",
+     "pos": "v.",
+     "cn": "宣布，声明",
+     "ph": "declare independence 宣布独立",
+     "ipa": "/dɪˈkleə/"
+    },
+    {
+     "w": "contribute",
+     "pos": "v.",
+     "cn": "贡献；促成；投稿",
+     "ph": "contribute to 促成",
+     "ipa": "/kənˈtʃrɪbjuːt/"
+    },
+    {
+     "w": "ban",
+     "pos": "v./n.",
+     "cn": "禁止，禁令",
+     "ph": "ban smoking 禁止吸烟",
+     "ipa": "/bæn/"
+    },
+    {
+     "w": "dedicate",
+     "pos": "v.",
+     "cn": "奉献，致力于",
+     "ph": "dedicate oneself to 献身于",
+     "ipa": "/ˈdɛdɪkeɪt/"
+    },
+    {
+     "w": "design",
+     "pos": "v./n.",
+     "cn": "设计，构思",
+     "ph": "design a system 设计系统",
+     "ipa": "/dɪˈzaɪn/"
+    },
+    {
+     "w": "desperate",
+     "pos": "adj.",
+     "cn": "绝望的；拼命的",
+     "ph": "a desperate attempt 拼死一搏",
+     "ipa": "/ˈdɛspərət/"
+    }
+   ]
+  },
+  {
+   "day": 24,
+   "date": "2026-11-25",
+   "words": [
+    {
+     "w": "administration",
+     "pos": "n.",
+     "cn": "管理；行政",
+     "ph": "business administration 工商管理",
+     "ipa": "/ədˌmɪnəˈstreɪʃən/"
+    },
+    {
+     "w": "criticize",
+     "pos": "v.",
+     "cn": "批评，指责",
+     "ph": "criticize the policy 批评政策",
+     "ipa": "/ˈkrɪtɪsaɪz/"
+    },
+    {
+     "w": "namely",
+     "pos": "adv.",
+     "cn": "即，也就是",
+     "ph": "two factors, namely 两个因素，即",
+     "ipa": "/ˈneɪmli/"
+    },
+    {
+     "w": "attempt",
+     "pos": "v./n.",
+     "cn": "尝试，试图",
+     "ph": "attempt to do 试图做",
+     "ipa": "/əˈtɛmpt/"
+    },
+    {
+     "w": "commodity",
+     "pos": "n.",
+     "cn": "商品，日用品",
+     "ph": "a valuable commodity 有价值商品",
+     "ipa": "/kəˈmɒdəti/"
+    },
+    {
+     "w": "confine",
+     "pos": "v.",
+     "cn": "限制；禁闭",
+     "ph": "confine to 局限于",
+     "ipa": "/ˈkɒnfaɪn/"
+    },
+    {
+     "w": "critical",
+     "pos": "adj.",
+     "cn": "关键的；批评的",
+     "ph": "a critical role 关键作用",
+     "ipa": "/ˈkrɪtɪkəl/"
+    },
+    {
+     "w": "commercial",
+     "pos": "adj.",
+     "cn": "商业的",
+     "ph": "commercial value 商业价值",
+     "ipa": "/kəˈmɜːʃəl/"
+    },
+    {
+     "w": "compliance",
+     "pos": "n.",
+     "cn": "遵从，合规",
+     "ph": "in compliance with 遵照",
+     "ipa": "/kəmˈplaɪəns/"
+    },
+    {
+     "w": "apparent",
+     "pos": "adj.",
+     "cn": "表面的；明显的",
+     "ph": "an apparent reason 表面原因",
+     "ipa": "/əˈpærənt/"
+    }
+   ]
+  },
+  {
+   "day": 25,
+   "date": "2026-11-26",
+   "words": [
+    {
+     "w": "authority",
+     "pos": "n.",
+     "cn": "权威；当局",
+     "ph": "local authorities 地方当局",
+     "ipa": "/ɔːˈθɒrəti/"
+    },
+    {
+     "w": "behave",
+     "pos": "v.",
+     "cn": "表现，举止",
+     "ph": "behave well 表现良好",
+     "ipa": "/bəˈheɪv/"
+    },
+    {
+     "w": "depend",
+     "pos": "v.",
+     "cn": "依赖，取决于",
+     "ph": "depend on 依靠",
+     "ipa": "/dɪˈpɛnd/"
+    },
+    {
+     "w": "consistent",
+     "pos": "adj.",
+     "cn": "一致的，始终如一的",
+     "ph": "consistent with 与……一致",
+     "ipa": "/kənˈsɪstənt/"
+    },
+    {
+     "w": "demand",
+     "pos": "v./n.",
+     "cn": "要求，需求",
+     "ph": "meet the demand 满足需求",
+     "ipa": "/dɪˈmɑːnd/"
+    },
+    {
+     "w": "approach",
+     "pos": "v.",
+     "cn": "接近；着手处理",
+     "ph": "approach the problem 着手处理问题",
+     "ipa": "/əˈprəʊt͡ʃ/"
+    },
+    {
+     "w": "assumption",
+     "pos": "n.",
+     "cn": "假设，假定",
+     "ph": "a false assumption 错误假设",
+     "ipa": "/əˈsʌmpʃən/"
+    },
+    {
+     "w": "employ",
+     "pos": "v.",
+     "cn": "雇用；使用",
+     "ph": "employ new methods 采用新方法",
+     "ipa": "/ɛmˈplɔɪ/"
+    },
+    {
+     "w": "consideration",
+     "pos": "n.",
+     "cn": "考虑；体贴",
+     "ph": "take into consideration 考虑到",
+     "ipa": "/kənˌsɪdəˈreɪʃən/"
+    },
+    {
+     "w": "formulate",
+     "pos": "v.",
+     "cn": "制定；系统阐述",
+     "ph": "formulate a policy 制定政策",
+     "ipa": "/ˈfɔːmjuleɪt/"
+    }
+   ]
+  },
+  {
+   "day": 26,
+   "date": "2026-11-27",
+   "words": [
+    {
+     "w": "ensure",
+     "pos": "v.",
+     "cn": "确保，保证",
+     "ph": "ensure safety 确保安全",
+     "ipa": "/ɪnˈʃɔː/"
+    },
+    {
+     "w": "exceed",
+     "pos": "v.",
+     "cn": "超过，超越",
+     "ph": "exceed expectations 超出预期",
+     "ipa": "/ɪkˈsiːd/"
+    },
+    {
+     "w": "cultural",
+     "pos": "adj.",
+     "cn": "文化的",
+     "ph": "cultural identity 文化认同",
+     "ipa": "/ˈkʌlt͡ʃərəl/"
+    },
+    {
+     "w": "destination",
+     "pos": "n.",
+     "cn": "目的地，终点",
+     "ph": "a tourist destination 旅游胜地",
+     "ipa": "/dɛstɪˈneɪʃən/"
+    },
+    {
+     "w": "appeal",
+     "pos": "v.",
+     "cn": "呼吁；吸引；上诉",
+     "ph": "appeal to the public 呼吁公众",
+     "ipa": "/əˈpiːl/"
+    },
+    {
+     "w": "democratic",
+     "pos": "adj.",
+     "cn": "民主的",
+     "ph": "a democratic society 民主社会",
+     "ipa": "/dɛməˈkrætɪk/"
+    },
+    {
+     "w": "credible",
+     "pos": "adj.",
+     "cn": "可信的，可靠的",
+     "ph": "a credible source 可靠来源",
+     "ipa": "/ˈkrɛdəbl/"
+    },
+    {
+     "w": "assemble",
+     "pos": "v.",
+     "cn": "集合；组装",
+     "ph": "assemble a team 组建团队",
+     "ipa": "/əˈsɛmbl/"
+    },
+    {
+     "w": "largely",
+     "pos": "adv.",
+     "cn": "很大程度上，主要地",
+     "ph": "largely depend on 主要取决于",
+     "ipa": "/[ˈlaːdʒli]/"
+    },
+    {
+     "w": "enable",
+     "pos": "v.",
+     "cn": "使能够",
+     "ph": "enable sb. to do 使某人能做",
+     "ipa": "/ɪˈneɪbəl/"
+    }
+   ]
+  },
+  {
+   "day": 27,
+   "date": "2026-11-28",
+   "words": [
+    {
+     "w": "bulk",
+     "pos": "n.",
+     "cn": "大部分；体积",
+     "ph": "the bulk of 大部分",
+     "ipa": "/bʌlk/"
+    },
+    {
+     "w": "accurate",
+     "pos": "adj.",
+     "cn": "准确的，精确的",
+     "ph": "accurate data 准确数据",
+     "ipa": "/ˈækjərɪt/"
+    },
+    {
+     "w": "conclusion",
+     "pos": "n.",
+     "cn": "结论，结尾",
+     "ph": "draw a conclusion 得出结论",
+     "ipa": "/kənˈkluːʒən/"
+    },
+    {
+     "w": "deliver",
+     "pos": "v.",
+     "cn": "递送；发表",
+     "ph": "deliver a speech 发表演讲",
+     "ipa": "/dɪˈlɪvər/"
+    },
+    {
+     "w": "meanwhile",
+     "pos": "adv.",
+     "cn": "与此同时",
+     "ph": "meanwhile, costs rose 同时成本上升",
+     "ipa": "/ˈmiːnhwaɪl/"
+    },
+    {
+     "w": "beneficial",
+     "pos": "adj.",
+     "cn": "有益的",
+     "ph": "beneficial to health 有益健康",
+     "ipa": "/ˌbɛnəˈfɪʃəl/"
+    },
+    {
+     "w": "arise",
+     "pos": "v.",
+     "cn": "出现，产生",
+     "ph": "problems arise 问题出现",
+     "ipa": "/əˈraɪz/"
+    },
+    {
+     "w": "contribution",
+     "pos": "n.",
+     "cn": "贡献，捐献",
+     "ph": "make a contribution 作出贡献",
+     "ipa": "/ˌkɒntrɪˈbjuːʃən/"
+    },
+    {
+     "w": "detect",
+     "pos": "v.",
+     "cn": "察觉，探测",
+     "ph": "detect a change 察觉变化",
+     "ipa": "/dɪˈtɛkt/"
+    },
+    {
+     "w": "distribution",
+     "pos": "n.",
+     "cn": "分配，分布",
+     "ph": "income distribution 收入分配",
+     "ipa": "/ˌdɪstrəˈbjuːʃən/"
+    }
+   ]
+  },
+  {
+   "day": 28,
+   "date": "2026-11-29",
+   "words": [
+    {
+     "w": "consumer",
+     "pos": "n.",
+     "cn": "消费者",
+     "ph": "consumer demand 消费需求",
+     "ipa": "/kənˈsjuːmə/"
+    },
+    {
+     "w": "awareness",
+     "pos": "n.",
+     "cn": "意识，认识",
+     "ph": "raise awareness 提高意识",
+     "ipa": "/əˈwɛənəs/"
+    },
+    {
+     "w": "cluster",
+     "pos": "n.",
+     "cn": "群，簇；集群",
+     "ph": "a cluster of 一群",
+     "ipa": "/ˈklʌstə/"
+    },
+    {
+     "w": "devote",
+     "pos": "v.",
+     "cn": "致力于，献身",
+     "ph": "devote time to 把时间投入",
+     "ipa": "/dɪˈvəʊt/"
+    },
+    {
+     "w": "curriculum",
+     "pos": "n.",
+     "cn": "课程，全部课程",
+     "ph": "the school curriculum 学校课程",
+     "ipa": "/kəˈrɪkjələm/"
+    },
+    {
+     "w": "forbid",
+     "pos": "v.",
+     "cn": "禁止",
+     "ph": "forbid sb. to do 禁止某人做",
+     "ipa": "/fəˈbɪd/"
+    },
+    {
+     "w": "cooperate",
+     "pos": "v.",
+     "cn": "合作，配合",
+     "ph": "cooperate with 与……合作",
+     "ipa": "/koʊˈɒpəreɪt/"
+    },
+    {
+     "w": "grasp",
+     "pos": "v./n.",
+     "cn": "抓住；领会",
+     "ph": "grasp the concept 理解概念",
+     "ipa": "/ɡrɑːsp/"
+    },
+    {
+     "w": "disaster",
+     "pos": "n.",
+     "cn": "灾难，灾害",
+     "ph": "a natural disaster 自然灾害",
+     "ipa": "/dɪˈzæstə/"
+    },
+    {
+     "w": "domain",
+     "pos": "n.",
+     "cn": "领域；域名",
+     "ph": "in the public domain 公有领域",
+     "ipa": "/dəʊˈmeɪn/"
+    }
+   ]
+  },
+  {
+   "day": 29,
+   "date": "2026-11-30",
+   "words": [
+    {
+     "w": "handle",
+     "pos": "v.",
+     "cn": "处理，操作",
+     "ph": "handle the issue 处理问题",
+     "ipa": "/ˈhændl/"
+    },
+    {
+     "w": "donate",
+     "pos": "v.",
+     "cn": "捐赠，捐献",
+     "ph": "donate blood 献血",
+     "ipa": "/dəʊˈneɪt/"
+    },
+    {
+     "w": "embrace",
+     "pos": "v.",
+     "cn": "拥抱；欣然接受",
+     "ph": "embrace change 拥抱变化",
+     "ipa": "/ɛmˈbreɪs/"
+    },
+    {
+     "w": "discourage",
+     "pos": "v.",
+     "cn": "使气馁；劝阻",
+     "ph": "discourage sb. from 劝阻某人",
+     "ipa": "/dɪsˈkʌrɪd͡ʒ/"
+    },
+    {
+     "w": "finance",
+     "pos": "v./n.",
+     "cn": "资助；财政",
+     "ph": "finance the project 为项目融资",
+     "ipa": "/faɪˈnæns/"
+    },
+    {
+     "w": "community",
+     "pos": "n.",
+     "cn": "社区，群体",
+     "ph": "the local community 当地社区",
+     "ipa": "/kəˈmjunəti/"
+    },
+    {
+     "w": "guarantee",
+     "pos": "v./n.",
+     "cn": "保证，担保",
+     "ph": "guarantee quality 保证质量",
+     "ipa": "/ˌɡærənˈtiː/"
+    },
+    {
+     "w": "delay",
+     "pos": "v./n.",
+     "cn": "推迟，延误",
+     "ph": "delay the decision 推迟决定",
+     "ipa": "/dɪˈleɪ/"
+    },
+    {
+     "w": "dominate",
+     "pos": "v.",
+     "cn": "支配，主导",
+     "ph": "dominate the market 主导市场",
+     "ipa": "/ˈdɒməˌneɪt/"
+    },
+    {
+     "w": "approximately",
+     "pos": "adv.",
+     "cn": "大约，近似地",
+     "ph": "approximately 50 people 约50人",
+     "ipa": "/əˈprɒksɪmətli/"
+    }
+   ]
+  },
+  {
+   "day": 30,
+   "date": "2026-12-01",
+   "words": [
+    {
+     "w": "anxiety",
+     "pos": "n.",
+     "cn": "焦虑，忧虑",
+     "ph": "relieve anxiety 缓解焦虑",
+     "ipa": "/ˌæŋɡˈzaɪəti/"
+    },
+    {
+     "w": "evolve",
+     "pos": "v.",
+     "cn": "演变，进化",
+     "ph": "evolve over time 随时间演变",
+     "ipa": "/ɪˈvɒlv/"
+    },
+    {
+     "w": "explore",
+     "pos": "v.",
+     "cn": "探索，探究",
+     "ph": "explore possibilities 探索可能性",
+     "ipa": "/ɪkˈsplɔː/"
+    },
+    {
+     "w": "authentic",
+     "pos": "adj.",
+     "cn": "真实的，正宗的",
+     "ph": "an authentic record 真实记录",
+     "ipa": "/ɒˈθɛntɪk/"
+    },
+    {
+     "w": "adopt",
+     "pos": "v.",
+     "cn": "采用；收养",
+     "ph": "adopt a policy 采用政策",
+     "ipa": "/əˈdɒpt/"
+    },
+    {
+     "w": "accumulate",
+     "pos": "v.",
+     "cn": "积累，积聚",
+     "ph": "accumulate experience 积累经验",
+     "ipa": "/əˈkjuːmjʊˌleɪt/"
+    },
+    {
+     "w": "conserve",
+     "pos": "v.",
+     "cn": "保护，节约",
+     "ph": "conserve energy 节约能源",
+     "ipa": "/kənˈsɜːv/"
+    },
+    {
+     "w": "consult",
+     "pos": "v.",
+     "cn": "咨询，商议",
+     "ph": "consult an expert 咨询专家",
+     "ipa": "/kənˈsʌlt/"
+    },
+    {
+     "w": "conventional",
+     "pos": "adj.",
+     "cn": "传统的，常规的",
+     "ph": "conventional wisdom 传统观念",
+     "ipa": "/kənˈvɛnʃənl/"
+    },
+    {
+     "w": "determine",
+     "pos": "v.",
+     "cn": "决定；查明",
+     "ph": "determine the cause 查明原因",
+     "ipa": "/dɪˈtɜːmɪn/"
+    }
+   ]
+  },
+  {
+   "day": 31,
+   "date": "2026-12-02",
+   "words": [
+    {
+     "w": "currency",
+     "pos": "n.",
+     "cn": "货币；流行",
+     "ph": "foreign currency 外币",
+     "ipa": "/ˈkʌrənsi/"
+    },
+    {
+     "w": "campaign",
+     "pos": "n.",
+     "cn": "运动，活动",
+     "ph": "an ad campaign 广告活动",
+     "ipa": "/kæmˈpeɪn/"
+    },
+    {
+     "w": "abundant",
+     "pos": "adj.",
+     "cn": "丰富的，充裕的",
+     "ph": "abundant resources 丰富资源",
+     "ipa": "/əˈbʌndnt/"
+    },
+    {
+     "w": "chronic",
+     "pos": "adj.",
+     "cn": "慢性的，长期的",
+     "ph": "a chronic problem 长期问题",
+     "ipa": "/ˈkrɒnɪk/"
+    },
+    {
+     "w": "exploit",
+     "pos": "v.",
+     "cn": "利用；开发；剥削",
+     "ph": "exploit resources 开发资源",
+     "ipa": "/ɪkˈsplɔɪt/"
+    },
+    {
+     "w": "dramatic",
+     "pos": "adj.",
+     "cn": "戏剧性的；显著的",
+     "ph": "a dramatic change 巨大变化",
+     "ipa": "/drəˈmætɪk/"
+    },
+    {
+     "w": "encourage",
+     "pos": "v.",
+     "cn": "鼓励，促进",
+     "ph": "encourage innovation 鼓励创新",
+     "ipa": "/ɪnˈkʌrɪdʒ/"
+    },
+    {
+     "w": "convince",
+     "pos": "v.",
+     "cn": "使信服，说服",
+     "ph": "convince sb. of sth. 使某人相信",
+     "ipa": "/kənˈvɪns/"
+    },
+    {
+     "w": "extend",
+     "pos": "v.",
+     "cn": "延伸；扩展；延期",
+     "ph": "extend the deadline 延长截止日期",
+     "ipa": "/ɛkˈstɛnd/"
+    },
+    {
+     "w": "deserve",
+     "pos": "v.",
+     "cn": "值得，应得",
+     "ph": "deserve attention 值得关注",
+     "ipa": "/dɪˈzɜːv/"
+    }
+   ]
+  },
+  {
+   "day": 32,
+   "date": "2026-12-03",
+   "words": [
+    {
+     "w": "engage",
+     "pos": "v.",
+     "cn": "参与；吸引；雇用",
+     "ph": "engage in research 从事研究",
+     "ipa": "/ɛnˈɡeɪdʒ/"
+    },
+    {
+     "w": "confirm",
+     "pos": "v.",
+     "cn": "确认，证实",
+     "ph": "confirm the booking 确认预订",
+     "ipa": "/kənˈfɜːm/"
+    },
+    {
+     "w": "encounter",
+     "pos": "v./n.",
+     "cn": "遭遇，遇到",
+     "ph": "encounter difficulties 遇到困难",
+     "ipa": "/ɪnˈkaʊntə/"
+    },
+    {
+     "w": "casual",
+     "pos": "adj.",
+     "cn": "随意的；临时的",
+     "ph": "casual clothes 休闲装",
+     "ipa": "/ˈkɛʒɘl/"
+    },
+    {
+     "w": "chaos",
+     "pos": "n.",
+     "cn": "混乱",
+     "ph": "in chaos 一片混乱",
+     "ipa": "/ˈkeɪɒs/"
+    },
+    {
+     "w": "extract",
+     "pos": "v.",
+     "cn": "提取，摘录",
+     "ph": "extract data 提取数据",
+     "ipa": "/ɪkˈstrækt/"
+    },
+    {
+     "w": "disclose",
+     "pos": "v.",
+     "cn": "透露，揭露",
+     "ph": "disclose information 披露信息",
+     "ipa": "/dɪsˈkləʊz/"
+    },
+    {
+     "w": "cautious",
+     "pos": "adj.",
+     "cn": "谨慎的，小心的",
+     "ph": "be cautious about 对……谨慎",
+     "ipa": "/ˈkɔːʃəs/"
+    },
+    {
+     "w": "complicated",
+     "pos": "adj.",
+     "cn": "复杂的，难懂的",
+     "ph": "a complicated issue 复杂问题",
+     "ipa": "/ˈkɒmplɪkeɪtɪd/"
+    },
+    {
+     "w": "attract",
+     "pos": "v.",
+     "cn": "吸引",
+     "ph": "attract attention 吸引注意",
+     "ipa": "/əˈtrækt/"
+    }
+   ]
+  },
+  {
+   "day": 33,
+   "date": "2026-12-04",
+   "words": [
+    {
+     "w": "basis",
+     "pos": "n.",
+     "cn": "基础，依据",
+     "ph": "on the basis of 根据",
+     "ipa": "/ˈbeɪsɪs/"
+    },
+    {
+     "w": "aggressive",
+     "pos": "adj.",
+     "cn": "好斗的；积极进取的",
+     "ph": "an aggressive strategy 激进策略",
+     "ipa": "/əˈɡrɛsɪv/"
+    },
+    {
+     "w": "corruption",
+     "pos": "n.",
+     "cn": "腐败，贪污",
+     "ph": "fight corruption 反腐",
+     "ipa": "/kəˈrʌpʃən/"
+    },
+    {
+     "w": "agenda",
+     "pos": "n.",
+     "cn": "议程，日程",
+     "ph": "on the agenda 在议程上",
+     "ipa": "/əˈdʒɛndə/"
+    },
+    {
+     "w": "dense",
+     "pos": "adj.",
+     "cn": "密集的，浓的",
+     "ph": "a dense population 密集人口",
+     "ipa": "/dɛns/"
+    },
+    {
+     "w": "blame",
+     "pos": "v./n.",
+     "cn": "责备，归咎",
+     "ph": "blame sb. for sth. 因某事责怪某人",
+     "ipa": "/bleɪm/"
+    },
+    {
+     "w": "display",
+     "pos": "v./n.",
+     "cn": "展示，显示",
+     "ph": "display emotion 流露情绪",
+     "ipa": "/dɪsˈpleɪ/"
+    },
+    {
+     "w": "discourse",
+     "pos": "n.",
+     "cn": "话语；演讲",
+     "ph": "public discourse 公共话语",
+     "ipa": "/dɪsˈkɔːrs/"
+    },
+    {
+     "w": "frequently",
+     "pos": "adv.",
+     "cn": "频繁地，经常",
+     "ph": "frequently asked 经常被问",
+     "ipa": "/ˈfriːkwəntli/"
+    },
+    {
+     "w": "assist",
+     "pos": "v.",
+     "cn": "协助，帮助",
+     "ph": "assist sb. with sth. 帮某人做某事",
+     "ipa": "/əˈsɪst/"
+    }
+   ]
+  },
+  {
+   "day": 34,
+   "date": "2026-12-05",
+   "words": [
+    {
+     "w": "conform",
+     "pos": "v.",
+     "cn": "遵守，符合",
+     "ph": "conform to rules 遵守规则",
+     "ipa": "/kənˈfɔːm/"
+    },
+    {
+     "w": "eventually",
+     "pos": "adv.",
+     "cn": "最终，终于",
+     "ph": "eventually succeed 最终成功",
+     "ipa": "/ɪˈventʃuəli/"
+    },
+    {
+     "w": "discipline",
+     "pos": "n.",
+     "cn": "纪律；学科",
+     "ph": "self-discipline 自律",
+     "ipa": "/ˈdɪsəplɪn/"
+    },
+    {
+     "w": "compromise",
+     "pos": "n./v.",
+     "cn": "妥协，折中",
+     "ph": "reach a compromise 达成妥协",
+     "ipa": "/ˈkɒmprəˌmaɪz/"
+    },
+    {
+     "w": "gradually",
+     "pos": "adv.",
+     "cn": "逐渐地",
+     "ph": "gradually improve 逐步改善",
+     "ipa": "/ˈɡrædʒuəli/"
+    },
+    {
+     "w": "barrier",
+     "pos": "n.",
+     "cn": "障碍，屏障",
+     "ph": "a language barrier 语言障碍",
+     "ipa": "/ˈbæriər/"
+    },
+    {
+     "w": "dynamic",
+     "pos": "adj.",
+     "cn": "动态的；有活力的",
+     "ph": "a dynamic economy 活跃的经济",
+     "ipa": "/daɪˈnæmɪk/"
+    },
+    {
+     "w": "emerge",
+     "pos": "v.",
+     "cn": "出现，浮现",
+     "ph": "emerge from 从……中出现",
+     "ipa": "/iˈmɜːd͡ʒ/"
+    },
+    {
+     "w": "conference",
+     "pos": "n.",
+     "cn": "会议，研讨会",
+     "ph": "attend a conference 参加会议",
+     "ipa": "/ˈkɒnfərəns/"
+    },
+    {
+     "w": "civil",
+     "pos": "adj.",
+     "cn": "公民的；民事的",
+     "ph": "civil rights 公民权利",
+     "ipa": "/ˈsɪvəl/"
+    }
+   ]
+  },
+  {
+   "day": 35,
+   "date": "2026-12-06",
+   "words": [
+    {
+     "w": "compulsory",
+     "pos": "adj.",
+     "cn": "强制的；必修的",
+     "ph": "compulsory education 义务教育",
+     "ipa": "/kəmˈpʌlsəri/"
+    },
+    {
+     "w": "commitment",
+     "pos": "n.",
+     "cn": "承诺；投入",
+     "ph": "a strong commitment 坚定承诺",
+     "ipa": "/kəˈmɪtmənt/"
+    },
+    {
+     "w": "democracy",
+     "pos": "n.",
+     "cn": "民主，民主制度",
+     "ph": "a modern democracy 现代民主国家",
+     "ipa": "/dɪˈmɒkrəsi/"
+    },
+    {
+     "w": "conclude",
+     "pos": "v.",
+     "cn": "得出结论；结束",
+     "ph": "conclude that 得出结论认为",
+     "ipa": "/kənˈkluːd/"
+    },
+    {
+     "w": "charity",
+     "pos": "n.",
+     "cn": "慈善；慈善机构",
+     "ph": "a charity event 慈善活动",
+     "ipa": "/ˈtʃærɪti/"
+    },
+    {
+     "w": "cooperation",
+     "pos": "n.",
+     "cn": "合作，配合",
+     "ph": "international cooperation 国际合作",
+     "ipa": "/kowɑpəˈrejʃən/"
+    },
+    {
+     "w": "bias",
+     "pos": "n.",
+     "cn": "偏见，偏差",
+     "ph": "a clear bias 明显偏见",
+     "ipa": "/ˈbaɪəs/"
+    },
+    {
+     "w": "clarify",
+     "pos": "v.",
+     "cn": "澄清，阐明",
+     "ph": "clarify the issue 澄清问题",
+     "ipa": "/ˈklærɪfaɪ/"
+    },
+    {
+     "w": "coverage",
+     "pos": "n.",
+     "cn": "覆盖范围；报道",
+     "ph": "media coverage 媒体报道",
+     "ipa": "/ˈkʌvərɪdʒ/"
+    },
+    {
+     "w": "aspect",
+     "pos": "n.",
+     "cn": "方面，层面",
+     "ph": "a key aspect 关键方面",
+     "ipa": "/ˈæspɛkt/"
+    }
+   ]
+  },
+  {
+   "day": 36,
+   "date": "2026-12-07",
+   "words": [
+    {
+     "w": "fulfill",
+     "pos": "v.",
+     "cn": "履行；实现",
+     "ph": "fulfill a promise 履行承诺",
+     "ipa": "/fəˈfɪl/"
+    },
+    {
+     "w": "gain",
+     "pos": "v./n.",
+     "cn": "获得，增加",
+     "ph": "gain experience 获得经验",
+     "ipa": "/ɡeɪn/"
+    },
+    {
+     "w": "appreciate",
+     "pos": "v.",
+     "cn": "欣赏；理解；感激",
+     "ph": "appreciate the difference 理解差异",
+     "ipa": "/əˈpriːsieɪt/"
+    },
+    {
+     "w": "exclude",
+     "pos": "v.",
+     "cn": "排除，把……排斥在外",
+     "ph": "exclude the possibility 排除可能",
+     "ipa": "/ɪksˈkluːd/"
+    },
+    {
+     "w": "deficit",
+     "pos": "n.",
+     "cn": "赤字，亏损",
+     "ph": "a trade deficit 贸易逆差",
+     "ipa": "/ˈdɛfɪsɪt/"
+    },
+    {
+     "w": "constitute",
+     "pos": "v.",
+     "cn": "构成，组成",
+     "ph": "constitute a threat 构成威胁",
+     "ipa": "/ˈkɒnstɪtjuːt/"
+    },
+    {
+     "w": "application",
+     "pos": "n.",
+     "cn": "申请；应用",
+     "ph": "job application 求职申请",
+     "ipa": "/aplɪˈkeɪʃən/"
+    },
+    {
+     "w": "corporate",
+     "pos": "adj.",
+     "cn": "公司的，法人的",
+     "ph": "corporate culture 企业文化",
+     "ipa": "/ˈkɔːpərət/"
+    },
+    {
+     "w": "estimate",
+     "pos": "v./n.",
+     "cn": "估计，估算",
+     "ph": "estimate the cost 估算成本",
+     "ipa": "/ˈɛstɨmɨt/"
+    },
+    {
+     "w": "constitution",
+     "pos": "n.",
+     "cn": "宪法；体质",
+     "ph": "amend the constitution 修改宪法",
+     "ipa": "/ˌkɒnstɪˈtjuːʃən/"
+    }
+   ]
+  },
+  {
+   "day": 37,
+   "date": "2026-12-08",
+   "words": [
+    {
+     "w": "accordingly",
+     "pos": "adv.",
+     "cn": "因此；相应地",
+     "ph": "act accordingly 相应行动",
+     "ipa": "/əˈkɔːrdɪŋli/"
+    },
+    {
+     "w": "cease",
+     "pos": "v.",
+     "cn": "停止，终止",
+     "ph": "cease to exist 不复存在",
+     "ipa": "/siːs/"
+    },
+    {
+     "w": "favor",
+     "pos": "v./n.",
+     "cn": "支持；偏爱；恩惠",
+     "ph": "favor the plan 支持该计划",
+     "ipa": "/ˈfeɪvə/"
+    },
+    {
+     "w": "broaden",
+     "pos": "v.",
+     "cn": "拓宽，扩大",
+     "ph": "broaden one's horizons 开阔眼界",
+     "ipa": "/ˈbrɔːdn/"
+    },
+    {
+     "w": "artificial",
+     "pos": "adj.",
+     "cn": "人造的；虚假的",
+     "ph": "artificial intelligence 人工智能",
+     "ipa": "/ɑːrtəˈfɪʃəl/"
+    },
+    {
+     "w": "hardly",
+     "pos": "adv.",
+     "cn": "几乎不",
+     "ph": "hardly ever 几乎从不",
+     "ipa": "/ˈhɑːdli/"
+    },
+    {
+     "w": "govern",
+     "pos": "v.",
+     "cn": "治理，管理",
+     "ph": "govern the country 治理国家",
+     "ipa": "/ˈɡʌvən/"
+    },
+    {
+     "w": "forecast",
+     "pos": "v./n.",
+     "cn": "预测，预报",
+     "ph": "forecast the trend 预测趋势",
+     "ipa": "/ˈfɔːkɑːst/"
+    },
+    {
+     "w": "focus",
+     "pos": "v./n.",
+     "cn": "集中，聚焦",
+     "ph": "focus on the core 聚焦核心",
+     "ipa": "/ˈfəʊkəs/"
+    },
+    {
+     "w": "eliminate",
+     "pos": "v.",
+     "cn": "消除，淘汰",
+     "ph": "eliminate poverty 消除贫困",
+     "ipa": "/ɪˈlɪməneɪt/"
+    }
+   ]
+  },
+  {
+   "day": 38,
+   "date": "2026-12-09",
+   "words": [
+    {
+     "w": "access",
+     "pos": "n.",
+     "cn": "通道；使用权",
+     "ph": "have access to 有权使用",
+     "ipa": "/ˈæksɛs/"
+    },
+    {
+     "w": "destroy",
+     "pos": "v.",
+     "cn": "破坏，摧毁",
+     "ph": "destroy the evidence 销毁证据",
+     "ipa": "/dɪˈstrɔɪ/"
+    },
+    {
+     "w": "execute",
+     "pos": "v.",
+     "cn": "执行；处决",
+     "ph": "execute a plan 执行计划",
+     "ipa": "/ˈɛksɪˌkjuːt/"
+    },
+    {
+     "w": "comprehensive",
+     "pos": "adj.",
+     "cn": "全面的，综合的",
+     "ph": "a comprehensive plan 全面计划",
+     "ipa": "/ˌkɒmprɪˈhɛnsɪv/"
+    },
+    {
+     "w": "distinct",
+     "pos": "adj.",
+     "cn": "明显的；独特的",
+     "ph": "a distinct feature 显著特征",
+     "ipa": "/dɪsˈtɪŋkt/"
+    },
+    {
+     "w": "adapt",
+     "pos": "v.",
+     "cn": "适应；改编",
+     "ph": "adapt to change 适应变化",
+     "ipa": "/əˈdæpt/"
+    },
+    {
+     "w": "ambition",
+     "pos": "n.",
+     "cn": "雄心，抱负",
+     "ph": "career ambition 事业心",
+     "ipa": "/æmˈbɪʃən/"
+    },
+    {
+     "w": "collapse",
+     "pos": "v./n.",
+     "cn": "倒塌；崩溃",
+     "ph": "collapse suddenly 突然崩溃",
+     "ipa": "/kəˈlæps/"
+    },
+    {
+     "w": "establish",
+     "pos": "v.",
+     "cn": "建立，确立",
+     "ph": "establish a system 建立制度",
+     "ipa": "/ɪˈstæblɪʃ/"
+    },
+    {
+     "w": "concentrate",
+     "pos": "v.",
+     "cn": "集中，专心",
+     "ph": "concentrate on 专注于",
+     "ipa": "/ˈkɒnsəntreɪt/"
+    }
+   ]
+  },
+  {
+   "day": 39,
+   "date": "2026-12-10",
+   "words": [
+    {
+     "w": "capture",
+     "pos": "v.",
+     "cn": "捕获；吸引",
+     "ph": "capture attention 抓住注意力",
+     "ipa": "/ˈkæpt͡ʃə/"
+    },
+    {
+     "w": "academic",
+     "pos": "adj.",
+     "cn": "学术的；学院的",
+     "ph": "academic performance 学业表现",
+     "ipa": "/ˌækəˈdɛmɪk/"
+    },
+    {
+     "w": "accommodate",
+     "pos": "v.",
+     "cn": "容纳；适应",
+     "ph": "accommodate guests 容纳客人",
+     "ipa": "/əˈkɒməˌdeɪt/"
+    },
+    {
+     "w": "dispose",
+     "pos": "v.",
+     "cn": "处理，处置",
+     "ph": "dispose of waste 处理垃圾",
+     "ipa": "/dɪˈspəʊz/"
+    },
+    {
+     "w": "admission",
+     "pos": "n.",
+     "cn": "承认；准许进入",
+     "ph": "admission to college 大学录取",
+     "ipa": "/ædˈmɪʃən/"
+    },
+    {
+     "w": "determination",
+     "pos": "n.",
+     "cn": "决心，测定",
+     "ph": "great determination 极大的决心",
+     "ipa": "/dɪˌtɜːmɪˈneɪʃən/"
+    },
+    {
+     "w": "category",
+     "pos": "n.",
+     "cn": "类别，范畴",
+     "ph": "fall into a category 归入某类",
+     "ipa": "/ˈkætəˌɡɔri/"
+    },
+    {
+     "w": "convention",
+     "pos": "n.",
+     "cn": "惯例；大会；公约",
+     "ph": "social convention 社会惯例",
+     "ipa": "/kənˈvɛnʃən/"
+    },
+    {
+     "w": "deadline",
+     "pos": "n.",
+     "cn": "截止日期",
+     "ph": "meet the deadline 按期完成",
+     "ipa": "/ˈdɛdˌlaɪn/"
+    },
+    {
+     "w": "constraint",
+     "pos": "n.",
+     "cn": "限制，约束",
+     "ph": "time constraints 时间限制",
+     "ipa": "/kənˈstreɪnt/"
+    }
+   ]
+  },
+  {
+   "day": 40,
+   "date": "2026-12-11",
+   "words": [
+    {
+     "w": "corporation",
+     "pos": "n.",
+     "cn": "公司，企业",
+     "ph": "a multinational corporation 跨国公司",
+     "ipa": "/ˌkɔːpəˈreɪʃn/"
+    },
+    {
+     "w": "adequate",
+     "pos": "adj.",
+     "cn": "足够的，适当的",
+     "ph": "adequate supply 充足供应",
+     "ipa": "/ˈædɪkwət/"
+    },
+    {
+     "w": "distinction",
+     "pos": "n.",
+     "cn": "区别；卓越",
+     "ph": "a clear distinction 明显区别",
+     "ipa": "/dɪˈstɪŋkʃən/"
+    },
+    {
+     "w": "differ",
+     "pos": "v.",
+     "cn": "不同，相异",
+     "ph": "differ from 与……不同",
+     "ipa": "/ˈdɪfə/"
+    },
+    {
+     "w": "commit",
+     "pos": "v.",
+     "cn": "承诺；投入；犯",
+     "ph": "commit to a plan 投入一个计划",
+     "ipa": "/kəˈmɪt/"
+    },
+    {
+     "w": "awkward",
+     "pos": "adj.",
+     "cn": "尴尬的；笨拙的",
+     "ph": "an awkward silence 尴尬的沉默",
+     "ipa": "/ˈɑkwɚd/"
+    },
+    {
+     "w": "component",
+     "pos": "n.",
+     "cn": "组成部分，部件",
+     "ph": "a key component 关键部件",
+     "ipa": "/kʌmˈpoʊnənt/"
+    },
+    {
+     "w": "civilization",
+     "pos": "n.",
+     "cn": "文明",
+     "ph": "ancient civilization 古代文明",
+     "ipa": "/ˌsɪvɪlaɪˈzeɪʃən/"
+    },
+    {
+     "w": "exhaust",
+     "pos": "v.",
+     "cn": "耗尽；使疲惫",
+     "ph": "exhaust resources 耗尽资源",
+     "ipa": "/ɪɡˈzɔːst/"
+    },
+    {
+     "w": "conduct",
+     "pos": "v./n.",
+     "cn": "实施；举止",
+     "ph": "conduct research 开展研究",
+     "ipa": "/ˈkɒndʌkt/"
+    }
+   ]
+  }
+ ]
+}
