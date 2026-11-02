@@ -725,12 +725,93 @@ try {
 
             $totalReview = 0
             foreach ($gp in $groups) { $totalReview += $gp.Words.Count }
-            $body.Children.Add((New-Text ($S.secReview -f $groups.Count, $totalReview) 12 '#1F4E79' 'Bold')) | Out-Null
+
+            $revHead = New-Object Windows.Controls.Grid
+            $rc1 = New-Object Windows.Controls.ColumnDefinition
+            $rc1.Width = New-Object Windows.GridLength(1, [Windows.GridUnitType]::Star)
+            $rc2 = New-Object Windows.Controls.ColumnDefinition
+            $rc2.Width = [Windows.GridLength]::Auto
+            $revHead.ColumnDefinitions.Add($rc1)
+            $revHead.ColumnDefinitions.Add($rc2)
+
+            $revTitle = New-Text ($S.secReview -f $groups.Count, $totalReview) 12 '#1F4E79' 'Bold'
+            $revTitle.VerticalAlignment = 'Center'
+            [Windows.Controls.Grid]::SetColumn($revTitle, 0)
+            $revHead.Children.Add($revTitle) | Out-Null
+
+            $script:revExpanded = $false
+            $revToggle = New-Object Windows.Controls.Button
+            $revToggle.Content = $script:S.revShow
+            $revToggle.Style = $win.Resources['FlatBtn']
+            $revToggle.FontSize = 10.5
+            $revToggle.Padding = New-Object Windows.Thickness(10, 2, 10, 2)
+            $revToggle.Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#EDF2F8')
+            $revToggle.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1F4E79')
+            $revToggle.VerticalAlignment = 'Center'
+            $revToggle.HorizontalAlignment = 'Right'
+            [Windows.Controls.Grid]::SetColumn($revToggle, 1)
+            $revHead.Children.Add($revToggle) | Out-Null
+            $body.Children.Add($revHead) | Out-Null
+
+            $flatList = New-Object System.Collections.ArrayList
+            $detailList = New-Object System.Collections.ArrayList
+
             foreach ($gp in $groups) {
                 $body.Children.Add((New-Text $gp.Label 10.5 '#999999' 'Bold' 9)) | Out-Null
+
                 $txt = ($gp.Words | ForEach-Object { $_.w }) -join $S.wordSep
-                $body.Children.Add((New-Text $txt 11 '#555555' 'Normal' 3)) | Out-Null
+                $flat = New-Text $txt 11 '#555555' 'Normal' 3
+                $body.Children.Add($flat) | Out-Null
+                [void]$flatList.Add($flat)
+
+                $det = New-Object Windows.Controls.StackPanel
+                $det.Visibility = 'Collapsed'
+                $det.Margin = New-Object Windows.Thickness(0, 2, 0, 4)
+                foreach ($rw in $gp.Words) {
+                    $p2 = New-Object Windows.Controls.TextBlock
+                    $p2.TextWrapping = 'Wrap'
+                    $p2.Margin = New-Object Windows.Thickness(0, 3, 0, 3)
+                    $r1 = New-Object Windows.Documents.Run($rw.w)
+                    $r1.FontWeight = 'Bold'
+                    $r1.FontSize = 11.5
+                    $r1.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1A1A1A')
+                    $p2.Inlines.Add($r1) | Out-Null
+                    if ($rw.pos) {
+                        $rp = New-Object Windows.Documents.Run(('  ' + $rw.pos))
+                        $rp.FontSize = 9.5
+                        $rp.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#999999')
+                        $p2.Inlines.Add($rp) | Out-Null
+                    }
+                    if ($rw.ipa) {
+                        $r2 = New-Object Windows.Documents.Run(('  ' + $rw.ipa))
+                        $r2.FontFamily = New-Object Windows.Media.FontFamily('Lucida Sans Unicode')
+                        $r2.FontSize = 10
+                        $r2.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#5B7A99')
+                        $p2.Inlines.Add($r2) | Out-Null
+                    }
+                    $r3 = New-Object Windows.Documents.Run(('   ' + $rw.cn))
+                    $r3.FontSize = 11
+                    $r3.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#555555')
+                    $p2.Inlines.Add($r3) | Out-Null
+                    $det.Children.Add($p2) | Out-Null
+                }
+                $body.Children.Add($det) | Out-Null
+                [void]$detailList.Add($det)
             }
+
+            $revToggle.Add_Click({
+                    if ($script:revExpanded) {
+                        foreach ($t in $flatList) { $t.Visibility = 'Visible' }
+                        foreach ($t in $detailList) { $t.Visibility = 'Collapsed' }
+                        $script:revExpanded = $false
+                        $revToggle.Content = $script:S.revShow
+                    } else {
+                        foreach ($t in $flatList) { $t.Visibility = 'Collapsed' }
+                        foreach ($t in $detailList) { $t.Visibility = 'Visible' }
+                        $script:revExpanded = $true
+                        $revToggle.Content = $script:S.revHide
+                    }
+                }.GetNewClosure())
         }
     }
 
@@ -1027,6 +1108,8 @@ try {
         if ($env:CET6_TEST_PAUSE) { $win.FindName('PauseLayer').Visibility = 'Visible' }
         if ($env:CET6_TEST_DECK) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList }
         if ($env:CET6_TEST_DECKHELP) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList; $win.FindName('DeckFormat').Visibility = 'Visible' }
+        if ($env:CET6_TEST_REV) { foreach ($t in $flatList) { $t.Visibility = 'Collapsed' }; foreach ($t in $detailList) { $t.Visibility = 'Visible' }; $revToggle.Content = $S.revHide }
+        if ($env:CET6_TEST_SCROLL) { $win.FindName('BodyPanel').Parent.ScrollToEnd() }
         $timer = New-Object Windows.Threading.DispatcherTimer
         $timer.Interval = [TimeSpan]::FromMilliseconds(1000)
         $timer.Add_Tick({

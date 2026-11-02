@@ -5,9 +5,14 @@ import os
 import shutil
 import subprocess
 
-PKG = r'C:\Users\Lenovo\Desktop\自动化任务\CET6-Plan\安装包'
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+PKG = os.path.join(ROOT, '安装包')
 WORK = os.path.join(os.environ['TEMP'], 'cet6pkg')
-REAL = r'C:\Users\Lenovo\Desktop\自动化任务\CET6-Plan\肥鱼背单词-安装包.exe'
+REAL = os.path.join(ROOT, '肥鱼背单词-安装包.exe')
+TEST = os.path.join(os.environ['TEMP'], 'cet6_setup_test.exe')
+DRY_LOG = os.path.join(os.environ['TEMP'], 'cet6_dry.txt')
+IEX = os.path.join(os.environ['SystemRoot'], 'System32', 'iexpress.exe')
 TEST = os.path.join(os.environ['TEMP'], 'cet6_setup_test.exe')
 DRY_LOG = os.path.join(os.environ['TEMP'], 'cet6_dry.txt')
 IEX = os.path.join(os.environ['SystemRoot'], 'System32', 'iexpress.exe')

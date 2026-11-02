@@ -1,6 +1,6 @@
 {
-  "titleToday": "六级单词 · 第 {0} 天",
-  "titleDone": "六级单词 · 计划已完成",
+  "titleToday": "肥鱼背单词 · 第 {0} 天",
+  "titleDone": "肥鱼背单词 · 计划已完成",
   "subToday": "{0} {1}   已打卡 {2} 天   距考试 {3} 天",
   "dateFmt": "M月d日",
   "wordSep": "  ·  ",
@@ -67,5 +67,7 @@
   "setBad": "日期格式不对，要 yyyy-mm-dd",
   "setOk": "已更新",
   "deckFormat": "添加词库要求：.csv 或 .txt。\nCSV 必须有「单词」和「释义」两列（列名：word/单词、meaning/释义/中文）；音标 ipa、词性 pos、搭配 phrase 可选。\nTXT 每行一个词，例如：abandon /əˈbændən/ 放弃；抛弃\n\n也可以用文件夹里的「词库管理.cmd」：双击打开后——\n  · 直接输序号 = 切换到那个词库（会提示进度归零，输 y 确认）\n  · 输 i = 导入文件（把 csv/txt 拖进窗口，或输入完整路径）\n  · 输回车 = 退出\n批量导入、查看各词库词数时用它比点界面快。",
-  "deckHelp": "格式要求 ?"
+  "deckHelp": "格式要求 ?",
+  "revShow": "看释义",
+  "revHide": "收起释义"
 }
