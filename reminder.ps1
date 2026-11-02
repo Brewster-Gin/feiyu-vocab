@@ -776,6 +776,12 @@ try {
                     $r1.FontSize = 11.5
                     $r1.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1A1A1A')
                     $p2.Inlines.Add($r1) | Out-Null
+                    if ($rw.pos) {
+                        $rp = New-Object Windows.Documents.Run(('  ' + $rw.pos))
+                        $rp.FontSize = 9.5
+                        $rp.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#999999')
+                        $p2.Inlines.Add($rp) | Out-Null
+                    }
                     if ($rw.ipa) {
                         $r2 = New-Object Windows.Documents.Run(('  ' + $rw.ipa))
                         $r2.FontFamily = New-Object Windows.Media.FontFamily('Lucida Sans Unicode')
