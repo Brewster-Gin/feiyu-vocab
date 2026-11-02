@@ -50,7 +50,7 @@
   "resumed": "已恢复提醒",
   "skippedNow": "今天已跳过，今天不会再提醒",
   "deckTitle": "选择词库",
-  "deckHint": "切换会按新词库重建打卡表，之前的打卡记录对不上（进度归零）。",
+  "deckHint": "切换会按新词库重新排期，已打卡天数保留（词表内容会变）。",
   "deckAdd": "添加词库…",
   "deckClose": "关闭",
   "deckCurrent": "当前",
@@ -71,5 +71,5 @@
   "revShow": "看释义",
   "revHide": "收起释义",
   "btnNextDay": "继续背下一天",
-  "setPerDayHint": "每天背几个新词（1–60，改了会重排计划、进度归零）"
+  "setPerDayHint": "每天背几个新词（1–60，改了会重排计划，已打卡天数保留）"
 }

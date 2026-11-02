@@ -923,9 +923,17 @@ try {
             return
         }
         $script:statusText.Text = '正在按新的每日词数重排…'
-        & $py (Join-Path $script:root '工具\build_plan.py') --deck $deckPath --per-day $perDay `
-            --intervals ($script:planIntervals -join ',') --start (Get-Date -Format 'yyyy-MM-dd') `
-            --exam $script:planExam.ToString('yyyy-MM-dd') 2>&1 | Out-Null
+        $startStr = $script:planStart.ToString('yyyy-MM-dd')
+        $commonArgs = @('--deck', $deckPath, '--per-day', $perDay, '--intervals', ($script:planIntervals -join ','),
+            '--exam', $script:planExam.ToString('yyyy-MM-dd'))
+        & $py (Join-Path $script:root '工具\build_plan.py') @commonArgs --start $startStr 2>&1 | Out-Null
+        # 词数变多后计划可能已经走到今天之后，回夹让今天正好落在最后一天
+        $np = Get-Content (Join-Path $script:root 'words.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+        $lastDate = [datetime]::ParseExact($np.days[-1].date, 'yyyy-MM-dd', $null)
+        if ($script:today -gt $lastDate) {
+            $clamped = $script:today.AddDays(-(@($np.days).Count - 1)).ToString('yyyy-MM-dd')
+            & $py (Join-Path $script:root '工具\build_plan.py') @commonArgs --start $clamped 2>&1 | Out-Null
+        }
         if ($LASTEXITCODE -ne 0) {
             $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
             $script:statusText.Text = '重排失败'
@@ -1049,7 +1057,16 @@ try {
         $script:statusText.Text = '正在生成…'
         $today = (Get-Date).ToString('yyyy-MM-dd')
         $exam = $script:planExam.ToString('yyyy-MM-dd')
-        & $py (Join-Path $script:root '工具\build_plan.py') --deck $path --per-day 10 --intervals 1,4,15 --start $today --exam $exam 2>&1 | Out-Null
+        $startStr = $script:planStart.ToString('yyyy-MM-dd')
+        $commonArgs = @('--deck', $path, '--per-day', $script:planPerDay, '--intervals', ($script:planIntervals -join ','),
+            '--exam', $exam)
+        & $py (Join-Path $script:root '工具\build_plan.py') @commonArgs --start $startStr 2>&1 | Out-Null
+        $np = Get-Content (Join-Path $script:root 'words.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+        $lastDate = [datetime]::ParseExact($np.days[-1].date, 'yyyy-MM-dd', $null)
+        if ($script:today -gt $lastDate) {
+            $clamped = $script:today.AddDays(-(@($np.days).Count - 1)).ToString('yyyy-MM-dd')
+            & $py (Join-Path $script:root '工具\build_plan.py') @commonArgs --start $clamped 2>&1 | Out-Null
+        }
         if ($LASTEXITCODE -ne 0) {
             $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
             $script:statusText.Text = '切换失败，看看词表有没有释义列'
