@@ -20,7 +20,33 @@ try {
 
     $plan = Get-Content (Join-Path $root 'words.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($Day -lt 1 -or $Day -gt @($plan.days).Count) { exit 2 }
-    $words = @($plan.days[$Day - 1].words)
+    $newWords = @($plan.days[$Day - 1].words)
+
+    # 从当天的复习组里随机抽几个一起考
+    $reviewPool = @()
+    $intervals = @($plan.intervals)
+    $nDays = @($plan.days).Count
+    foreach ($iv in $intervals) {
+        $src = $Day - [int]$iv - 1
+        if ($src -ge 0 -and $src -lt $nDays) {
+            foreach ($rw in @($plan.days[$src].words)) { $reviewPool += $rw }
+        }
+    }
+    $reviewPick = @()
+    if ($reviewPool.Count -gt 0) {
+        $take = [Math]::Min(5, $reviewPool.Count)
+        $reviewPick = @($reviewPool | Get-Random -Count $take)
+    }
+
+    $words = @()
+    foreach ($it in $newWords) {
+        $words += [pscustomobject]@{ w = $it.w; pos = $it.pos; cn = $it.cn; ipa = $it.ipa; rev = $false }
+    }
+    foreach ($it in $reviewPick) {
+        $words += [pscustomobject]@{ w = $it.w; pos = $it.pos; cn = $it.cn; ipa = $it.ipa; rev = $true }
+    }
+    # 新词在前、复习词在后，但整体打散一次，避免固定顺序
+    if ($words.Count -gt 1) { $words = @($words | Get-Random -Count $words.Count) }
     $total = $words.Count
 
     $script:idx = 0
@@ -128,11 +154,12 @@ try {
         $script:wrong = 0
         $script:revealed = $false
         $w = $words[$script:idx]
-        $txtTitle.Text = '拼写测试 · 全部拼对才能打卡'
+        if ($w.rev) { $txtTitle.Text = '拼写测试 · 复习词 · 全部拼对才能打卡' }
+        else { $txtTitle.Text = '拼写测试 · 全部拼对才能打卡' }
         $roundText = ''
         if ($script:round -gt 1) { $roundText = ('第 {0} 轮 · ' -f $script:round) }
         $txtProgress.Text = ($roundText + ("第 {0} / {1} 个 · 一次通过 {2} 个" -f ($script:idx + 1), $total, $script:firstTry))
-        $txtPrompt.Text = $w.cn
+        if ($w.rev) { $txtPrompt.Text = ('【复习】' + $w.cn) } else { $txtPrompt.Text = $w.cn }
         $txtPos.Text = $w.pos
         $box.Text = ''
         $box.IsEnabled = $true
