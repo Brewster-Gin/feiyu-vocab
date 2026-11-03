@@ -1128,7 +1128,7 @@ try {
         }
         Write-Log ('重置词库: ' + $deckPath)
         $script:resetLayer.Visibility = 'Collapsed'
-        Invoke-DeckSwitch $deckPath
+        Invoke-DeckSwitch $deckPath -NoLock
     }
 
     function Find-Python {
@@ -1213,8 +1213,10 @@ try {
         $list.Children.Add($row) | Out-Null
     }
 
-    function Invoke-DeckSwitch([string]$path) {
-        if (-not (Enter-Busy)) { return }
+    function Invoke-DeckSwitch([string]$path, [switch]$NoLock) {
+        if (-not $NoLock) {
+            if (-not (Enter-Busy)) { return }
+        }
         try { Invoke-DeckSwitchInner $path }
         catch {
             Write-Log ('切换词库异常: ' + $_.Exception.Message)
@@ -1731,6 +1733,14 @@ if ($env:CET6_TEST_PAUSEBANNER) { Show-PausedBanner ([string]::Format($S.pausedB
         } catch { }
     })
     $script:readyTimer.Start()
+
+    if ($env:CET6_TEST_RESETYES -and -not (Test-Path (Join-Path $script:stateDir 'resetyes-once.txt'))) {
+        Set-Content -Path (Join-Path $script:stateDir 'resetyes-once.txt') -Value '1' -Encoding UTF8
+        $script:ryTimer = New-Object Windows.Threading.DispatcherTimer
+        $script:ryTimer.Interval = [TimeSpan]::FromMilliseconds(1500)
+        $script:ryTimer.Add_Tick({ $script:ryTimer.Stop(); Invoke-ResetDeck })
+        $script:ryTimer.Start()
+    }
 
     if ($env:CET6_TEST_NEXT2 -and -not (Test-Path (Join-Path $script:stateDir 'next2-once.txt'))) {
         Set-Content -Path (Join-Path $script:stateDir 'next2-once.txt') -Value '1' -Encoding UTF8
