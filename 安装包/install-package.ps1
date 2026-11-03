@@ -97,11 +97,13 @@ if (-not $DryRun) {
     # 词库与生成器：安装包是扁平结构（IExpress 不支持子目录），这里归位
     $deckSrc = Get-ChildItem $src -Filter '*.csv' -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($deckSrc) {
-        $deckDst = Join-Path $dest ('词库' + [IO.Path]::DirectorySeparatorChar + $deckSrc.Name)
-        if ($isUpgrade -and (Test-Path $deckDst)) {
-            Write-Host '[--] 保留已有词库（不覆盖）' -ForegroundColor DarkGray
+        $deckDir = Join-Path $dest '词库'
+        $deckCount = @(Get-ChildItem $deckDir -Filter '*.csv' -ErrorAction SilentlyContinue).Count
+        if ($deckCount -gt 0) {
+            Write-Host ('[--] 已有 ' + $deckCount + ' 套词库，不覆盖') -ForegroundColor DarkGray
         } else {
-            Copy-Item $deckSrc.FullName $deckDst -Force
+            Copy-Item $deckSrc.FullName (Join-Path $deckDir $deckSrc.Name) -Force
+            Write-Host ('[OK] 已放入默认词库：' + $deckSrc.BaseName) -ForegroundColor Green
         }
     }
 
