@@ -358,6 +358,41 @@ try {
         }
     }
 
+    # ---------- 提前背诵未完成 → 把那天还回来 ----------
+    $earlyFile = Join-Path $stateDir 'early.json'
+    if (Test-Path $earlyFile) {
+        $earlyDate = $null
+        try {
+            $earlyRaw = (Get-Content $earlyFile -Raw -Encoding UTF8).Trim()
+            if ($earlyRaw -match '"date"\s*:\s*"([0-9]{4}-[0-9]{2}-[0-9]{2})"') {
+                $earlyDate = [datetime]::ParseExact($matches[1], 'yyyy-MM-dd', $null)
+            }
+        } catch { $earlyDate = $null }
+
+        if ($earlyDate -and $earlyDate -lt $today) {
+            $earlyStamp = Join-Path $stateDir ($earlyDate.ToString('yyyy-MM-dd') + '.txt')
+            $earlyState = ''
+            if (Test-Path $earlyStamp) { $earlyState = (Get-Content $earlyStamp -Raw).Trim() }
+            if ($earlyState -eq 'done' -or $earlyState -eq 'skip') {
+                Remove-Item $earlyFile -Force -ErrorAction SilentlyContinue
+            } else {
+                $backDays = [int]($today - $earlyDate).TotalDays
+                try {
+                    [void](Fix-PlanDates -Dir $root -Start $start.AddDays($backDays) -Exam $exam)
+                    $plan = Get-Content (Join-Path $root 'words.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+                    $start = [datetime]::ParseExact($plan.start, 'yyyy-MM-dd', $null)
+                    $dayIdx = [int]($today - $start).Days + 1
+                    Write-Log ('提前背的那天（' + $earlyDate.ToString('yyyy-MM-dd') + '）没完成，计划退回 ' + $backDays + ' 天')
+                } catch {
+                    Write-Log ('退回提前日失败: ' + $_.Exception.Message)
+                }
+                Remove-Item $earlyFile -Force -ErrorAction SilentlyContinue
+            }
+        } elseif ($earlyDate -and $earlyDate -gt $today) {
+            Remove-Item $earlyFile -Force -ErrorAction SilentlyContinue
+        }
+    }
+
     # catch-up: last time the workbook may have been locked by Excel
     $syncRes = Sync-Workbook -Root $root -StateDir $stateDir
     if ($syncRes -notin @('ok', 'nothing-to-sync', 'no-state')) { Write-Log ('sync: ' + $syncRes) }
@@ -1104,6 +1139,11 @@ try {
 
         Fix-PlanDates -Dir $script:root -Start $newStart -Exam $script:planExam | Out-Null
         Write-Log ('提前一天: 计划起点改为 ' + $newStart.ToString('yyyy-MM-dd'))
+
+        # 记下"提前开始的那一天"：若当天没打卡，下次打开把这天还回来
+        try {
+            Set-Content -Path (Join-Path $script:stateDir 'early.json') -Encoding UTF8 -Value ('{"date":"' + $script:today.ToString('yyyy-MM-dd') + '"}')
+        } catch { }
         if ($script:closeTimer) { $script:closeTimer.Stop() }
         Restart-Self
     }
@@ -1518,6 +1558,7 @@ try {
         $script:win.Topmost = $true
         if ($sp.ExitCode -eq 0) {
             Set-Content -Path (Join-Path $script:stateDir ($script:today.ToString('yyyy-MM-dd') + '.txt')) -Value 'done' -Encoding UTF8
+    Remove-Item (Join-Path $script:stateDir 'early.json') -Force -ErrorAction SilentlyContinue
             Write-Log $script:S.logDone
             $r = Sync-Workbook -Root $script:root -StateDir $script:stateDir
             Write-Log ('sync: ' + $r)
@@ -1668,6 +1709,7 @@ try {
     $win.FindName('BtnSkipNo').Add_Click({ $script:confirmLayer.Visibility = 'Collapsed' })
     $win.FindName('BtnSkipYes').Add_Click({
             Set-Content -Path (Join-Path $script:stateDir ($script:today.ToString('yyyy-MM-dd') + '.txt')) -Value 'skip' -Encoding UTF8
+    Remove-Item (Join-Path $script:stateDir 'early.json') -Force -ErrorAction SilentlyContinue
             Write-Log $script:S.logSkip
             $r = Sync-Workbook -Root $script:root -StateDir $script:stateDir
             Write-Log ('sync: ' + $r)
