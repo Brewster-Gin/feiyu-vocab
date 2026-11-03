@@ -675,6 +675,34 @@ try {
         return $t
     }
 
+    function New-Sel([string]$text, [double]$size, [string]$color, [string]$weight = 'Normal', [double]$marginTop = 0, [string]$align = 'Stretch') {
+        $t = New-Object Windows.Controls.TextBox
+        $t.Text = $text
+        $t.FontSize = $size
+        $t.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString($color)
+        $t.FontWeight = [Windows.FontWeights]::$weight
+        $t.TextWrapping = 'Wrap'
+        $t.IsReadOnly = $true
+        $t.IsTabStop = $false
+        $t.BorderThickness = New-Object Windows.Thickness(0)
+        $t.Background = [Windows.Media.Brushes]::Transparent
+        $t.Padding = New-Object Windows.Thickness(0)
+        $t.Margin = New-Object Windows.Thickness(0, $marginTop, 0, 0)
+        $t.Cursor = [Windows.Input.Cursors]::IBeam
+        $t.VerticalContentAlignment = 'Center'
+        if ($align -eq 'Left') { $t.HorizontalAlignment = 'Left' }
+        return $t
+    }
+
+    function Add-CopyMenu($element, [string]$value) {
+        $cm = New-Object Windows.Controls.ContextMenu
+        $mi = New-Object Windows.Controls.MenuItem
+        $mi.Header = $script:S.copyOne
+        $mi.Add_Click({ param($s2, $e2) [Windows.Clipboard]::SetText($value) }.GetNewClosure())
+        $cm.Items.Add($mi) | Out-Null
+        $element.ContextMenu = $cm
+    }
+
     function Add-Btn([string]$text, [string]$bg, [string]$fg, [scriptblock]$action) {
         $b = New-Object Windows.Controls.Button
         $b.Content = $text
@@ -764,18 +792,25 @@ try {
             $cell.Margin = New-Object Windows.Thickness(0, 6, 14, 6)
             $top = New-Object Windows.Controls.StackPanel
             $top.Orientation = 'Horizontal'
-            $top.Children.Add((New-Text $w.w 14 '#1A1A1A' 'Bold')) | Out-Null
-            $pos = New-Text $w.pos 9.5 '#999999'
+            $wTb = New-Sel $w.w 14 '#1A1A1A' 'Bold' 0 'Left'
+            $wTb.VerticalAlignment = 'Center'
+            $top.Children.Add($wTb) | Out-Null
+            $pos = New-Sel $w.pos 9.5 '#999999' 'Normal' 0 'Left'
+            $pos.VerticalAlignment = 'Center'
             $pos.Margin = New-Object Windows.Thickness(5, 2, 0, 0)
             $top.Children.Add($pos) | Out-Null
             $cell.Children.Add($top) | Out-Null
             if ($w.ipa) {
-                $ipaTb = New-Text $w.ipa 11 '#5B7A99' 'Normal' 1
+                $ipaTb = New-Sel $w.ipa 11 '#5B7A99' 'Normal' 1 'Left'
                 $ipaTb.FontFamily = New-Object Windows.Media.FontFamily('Lucida Sans Unicode')
                 $cell.Children.Add($ipaTb) | Out-Null
             }
-            $cell.Children.Add((New-Text $w.cn 12 '#333333' 'Normal' 2)) | Out-Null
-            $cell.Children.Add((New-Text $w.ph 9.5 '#8C8C8C' 'Normal' 1)) | Out-Null
+            $cnTb = New-Sel $w.cn 12 '#333333' 'Normal' 2
+            $cell.Children.Add($cnTb) | Out-Null
+            if ($w.ph) {
+                $phTb = New-Sel $w.ph 9.5 '#8C8C8C' 'Normal' 1
+                $cell.Children.Add($phTb) | Out-Null
+            }
             [Windows.Controls.Grid]::SetColumn($cell, $ci)
             [Windows.Controls.Grid]::SetRow($cell, $ri)
             $grid.Children.Add($cell) | Out-Null
@@ -827,7 +862,7 @@ try {
                 $body.Children.Add((New-Text $gp.Label 10.5 '#999999' 'Bold' 9)) | Out-Null
 
                 $txt = ($gp.Words | ForEach-Object { $_.w }) -join $S.wordSep
-                $flat = New-Text $txt 11 '#555555' 'Normal' 3
+                $flat = New-Sel $txt 11 '#555555' 'Normal' 3
                 $body.Children.Add($flat) | Out-Null
                 [void]$flatList.Add($flat)
 
@@ -860,6 +895,8 @@ try {
                     $r3.FontSize = 11
                     $r3.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#555555')
                     $p2.Inlines.Add($r3) | Out-Null
+                    $rowText = $rw.w + $(if ($rw.pos) { '  ' + $rw.pos } else { '' }) + $(if ($rw.ipa) { '  ' + $rw.ipa } else { '' }) + '  ' + $rw.cn
+                    Add-CopyMenu $p2 $rowText
                     $det.Children.Add($p2) | Out-Null
                 }
                 $body.Children.Add($det) | Out-Null

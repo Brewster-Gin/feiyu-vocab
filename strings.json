@@ -78,5 +78,6 @@
   "resetYes": "确定重置",
   "resetNo": "取消",
   "deckConfirmYes": "确定切换",
-  "deckConfirmNo": "取消"
+  "deckConfirmNo": "取消",
+  "copyOne": "复制这一行"
 }
