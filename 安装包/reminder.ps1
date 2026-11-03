@@ -1316,35 +1316,51 @@ try {
         $compactPanel = $win.FindName('CompactPanel')
         $compactPanel.Children.Add((New-Text ($S.secNew -f $day.words.Count) 10 '#1F4E79' 'Bold' 0)) | Out-Null
         foreach ($w in $day.words) {
-            $row = New-Object Windows.Controls.TextBlock
-            $row.TextWrapping = 'Wrap'
-            $row.Margin = New-Object Windows.Thickness(0, 5, 0, 5)
+            $row = New-Object Windows.Controls.RichTextBox
+            $row.IsReadOnly = $true
+            $row.IsReadOnlyCaretVisible = $false
+            $row.IsTabStop = $false
+            $row.BorderThickness = New-Object Windows.Thickness(0)
+            $row.Background = [Windows.Media.Brushes]::Transparent
+            $row.Padding = New-Object Windows.Thickness(0)
+            $row.Margin = New-Object Windows.Thickness(0, 2, 0, 2)
+            $row.VerticalScrollBarVisibility = 'Disabled'
+            $row.HorizontalScrollBarVisibility = 'Disabled'
+            $row.Cursor = 'IBeam'
+            $row.ToolTip = ($w.w + '  ' + $w.cn)
+
+            $para = New-Object Windows.Documents.Paragraph
+            $para.Margin = New-Object Windows.Thickness(0)
+            $para.LineHeight = 18
 
             $rW = New-Object Windows.Documents.Run($w.w)
             $rW.FontSize = 12.5
             $rW.FontWeight = 'Bold'
             $rW.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1A1A1A')
-            $row.Inlines.Add($rW) | Out-Null
+            $para.Inlines.Add($rW) | Out-Null
 
             if ($w.pos) {
-                $rP = New-Object Windows.Documents.Run(('  ' + $w.pos))
-                $rP.FontSize = 9
+                $rP = New-Object Windows.Documents.Run(('   ' + $w.pos))
+                $rP.FontSize = 9.5
                 $rP.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#999999')
-                $row.Inlines.Add($rP) | Out-Null
+                $para.Inlines.Add($rP) | Out-Null
             }
             if ($w.ipa) {
-                $rI = New-Object Windows.Documents.Run(('  ' + $w.ipa))
+                $rI = New-Object Windows.Documents.Run(('   ' + $w.ipa))
                 $rI.FontFamily = New-Object Windows.Media.FontFamily('Lucida Sans Unicode')
                 $rI.FontSize = 10
                 $rI.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#5B7A99')
-                $row.Inlines.Add($rI) | Out-Null
+                $para.Inlines.Add($rI) | Out-Null
             }
-            $rC = New-Object Windows.Documents.Run(('  ' + $w.cn))
+            $rC = New-Object Windows.Documents.Run(('   ' + $w.cn))
             $rC.FontSize = 11
             $rC.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#333333')
-            $row.Inlines.Add($rC) | Out-Null
+            $para.Inlines.Add($rC) | Out-Null
 
-            Add-CopyMenu $row (($w.w + '  ' + $w.cn).Trim())
+            $doc = New-Object Windows.Documents.FlowDocument
+            $doc.PagePadding = New-Object Windows.Thickness(0)
+            $doc.Blocks.Add($para)
+            $row.Document = $doc
             $compactPanel.Children.Add($row) | Out-Null
         }
 
