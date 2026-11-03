@@ -104,7 +104,7 @@ $xaml = @'
       </Border.Background>
       <StackPanel Margin="28,20,28,18">
         <TextBlock Text="肥鱼背单词 · 安装" Foreground="#FFFFFF" FontSize="19" FontWeight="Bold"/>
-        <TextBlock Text="版本 1.3    装好后每天打开电脑自动提醒" Foreground="#CFE2F3" FontSize="11.5" Margin="0,6,0,0"/>
+        <TextBlock Text="版本 1.4    装好后每天打开电脑自动提醒" Foreground="#CFE2F3" FontSize="11.5" Margin="0,6,0,0"/>
       </StackPanel>
     </Border>
 

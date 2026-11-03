@@ -94,7 +94,7 @@ $xaml = @'
       </Border.Background>
       <StackPanel Margin="28,20,28,18">
         <TextBlock Text="肥鱼背单词 · 卸载" Foreground="#FFFFFF" FontSize="19" FontWeight="Bold"/>
-        <TextBlock Name="HeaderSub" Text="版本 1.3" Foreground="#CFE2F3" FontSize="11.5" Margin="0,6,0,0"/>
+        <TextBlock Name="HeaderSub" Text="版本 1.4" Foreground="#CFE2F3" FontSize="11.5" Margin="0,6,0,0"/>
       </StackPanel>
     </Border>
 
@@ -162,7 +162,7 @@ $cardKeep = $win.FindName('CardKeep')
 $cardAll = $win.FindName('CardAll')
 
 $win.FindName('DestText').Text = $dest
-$win.FindName('HeaderSub').Text = '版本 1.3    卸载不会影响你的打卡表（除非选「全部删除」）'
+$win.FindName('HeaderSub').Text = '版本 1.4    卸载不会影响你的打卡表（除非选「全部删除」）'
 
 function Brush([string]$hex) { [Windows.Media.BrushConverter]::new().ConvertFromString($hex) }
 

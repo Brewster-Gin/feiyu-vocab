@@ -257,7 +257,7 @@ if (-not $DryRun) {
         $regKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\FeiyuVocab'
         New-Item -Path $regKey -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'DisplayName' -Value '肥鱼背单词' -PropertyType String -Force | Out-Null
-        New-ItemProperty -Path $regKey -Name 'DisplayVersion' -Value '1.3' -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'DisplayVersion' -Value '1.4' -PropertyType String -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'Publisher' -Value 'Brewster-Gin' -PropertyType String -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'InstallLocation' -Value $dest -PropertyType String -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'NoModify' -Value 1 -PropertyType DWord -Force | Out-Null

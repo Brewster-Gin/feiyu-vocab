@@ -24,7 +24,7 @@ try {
 } catch {
     $mutexOk = $true
 }
-if (-not $mutexOk) {
+if (-not $mutexOk -and -not $Test -and -not $Preview) {
     try { Add-Content -Path (Join-Path $PSScriptRoot 'reminder.log') -Value ('[' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + '] 已有实例在运行，本次退出') -Encoding UTF8 } catch { }
     exit 0
 }
@@ -294,6 +294,8 @@ try {
     $targetOn = $false
     $targetDate = $today
     $targetLabel = $S.targetDefault
+    $script:uiMode = 'normal'
+    $script:uiModeSaved = 'normal'
     $cfgFile = Join-Path $root 'config.json'
     if (Test-Path $cfgFile) {
         try {
@@ -303,6 +305,7 @@ try {
                 $targetOn = $true
             }
             if ($cfg.label) { $targetLabel = $cfg.label }
+            if ($cfg.ui -eq 'compact') { $script:uiModeSaved = 'compact' }
         } catch { }
     }
 
@@ -457,12 +460,9 @@ try {
             <GradientStop Color="#2E75B6" Offset="1"/>
           </LinearGradientBrush>
         </Border.Background>
-        <Grid Margin="26,18,18,18">
+        <Grid Name="HeaderGrid" Margin="26,18,18,18">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
@@ -479,33 +479,49 @@ try {
               </Border>
             </StackPanel>
           </StackPanel>
-          <Border Grid.Column="1" Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
-                  VerticalAlignment="Top" Margin="0,0,8,0" Cursor="Hand" Name="DeckBtn"
-                  ToolTip="切换词库">
-            <TextBlock Text="词" Foreground="#FFFFFF" FontSize="11" FontWeight="Bold"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-          </Border>
-          <Border Grid.Column="2" Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
-                  VerticalAlignment="Top" Margin="0,0,8,0" Cursor="Hand" Name="PauseBtn"
-                  ToolTip="暂停自动提醒">
-            <TextBlock Text="II" Foreground="#FFFFFF" FontSize="12" FontWeight="Bold"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-          </Border>
-          <Border Grid.Column="3" Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
-                  VerticalAlignment="Top" Margin="0,0,8,0" Cursor="Hand" Name="MinBtn"
-                  ToolTip="最小化（收进任务栏，点任务栏图标可恢复）">
-            <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="#FFFFFF"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-          </Border>
-          <Border Grid.Column="4" Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
-                  VerticalAlignment="Top" Cursor="Hand" Name="CloseBtn">
-            <TextBlock Text="&#x2715;" Foreground="#FFFFFF" FontSize="13" HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-          </Border>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+            <Border Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
+                    Margin="0,0,8,0" Cursor="Hand" Name="NarrowBtn"
+                    ToolTip="窄条模式：一行一个词，不挡其他窗口">
+              <TextBlock Text="窄" Foreground="#FFFFFF" FontSize="11" FontWeight="Bold"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
+                    Margin="0,0,8,0" Cursor="Hand" Name="DeckBtn" ToolTip="切换词库">
+              <TextBlock Text="词" Foreground="#FFFFFF" FontSize="11" FontWeight="Bold"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
+                    Margin="0,0,8,0" Cursor="Hand" Name="PauseBtn" ToolTip="暂停自动提醒">
+              <TextBlock Text="II" Foreground="#FFFFFF" FontSize="12" FontWeight="Bold"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
+                    Margin="0,0,8,0" Cursor="Hand" Name="WideBtn" Visibility="Collapsed"
+                    ToolTip="回到标准模式">
+              <TextBlock Text="宽" Foreground="#FFFFFF" FontSize="11" FontWeight="Bold"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
+                    Margin="0,0,8,0" Cursor="Hand" Name="MinBtn"
+                    ToolTip="最小化（收进任务栏，点任务栏图标可恢复）">
+              <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="#FFFFFF"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
+                    VerticalAlignment="Top" Cursor="Hand" Name="CloseBtn">
+              <TextBlock Text="&#x2715;" Foreground="#FFFFFF" FontSize="13" HorizontalAlignment="Center"
+                         VerticalAlignment="Center"/>
+            </Border>
+          </StackPanel>
         </Grid>
       </Border>
-      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="430">
+      <ScrollViewer Name="MainScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="430">
         <StackPanel Name="BodyPanel" Margin="26,16,26,6"/>
+      </ScrollViewer>
+      <ScrollViewer Name="CompactScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="430"
+                    Visibility="Collapsed">
+        <StackPanel Name="CompactPanel" Margin="16,14,16,6"/>
       </ScrollViewer>
       <Grid Grid.Row="2" Margin="26,8,26,22">
         <Grid.ColumnDefinitions>
@@ -515,6 +531,15 @@ try {
         <TextBlock Name="StatusText" Grid.Column="0" VerticalAlignment="Center" Foreground="#2E7D4F"
                    FontSize="12" FontWeight="Bold" Text="" TextWrapping="Wrap"/>
         <StackPanel Grid.Column="1" Orientation="Horizontal" Name="BtnPanel"/>
+      </Grid>
+      <Grid Name="CompactFoot" Grid.Row="2" Margin="16,6,16,14" Visibility="Collapsed">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Name="CompactStatus" Grid.Column="0" VerticalAlignment="Center" Foreground="#2E7D4F"
+                   FontSize="11" FontWeight="Bold" Text="" TextWrapping="Wrap"/>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Name="CompactBtnPanel"/>
       </Grid>
       <Border Name="SetLayer" Grid.Row="0" Grid.RowSpan="3" CornerRadius="16"
               Background="#8C1B2A3A" Visibility="Collapsed">
@@ -662,6 +687,8 @@ try {
     $win.FindName('BtnSkipYes').Content = $S.confirmSkipYes
 
     $win.FindName('Header').Add_MouseLeftButtonDown({ try { $script:win.DragMove() } catch { } })
+    $win.FindName('NarrowBtn').Add_MouseLeftButtonDown({ param($s2, $e2) $e2.Handled = $true; Set-UiMode 'compact' })
+    $win.FindName('WideBtn').Add_MouseLeftButtonDown({ param($s2, $e2) $e2.Handled = $true; Set-UiMode 'normal' })
     # the close button sits inside the drag area: swallow the press so DragMove()
     # does not eat the event (that is why clicking X did nothing before)
     $minBtn = $win.FindName('MinBtn')
@@ -710,26 +737,45 @@ try {
         $element.ContextMenu = $cm
     }
 
-    function Add-Btn([string]$text, [string]$bg, [string]$fg, [scriptblock]$action) {
+    function Add-Btn([string]$text, [string]$bg, [string]$fg, [scriptblock]$action, $panel) {
         $b = New-Object Windows.Controls.Button
         $b.Content = $text
         $b.Style = $script:win.Resources['FlatBtn']
         $b.Background = [Windows.Media.BrushConverter]::new().ConvertFromString($bg)
         $b.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString($fg)
         $b.Add_Click($action)
-        $script:btnPanel.Children.Add($b) | Out-Null
+        if (-not $panel) { $panel = $script:btnPanel }
+        $panel.Children.Add($b) | Out-Null
+        $script:lastBtn = $b
+    }
+
+    function New-Line([string]$text, [double]$size, [string]$color, [string]$weight = 'Normal', [double]$left = 0) {
+        $t = New-Object Windows.Controls.TextBlock
+        $t.Text = $text
+        $t.FontSize = $size
+        $t.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString($color)
+        $t.FontWeight = [Windows.FontWeights]::$weight
+        $t.TextWrapping = 'NoWrap'
+        $t.TextTrimming = 'CharacterEllipsis'
+        $t.Margin = New-Object Windows.Thickness($left, 0, 0, 0)
+        $t.VerticalAlignment = 'Center'
+        return $t
     }
 
     # ---------- content ----------
     if ($isFinished) {
-        $win.FindName('TitleText').Text = $S.titleDone
+        $script:titleFull = $S.titleDone
+        $script:titleShort = $S.titleDone
+        $win.FindName('TitleText').Text = $script:titleFull
         if ($daysLeft -ge 0) { $win.FindName('SubText').Text = ($S.subDone -f $daysLeft) } else { $win.FindName('SubText').Text = $S.subEnded }
         $body.Children.Add((New-Text $S.doneBody1 14 '#333333')) | Out-Null
         $body.Children.Add((New-Text $S.doneBody2 12 '#666666' 'Normal' 10)) | Out-Null
         $body.Children.Add((New-Text $S.doneBody3 12 '#666666' 'Normal' 6)) | Out-Null
     }
     else {
-        $win.FindName('TitleText').Text = ($S.titleToday -f $day.day)
+        $script:titleFull = ($S.titleToday -f $day.day)
+        $script:titleShort = ('第 {0} 天' -f $day.day)
+        $win.FindName('TitleText').Text = $script:titleFull
         $script:targetOn = $targetOn
         $script:targetDate = $targetDate
         $script:targetLabel = $targetLabel
@@ -1198,49 +1244,161 @@ try {
             $script:statusText.Text = '切换失败，看看词表有没有释义列'
             return
         }
-        @{ deck = [System.IO.Path]::GetFileNameWithoutExtension($path); exam = $exam } |
-            ConvertTo-Json | Set-Content (Join-Path $script:root 'config.json') -Encoding UTF8
+        $cf = Join-Path $script:root 'config.json'
+        $cc = $null
+        if (Test-Path $cf) { try { $cc = Get-Content $cf -Raw -Encoding UTF8 | ConvertFrom-Json } catch { $cc = $null } }
+        if (-not $cc) { $cc = New-Object psobject }
+        $deckName = [System.IO.Path]::GetFileNameWithoutExtension($path)
+        foreach ($pair in @(@('deck', $deckName), @('exam', $exam))) {
+            if ($cc.PSObject.Properties[$pair[0]]) { $cc.($pair[0]) = $pair[1] }
+            else { $cc | Add-Member -NotePropertyName $pair[0] -NotePropertyValue $pair[1] -Force }
+        }
+        ([string]($cc | ConvertTo-Json -Depth 4)) | Set-Content $cf -Encoding UTF8
         Write-Log ('切换词库: ' + $path)
         $script:win.Close()
         Start-Process -FilePath 'cmd.exe' -WindowStyle Hidden -ArgumentList '/c', ('timeout /t 2 /nobreak >nul & wscript.exe "' + (Join-Path $script:root 'launch.vbs') + '" preview')
     }
 
+    # ---------- compact (narrow) layout ----------
+    function Set-UiMode([string]$mode) {
+        $m = 'normal'
+        if ($mode -eq 'compact') { $m = 'compact' }
+        $script:uiMode = $m
+        $compact = ($m -eq 'compact')
+        $win.FindName('MainScroll').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('CompactScroll').Visibility = $(if ($compact) { 'Visible' } else { 'Collapsed' })
+        $win.FindName('CompactFoot').Visibility = $(if ($compact) { 'Visible' } else { 'Collapsed' })
+        $win.FindName('BtnPanel').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('StatusText').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('SubPill').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('GearBtn').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('DeckBtn').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('PauseBtn').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('NarrowBtn').Visibility = $(if ($compact) { 'Collapsed' } else { 'Visible' })
+        $win.FindName('WideBtn').Visibility = $(if ($compact) { 'Visible' } else { 'Collapsed' })
+        $title = $win.FindName('TitleText')
+        $hdr = $win.FindName('HeaderGrid')
+        if ($compact) {
+            $win.Width = 400
+            $title.FontSize = 13
+            $title.Text = $script:titleShort
+            $hdr.Margin = New-Object Windows.Thickness(16, 12, 14, 12)
+        } else {
+            $win.Width = 900
+            $title.FontSize = 19
+            $title.Text = $script:titleFull
+            $hdr.Margin = New-Object Windows.Thickness(26, 18, 18, 18)
+        }
+        $win.UpdateLayout()
+        if ($compact) {
+            try {
+                $wa = [Windows.SystemParameters]::WorkArea
+                $win.Left = [math]::Max(0, ($wa.Width - $win.ActualWidth) / 2)
+                $win.Top = 40
+            } catch { }
+        }
+        Save-UiMode $m
+        Write-Log ('ui mode: ' + $m)
+    }
+
+    function Save-UiMode([string]$mode) {
+        try {
+            $f = Join-Path $script:root 'config.json'
+            $c = $null
+            if (Test-Path $f) { $c = Get-Content $f -Raw -Encoding UTF8 | ConvertFrom-Json }
+            if (-not $c) { $c = New-Object psobject }
+            if ($c.PSObject.Properties['ui']) { $c.ui = $mode } else { $c | Add-Member -NotePropertyName ui -NotePropertyValue $mode -Force }
+            ([string]($c | ConvertTo-Json -Depth 4)) | Set-Content $f -Encoding UTF8
+        } catch { Write-Log ('save ui mode failed: ' + $_.Exception.Message) }
+    }
+
+    if (-not $isFinished) {
+        $compactPanel = $win.FindName('CompactPanel')
+        $compactPanel.Children.Add((New-Text ($S.secNew -f $day.words.Count) 10 '#1F4E79' 'Bold' 0)) | Out-Null
+        foreach ($w in $day.words) {
+            $row = New-Object Windows.Controls.Grid
+            $row.Margin = New-Object Windows.Thickness(0, 5, 0, 5)
+            $cA = New-Object Windows.Controls.ColumnDefinition
+            $cA.Width = [Windows.GridLength]::new(0, [Windows.GridUnitType]::Auto)
+            $cB = New-Object Windows.Controls.ColumnDefinition
+            $cB.Width = [Windows.GridLength]::new(0, [Windows.GridUnitType]::Auto)
+            $cC = New-Object Windows.Controls.ColumnDefinition
+            $cC.Width = [Windows.GridLength]::new(1, [Windows.GridUnitType]::Star)
+            $row.ColumnDefinitions.Add($cA) | Out-Null
+            $row.ColumnDefinitions.Add($cB) | Out-Null
+            $row.ColumnDefinitions.Add($cC) | Out-Null
+            $head = New-Object Windows.Controls.StackPanel
+            $head.Orientation = 'Horizontal'
+            $head.Children.Add((New-Line $w.w 12.5 '#1A1A1A' 'Bold' 0)) | Out-Null
+            if ($w.pos) { $head.Children.Add((New-Line $w.pos 9 '#999999' 'Normal' 4)) | Out-Null }
+            [Windows.Controls.Grid]::SetColumn($head, 0)
+            $row.Children.Add($head) | Out-Null
+            if ($w.ipa) {
+                $ipa = New-Line $w.ipa 10 '#5B7A99' 'Normal' 7
+                $ipa.FontFamily = New-Object Windows.Media.FontFamily('Lucida Sans Unicode')
+                [Windows.Controls.Grid]::SetColumn($ipa, 1)
+                $row.Children.Add($ipa) | Out-Null
+            }
+            $cn = New-Line $w.cn 11 '#333333' 'Normal' 8
+            $cn.ToolTip = $w.cn
+            [Windows.Controls.Grid]::SetColumn($cn, 2)
+            $row.Children.Add($cn) | Out-Null
+            Add-CopyMenu $row (($w.w + '  ' + $w.cn).Trim())
+            $compactPanel.Children.Add($row) | Out-Null
+        }
+    }
+
+    function Invoke-DoneFlow([bool]$compact) {
+        # spelling test first: only a full pass may check the day in.
+        # never Hide() this window: hiding a ShowDialog window kills the modal loop.
+        $script:win.Topmost = $false
+        $script:win.Opacity = 0
+        $script:savedLeft = $script:win.Left
+        $script:savedTop = $script:win.Top
+        $script:win.Left = -4000
+        $script:win.Top = -4000
+        $sp = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\wscript.exe') -PassThru -Wait -ArgumentList @(
+            ('"' + (Join-Path $script:root 'run-spell.vbs') + '"'), "$($script:dayIdx)")
+        $script:win.Left = $script:savedLeft
+        $script:win.Top = $script:savedTop
+        $script:win.Opacity = 1
+        $script:win.Topmost = $true
+        if ($sp.ExitCode -eq 0) {
+            Set-Content -Path (Join-Path $script:stateDir ($script:today.ToString('yyyy-MM-dd') + '.txt')) -Value 'done' -Encoding UTF8
+            Write-Log $script:S.logDone
+            $r = Sync-Workbook -Root $script:root -StateDir $script:stateDir
+            Write-Log ('sync: ' + $r)
+            if ($compact) {
+                # 窄条模式：拼写通过后直接收起窗口，不再显示「已记录」横幅
+                $script:win.Close()
+                return
+            }
+            if ($r -eq 'ok') { Confirm-Saved $script:S.doneSaved } else { Confirm-Saved $script:S.doneSavedLater }
+            return
+        }
+        $msg = $script:S.spellCancelled
+        $fc = '#E6EEF7'
+        if ($sp.ExitCode -eq 1) {
+            Write-Log 'spelling round void'
+            $msg = $script:S.spellVoid
+            $fc = '#FFC9C9'
+        } else {
+            Write-Log 'spelling cancelled'
+        }
+        if ($compact) {
+            $cs = $script:win.FindName('CompactStatus')
+            $cs.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
+            $cs.Text = $msg
+        } else {
+            $sub = $script:win.FindName('SubText')
+            $sub.Text = $msg
+            $sub.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString($fc)
+        }
+    }
+
     # ---------- buttons ----------
     if (-not $isFinished) {
-        Add-Btn $S.btnDone '#1F4E79' '#FFFFFF' {
-            # spelling test first: only a full pass may check the day in.
-            # never Hide() this window: hiding a ShowDialog window kills the modal loop.
-            # instead fade it out and move it off screen so the answers are not readable
-            $script:win.Topmost = $false
-            $script:win.Opacity = 0
-            $script:savedLeft = $script:win.Left
-            $script:savedTop = $script:win.Top
-            $script:win.Left = -4000
-            $script:win.Top = -4000
-            $sp = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\wscript.exe') -PassThru -Wait -ArgumentList @(
-                ('"' + (Join-Path $script:root 'run-spell.vbs') + '"'), "$($script:dayIdx)")
-            $script:win.Left = $script:savedLeft
-            $script:win.Top = $script:savedTop
-            $script:win.Opacity = 1
-            $script:win.Topmost = $true
-            if ($sp.ExitCode -eq 0) {
-                Set-Content -Path (Join-Path $script:stateDir ($script:today.ToString('yyyy-MM-dd') + '.txt')) -Value 'done' -Encoding UTF8
-                Write-Log $script:S.logDone
-                $r = Sync-Workbook -Root $script:root -StateDir $script:stateDir
-                Write-Log ('sync: ' + $r)
-                if ($r -eq 'ok') { Confirm-Saved $script:S.doneSaved } else { Confirm-Saved $script:S.doneSavedLater }
-            } elseif ($sp.ExitCode -eq 1) {
-                Write-Log 'spelling round void'
-                $sub = $script:win.FindName('SubText')
-                $sub.Text = $script:S.spellVoid
-                $sub.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#FFC9C9')
-            } else {
-                Write-Log 'spelling cancelled'
-                $sub = $script:win.FindName('SubText')
-                $sub.Text = $script:S.spellCancelled
-                $sub.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#E6EEF7')
-            }
-        }
+        Add-Btn $S.btnDone '#1F4E79' '#FFFFFF' { Invoke-DoneFlow $false }
         Add-Btn $S.btnSnooze '#EDF2F8' '#1F4E79' {
             Write-Log $script:S.logSnooze
             Start-Process -FilePath 'powershell.exe' -WindowStyle Hidden -ArgumentList @(
@@ -1256,6 +1414,8 @@ try {
         Add-Btn $S.btnSkip '#FFFFFF' '#999999' {
             $script:confirmLayer.Visibility = 'Visible'
         }
+        $cPanel = $win.FindName('CompactBtnPanel')
+        Add-Btn $S.btnDone '#1F4E79' '#FFFFFF' { Invoke-DoneFlow $true } $cPanel | Out-Null
     }
     else {
         Add-Btn $S.btnOpen '#EDF2F8' '#1F4E79' {
@@ -1263,6 +1423,8 @@ try {
             if ($x) { Start-Process $x.FullName }
         }
         Add-Btn $S.btnOk '#1F4E79' '#FFFFFF' { $script:win.Close() }
+        $win.FindName('CompactStatus').Text = $S.titleDone
+        Add-Btn $S.btnOk '#1F4E79' '#FFFFFF' { $script:win.Close() } $win.FindName('CompactBtnPanel') | Out-Null
     }
 
     $confirmLayer.Add_MouseLeftButtonDown({
@@ -1356,6 +1518,9 @@ try {
             $script:statusText.Text = $script:S.skippedNow
         })
 
+    # ---------- restore saved ui mode ----------
+    if ($script:uiModeSaved -eq 'compact') { Set-UiMode 'compact' }
+
     # ---------- show ----------
     Write-Log (($S.logShow -f $dayIdx))
     if ($Test) {
@@ -1363,6 +1528,7 @@ try {
         if ($env:CET6_TEST_PAUSE) { $win.FindName('PauseLayer').Visibility = 'Visible' }
         if ($env:CET6_TEST_DECK) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList }
         if ($env:CET6_TEST_DECKHELP) { $win.FindName('DeckLayer').Visibility = 'Visible'; Update-DeckList; $win.FindName('DeckFormat').Visibility = 'Visible' }
+        if ($env:CET6_TEST_COMPACT) { Set-UiMode 'compact' }
         if ($env:CET6_TEST_SET) { Open-SetLayer }
         if ($env:CET6_TEST_RESET) { $win.FindName('ResetLayer').Visibility = 'Visible' }
         if ($env:CET6_TEST_REV) { foreach ($t in $flatList) { $t.Visibility = 'Collapsed' }; foreach ($t in $detailList) { $t.Visibility = 'Visible' }; $revToggle.Content = $S.revHide }
