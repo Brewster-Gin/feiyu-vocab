@@ -1316,33 +1316,34 @@ try {
         $compactPanel = $win.FindName('CompactPanel')
         $compactPanel.Children.Add((New-Text ($S.secNew -f $day.words.Count) 10 '#1F4E79' 'Bold' 0)) | Out-Null
         foreach ($w in $day.words) {
-            $row = New-Object Windows.Controls.Grid
+            $row = New-Object Windows.Controls.TextBlock
+            $row.TextWrapping = 'Wrap'
             $row.Margin = New-Object Windows.Thickness(0, 5, 0, 5)
-            $cA = New-Object Windows.Controls.ColumnDefinition
-            $cA.Width = [Windows.GridLength]::new(0, [Windows.GridUnitType]::Auto)
-            $cB = New-Object Windows.Controls.ColumnDefinition
-            $cB.Width = [Windows.GridLength]::new(0, [Windows.GridUnitType]::Auto)
-            $cC = New-Object Windows.Controls.ColumnDefinition
-            $cC.Width = [Windows.GridLength]::new(1, [Windows.GridUnitType]::Star)
-            $row.ColumnDefinitions.Add($cA) | Out-Null
-            $row.ColumnDefinitions.Add($cB) | Out-Null
-            $row.ColumnDefinitions.Add($cC) | Out-Null
-            $head = New-Object Windows.Controls.StackPanel
-            $head.Orientation = 'Horizontal'
-            $head.Children.Add((New-Line $w.w 12.5 '#1A1A1A' 'Bold' 0)) | Out-Null
-            if ($w.pos) { $head.Children.Add((New-Line $w.pos 9 '#999999' 'Normal' 4)) | Out-Null }
-            [Windows.Controls.Grid]::SetColumn($head, 0)
-            $row.Children.Add($head) | Out-Null
-            if ($w.ipa) {
-                $ipa = New-Line $w.ipa 10 '#5B7A99' 'Normal' 7
-                $ipa.FontFamily = New-Object Windows.Media.FontFamily('Lucida Sans Unicode')
-                [Windows.Controls.Grid]::SetColumn($ipa, 1)
-                $row.Children.Add($ipa) | Out-Null
+
+            $rW = New-Object Windows.Documents.Run($w.w)
+            $rW.FontSize = 12.5
+            $rW.FontWeight = 'Bold'
+            $rW.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1A1A1A')
+            $row.Inlines.Add($rW) | Out-Null
+
+            if ($w.pos) {
+                $rP = New-Object Windows.Documents.Run(('  ' + $w.pos))
+                $rP.FontSize = 9
+                $rP.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#999999')
+                $row.Inlines.Add($rP) | Out-Null
             }
-            $cn = New-Line $w.cn 11 '#333333' 'Normal' 8
-            $cn.ToolTip = $w.cn
-            [Windows.Controls.Grid]::SetColumn($cn, 2)
-            $row.Children.Add($cn) | Out-Null
+            if ($w.ipa) {
+                $rI = New-Object Windows.Documents.Run(('  ' + $w.ipa))
+                $rI.FontFamily = New-Object Windows.Media.FontFamily('Lucida Sans Unicode')
+                $rI.FontSize = 10
+                $rI.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#5B7A99')
+                $row.Inlines.Add($rI) | Out-Null
+            }
+            $rC = New-Object Windows.Documents.Run(('  ' + $w.cn))
+            $rC.FontSize = 11
+            $rC.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#333333')
+            $row.Inlines.Add($rC) | Out-Null
+
             Add-CopyMenu $row (($w.w + '  ' + $w.cn).Trim())
             $compactPanel.Children.Add($row) | Out-Null
         }
@@ -1365,6 +1366,7 @@ try {
                 $compactPanel.Children.Add($cHdr) | Out-Null
 
                 $cFlat = New-Sel ((($gp.Words | ForEach-Object { $_.w }) -join $S.wordSep)) 10.5 '#555555' 'Normal' 2
+                $cFlat.TextWrapping = 'Wrap'
                 $compactPanel.Children.Add($cFlat) | Out-Null
 
                 $cDet = New-Object Windows.Controls.StackPanel
