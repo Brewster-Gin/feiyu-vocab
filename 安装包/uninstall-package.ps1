@@ -25,10 +25,27 @@ Write-Host '==== 肥鱼背单词 · 卸载 ====' -ForegroundColor Cyan
 Write-Host ('程序目录: ' + $dest)
 Write-Host ''
 
+$killed = 0
 foreach ($pr in (Get-Process powershell -ErrorAction SilentlyContinue)) {
     if ($pr.MainWindowTitle -in @('CET-6 Word Reminder', '拼写测试')) {
         $pr | Stop-Process -Force -ErrorAction SilentlyContinue
+        $killed++
     }
+}
+# 隐藏运行的实例（没有窗口标题）按命令行匹配安装目录
+try {
+    $procs = Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='wscript.exe'" -ErrorAction Stop
+    foreach ($pr in $procs) {
+        if ($pr.ProcessId -eq $PID) { continue }
+        if ($pr.CommandLine -and $pr.CommandLine.IndexOf($dest, [StringComparison]::OrdinalIgnoreCase) -ge 0) {
+            Stop-Process -Id $pr.ProcessId -Force -ErrorAction SilentlyContinue
+            $killed++
+        }
+    }
+} catch { }
+if ($killed -gt 0) {
+    Write-Host ('[OK] 已结束 ' + $killed + ' 个占用进程') -ForegroundColor Green
+    Start-Sleep -Milliseconds 600
 }
 
 $ErrorActionPreference = 'Continue'
@@ -78,7 +95,23 @@ if (-not $KeepFolder) {
         $lines = @('@echo off', 'timeout /t 2 /nobreak >nul', ('rd /s /q "' + $dest + '"'), 'del /f /q "%~f0"')
         Set-Content -Path $bat -Value $lines -Encoding ASCII
         Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', ('"' + $bat + '"') -WindowStyle Hidden
-        Write-Host '[OK] 文件夹将在 2 秒后删除' -ForegroundColor Green
+        Start-Sleep -Milliseconds 2500
+
+        if (Test-Path $dest) {
+            # 还被占用：登记到下次登录时再删（不用重启，注销登录即可）
+            try {
+                $ro = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce'
+                New-Item -Path $ro -Force | Out-Null
+                New-ItemProperty -Path $ro -Name 'FeiyuCleanup' -PropertyType String -Force `
+                    -Value ('cmd.exe /c rd /s /q "' + $dest + '"') | Out-Null
+                Write-Host '[OK] 文件夹仍被占用，已登记为下次登录时自动清理' -ForegroundColor Green
+                Write-Host ('     位置: ' + $dest)
+            } catch {
+                Write-Host ('[--] 文件夹删不掉，请手动删除: ' + $dest) -ForegroundColor Yellow
+            }
+        } else {
+            Write-Host '[OK] 文件夹已删除' -ForegroundColor Green
+        }
     } else {
         Write-Host '[--] 已保留程序文件夹' -ForegroundColor DarkGray
     }
