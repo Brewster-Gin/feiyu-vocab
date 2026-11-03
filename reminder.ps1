@@ -1084,8 +1084,7 @@ try {
             return
         }
         Write-Log ('重排计划: 每天 ' + $perDay)
-        $script:win.Close()
-        Start-Process -FilePath 'cmd.exe' -WindowStyle Hidden -ArgumentList '/c', ('timeout /t 2 /nobreak >nul & wscript.exe "' + (Join-Path $script:root 'launch.vbs') + '" preview')
+        Restart-Self
     }
 
     function Start-NextDay {
@@ -1105,8 +1104,7 @@ try {
         Fix-PlanDates -Dir $script:root -Start $newStart -Exam $script:planExam | Out-Null
         Write-Log ('提前一天: 计划起点改为 ' + $newStart.ToString('yyyy-MM-dd'))
         $script:closeTimer.Stop()
-        $script:win.Close()
-        Start-Process -FilePath 'cmd.exe' -WindowStyle Hidden -ArgumentList '/c', ('timeout /t 2 /nobreak >nul & wscript.exe "' + (Join-Path $script:root 'launch.vbs') + '" preview')
+        Restart-Self
     }
 
     function Invoke-ResetDeck {
@@ -1258,8 +1256,7 @@ try {
         }
         ([string]($cc | ConvertTo-Json -Depth 4)) | Set-Content $cf -Encoding UTF8
         Write-Log ('切换词库: ' + $path)
-        $script:win.Close()
-        Start-Process -FilePath 'cmd.exe' -WindowStyle Hidden -ArgumentList '/c', ('timeout /t 2 /nobreak >nul & wscript.exe "' + (Join-Path $script:root 'launch.vbs') + '" preview')
+        Restart-Self
     }
 
     # ---------- compact (narrow) layout ----------
@@ -1442,6 +1439,27 @@ try {
         }
     }
 
+    function Restart-Self {
+        # 先放出互斥体，再拉起新实例；旧窗口保持可见，直到新窗口就绪才关闭。
+        $script:restartReady = Join-Path $script:stateDir 'restart-ready.txt'
+        if (Test-Path $script:restartReady) { Remove-Item $script:restartReady -Force -ErrorAction SilentlyContinue }
+        try { $mtx.ReleaseMutex() } catch { Write-Log ('release mutex failed: ' + $_.Exception.Message) }
+        $script:win.Topmost = $false
+        Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\wscript.exe') -ArgumentList @(
+            ('"' + (Join-Path $script:root 'launch.vbs') + '"'), 'preview')
+        $script:restartStart = [DateTime]::Now
+        $script:restartTimer = New-Object Windows.Threading.DispatcherTimer
+        $script:restartTimer.Interval = [TimeSpan]::FromMilliseconds(100)
+        $script:restartTimer.Add_Tick({
+            $done = (Test-Path $script:restartReady)
+            $waited = ([DateTime]::Now - $script:restartStart).TotalSeconds
+            if ($done -and $waited -gt 0.4) { $script:restartTimer.Stop(); $script:win.Close() }
+            elseif ($waited -gt 15) { $script:restartTimer.Stop(); $script:win.Close() }
+        })
+        $script:restartTimer.Start()
+        Write-Log 'restart: waiting for new window'
+    }
+
     function Invoke-DoneFlow([bool]$compact) {
         # spelling test first: only a full pass may check the day in.
         # never Hide() this window: hiding a ShowDialog window kills the modal loop.
@@ -1462,12 +1480,7 @@ try {
             Write-Log $script:S.logDone
             $r = Sync-Workbook -Root $script:root -StateDir $script:stateDir
             Write-Log ('sync: ' + $r)
-            if ($compact) {
-                # 窄条模式：拼写通过后直接收起窗口，不再显示「已记录」横幅
-                $script:win.Close()
-                return
-            }
-            if ($r -eq 'ok') { Confirm-Saved $script:S.doneSaved } else { Confirm-Saved $script:S.doneSavedLater }
+            Restart-Self
             return
         }
         $msg = $script:S.spellCancelled
@@ -1664,6 +1677,24 @@ if ($env:CET6_TEST_PAUSEBANNER) { Show-PausedBanner ([string]::Format($S.pausedB
         $timer.Start()
         $win.ShowDialog() | Out-Null
         exit 0
+    }
+
+    $script:readyTimer = New-Object Windows.Threading.DispatcherTimer
+    $script:readyTimer.Interval = [TimeSpan]::FromMilliseconds(450)
+    $script:readyTimer.Add_Tick({
+        $script:readyTimer.Stop()
+        try {
+            Set-Content -Path (Join-Path $script:stateDir 'restart-ready.txt') -Value ([DateTime]::Now.Ticks) -Encoding UTF8
+        } catch { }
+    })
+    $script:readyTimer.Start()
+
+    if ($env:CET6_TEST_RESTART -and -not (Test-Path (Join-Path $script:stateDir 'restart-once.txt'))) {
+        Set-Content -Path (Join-Path $script:stateDir 'restart-once.txt') -Value '1' -Encoding UTF8
+        $script:rstTimer = New-Object Windows.Threading.DispatcherTimer
+        $script:rstTimer.Interval = [TimeSpan]::FromMilliseconds(1200)
+        $script:rstTimer.Add_Tick({ $script:rstTimer.Stop(); Restart-Self })
+        $script:rstTimer.Start()
     }
 
     $win.ShowDialog() | Out-Null
