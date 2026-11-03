@@ -58,6 +58,8 @@ if (-not $DryRun) {
     New-Item -ItemType Directory -Path $dest -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $dest '词库') -Force | Out-Null
     $files = @('reminder.ps1', 'spell.ps1', 'strings.json', 'words.json', 'launch.vbs', 'run-spell.vbs', 'lib-dates.ps1', 'deck-manager.ps1', 'uninstall-package.ps1')
+    New-Item -ItemType Directory -Path (Join-Path $dest '工具') -Force | Out-Null
+    Copy-Item (Join-Path $src '工具\*') (Join-Path $dest '工具\') -Force -ErrorAction SilentlyContinue
     foreach ($f in $files) {
         $p = Join-Path $src $f
         if (Test-Path $p) { Copy-Item $p (Join-Path $dest $f) -Force }

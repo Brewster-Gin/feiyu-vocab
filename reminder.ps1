@@ -1098,10 +1098,25 @@ try {
     }
 
     function Invoke-DeckSwitch([string]$path) {
+        try { Invoke-DeckSwitchInner $path }
+        catch {
+            Write-Log ('切换词库异常: ' + $_.Exception.Message)
+            $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
+            $script:statusText.Text = ('切换失败：' + $_.Exception.Message)
+        }
+    }
+
+    function Invoke-DeckSwitchInner([string]$path) {
         $py = Find-Python
         if (-not $py) {
             $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
             $script:statusText.Text = '找不到 Python，无法切换词库'
+            return
+        }
+        $gen = Join-Path $script:root '工具\build_plan.py'
+        if (-not (Test-Path $gen)) {
+            $script:statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
+            $script:statusText.Text = '安装版缺少生成器（工具\build_plan.py），无法重排计划'
             return
         }
         $script:statusText.Text = '正在生成…'
@@ -1225,8 +1240,9 @@ try {
             if ($dlg.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
                 $mgr = Join-Path $script:root 'deck-manager.ps1'
                 # 不等待：导入跑在独立进程里，界面保持可用
-                Start-Process -FilePath 'powershell.exe' -WindowStyle Hidden -ArgumentList @(
-                    '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $mgr, '-ImportFile', $dlg.FileName) | Out-Null
+                $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ('"' + $mgr + '"'),
+                    '-ImportFile', ('"' + $dlg.FileName + '"'))
+                Start-Process -FilePath 'powershell.exe' -WindowStyle Hidden -ArgumentList $argList | Out-Null
                 $script:statusText.Text = '正在导入…'
                 $script:deckTicks = 0
                 if ($null -eq $script:deckPoll) {
