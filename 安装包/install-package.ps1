@@ -56,7 +56,7 @@ if (-not [System.IO.Path]::IsPathRooted($dest)) { $dest = Join-Path (Get-Locatio
 Write-Host ''
 Write-Host ('安装位置: ' + $dest) -ForegroundColor White
 Write-Host ('开始日期: ' + $today.ToString('yyyy-MM-dd'))
-Write-Host ('管理员  : ' + $(if ($isAdmin) { '是（含解锁/定时提醒）' } else { '否（只有开机提醒）' }))
+Write-Host ('权限    : ' + $(if ($isAdmin) { '管理员' } else { '普通用户（会尝试注册计划任务）' }))
 if ($DryRun) { Write-Host '（演练模式，不写任何文件）' -ForegroundColor Yellow }
 Write-Host ''
 
@@ -196,7 +196,7 @@ if (-not $DryRun) {
 $vbsLauncher = Join-Path $startup 'CET6-Word-Reminder.vbs'
 $taskOk = $false
 
-if ($isAdmin -and -not $DryRun -and -not $NoAutoStart) {
+if (-not $DryRun -and -not $NoAutoStart) {
     $userId = "$env:USERDOMAIN\$env:USERNAME"
     $vbs = Join-Path $dest 'launch.vbs'
     $xmlPath = Join-Path $env:TEMP 'cet6_task.xml'
@@ -230,6 +230,9 @@ if ($isAdmin -and -not $DryRun -and -not $NoAutoStart) {
     $out = (& schtasks.exe /create /tn $taskName /xml $xmlPath /f 2>&1 | Out-String)
     $ErrorActionPreference = 'Stop'
     if ($LASTEXITCODE -eq 0) { $taskOk = $true }
+    if (-not $taskOk) {
+        Write-Host '[!!] 计划任务未注册（解锁 / 20:30 提醒需要管理员权限）' -ForegroundColor Yellow
+    }
 }
 
 if ($taskOk) {

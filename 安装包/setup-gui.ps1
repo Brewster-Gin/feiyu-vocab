@@ -149,7 +149,8 @@ $xaml = @'
         <TextBlock Name="StatusText" Grid.Column="0" FontSize="11.5" Foreground="#666666"
                    VerticalAlignment="Center" TextWrapping="Wrap" Text="准备就绪"/>
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-          <Button Name="BtnOpen" Content="打开程序" Style="{StaticResource GhostBtn}" Visibility="Collapsed" Margin="0,0,10,0"/>
+          <Button Name="BtnFix" Content="补齐解锁 / 20:30 提醒" Style="{StaticResource GhostBtn}" Visibility="Collapsed" Margin="0,0,10,0"/>
+                    <Button Name="BtnOpen" Content="打开程序" Style="{StaticResource GhostBtn}" Visibility="Collapsed" Margin="0,0,10,0"/>
           <Button Name="BtnClose" Content="完成" Style="{StaticResource PrimaryBtn}" Visibility="Collapsed" Margin="0,0,10,0"/>
           <Button Name="BtnCancel" Content="取消" Style="{StaticResource GhostBtn}" Margin="0,0,10,0"/>
           <Button Name="BtnInstall" Content="开始安装" Style="{StaticResource PrimaryBtn}"/>
@@ -177,6 +178,7 @@ $btnInstall = Get-Named 'BtnInstall'
 $btnCancel = Get-Named 'BtnCancel'
 $btnOpen = Get-Named 'BtnOpen'
 $btnClose = Get-Named 'BtnClose'
+$btnFix = Get-Named 'BtnFix'
 
 $destBox.Text = $dest0
 $destHint.Text = '默认位置：' + $defaultDest
@@ -240,6 +242,11 @@ function Show-Done([bool]$ok, [string]$dest) {
         Append-Log ''
         Append-Log '==== 安装完成 ===='
         Append-Log ('安装位置: ' + $dest)
+        if ($script:taskMissing) {
+            $btnFix.Visibility = 'Visible'
+            $statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#B7791F')
+            $statusText.Text = '已装好，但解锁 / 20:30 提醒还需要管理员权限'
+        }
     } else {
         $statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
         $statusText.Text = '安装失败，日志在 ' + $logFile
@@ -254,6 +261,7 @@ function Complete-Install {
     $dest = $destBox.Text.Trim()
     $text = Read-Shared $script:outFile
     $finished = ($text -match '==== 安装完成 ====')
+    $script:taskMissing = ($text -match '计划任务未注册')
     if ($finished) {
         try { Copy-Item $script:outFile $logFile -Force } catch { }
         if ($code -ne 0) { Append-Log ('[--] 安装脚本退出码 ' + $code + '（日志显示已装完，按成功处理）') }
@@ -386,6 +394,47 @@ $destBox.Add_TextChanged({
             else { $destHint.Text = '这个文件夹是空的' }
         } else {
             $destHint.Text = '默认位置：' + $defaultDest
+        }
+    })
+
+$btnFix.Add_Click({
+        $dest = $destBox.Text.Trim()
+        $script:fixOut = Join-Path $env:TEMP 'feiyu-fix-out.log'
+        Remove-Item $script:fixOut -Force -ErrorAction SilentlyContinue
+        $wrap = Join-Path $env:TEMP 'feiyu-fix-task.ps1'
+        $body = '& ' + ([char]39) + $installer + ([char]39) + ' -Path ' + ([char]39) + $dest + ([char]39) + ' -Silent -NoElevate -NoDesktop -NoStartMenu -NoAutoStart *> ' + ([char]39) + $script:fixOut + ([char]39)
+        [IO.File]::WriteAllText($wrap, $body, (New-Object Text.UTF8Encoding($true)))
+        try {
+            $script:proc = Start-Process -FilePath 'powershell.exe' -Verb RunAs -WindowStyle Hidden -PassThru `
+                -ArgumentList @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', ('"' + $wrap + '"'))
+            $btnFix.Visibility = 'Collapsed'
+            Set-Running $true
+            $statusText.Text = '正在以管理员身份补齐提醒…'
+            $script:timer = New-Object Windows.Threading.DispatcherTimer
+            $script:timer.Interval = [TimeSpan]::FromMilliseconds(400)
+            $script:timer.Add_Tick({
+                    $done = $false
+                    try { $done = $script:proc.HasExited } catch { $done = $true }
+                    if (-not $done) { return }
+                    $script:timer.Stop()
+                    $txt = Read-Shared $script:fixOut
+                    Set-Running $false
+                    if ($txt -match '已注册提醒任务') {
+                        Append-Log '[OK] 已补齐提醒任务（登录 / 解锁 / 每天 20:30）'
+                        $statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#2E7D4F')
+                        $statusText.Text = '全部完成 · 提醒已生效'
+                    } else {
+                        $btnFix.Visibility = 'Visible'
+                        $statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
+                        $statusText.Text = '没能注册任务（可能拒绝了 UAC）'
+                    }
+                })
+            $script:timer.Start()
+        } catch {
+            Set-Running $false
+            $btnFix.Visibility = 'Visible'
+            $statusText.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#C0392B')
+            $statusText.Text = '提权失败：' + $_.Exception.Message
         }
     })
 
