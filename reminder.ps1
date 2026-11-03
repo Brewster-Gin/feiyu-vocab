@@ -466,6 +466,7 @@ try {
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
             <TextBlock Name="TitleText" Text="" Foreground="#FFFFFF" FontSize="19" FontWeight="Bold"/>
@@ -494,6 +495,12 @@ try {
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
           <Border Grid.Column="3" Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
+                  VerticalAlignment="Top" Margin="0,0,8,0" Cursor="Hand" Name="MinBtn"
+                  ToolTip="最小化（收进任务栏，点任务栏图标可恢复）">
+            <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="#FFFFFF"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <Border Grid.Column="4" Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
                   VerticalAlignment="Top" Cursor="Hand" Name="CloseBtn">
             <TextBlock Text="&#x2715;" Foreground="#FFFFFF" FontSize="13" HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
@@ -660,6 +667,9 @@ try {
     $win.FindName('Header').Add_MouseLeftButtonDown({ try { $script:win.DragMove() } catch { } })
     # the close button sits inside the drag area: swallow the press so DragMove()
     # does not eat the event (that is why clicking X did nothing before)
+    $minBtn = $win.FindName('MinBtn')
+    $minBtn.Add_MouseLeftButtonDown({ param($s, $e) $e.Handled = $true; $script:win.WindowState = 'Minimized' })
+    $minBtn.Add_MouseLeftButtonUp({ param($s, $e) $e.Handled = $true })
     $closeBtn = $win.FindName('CloseBtn')
     $closeBtn.Add_MouseLeftButtonDown({ param($s, $e) $e.Handled = $true; $script:win.Close() })
     $closeBtn.Add_MouseLeftButtonUp({ param($s, $e) $e.Handled = $true })
