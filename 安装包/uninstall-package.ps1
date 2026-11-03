@@ -61,6 +61,15 @@ foreach ($dir in @('C:\Users\Public\CET6Icon', (Join-Path $env:LOCALAPPDATA 'CET
     }
 }
 
+# 移除卸载注册表项
+try {
+    $regKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\FeiyuVocab'
+    if (Test-Path $regKey) {
+        Remove-Item $regKey -Recurse -Force
+        Write-Host '[OK] 已从「已安装的应用」列表移除' -ForegroundColor Green
+    }
+} catch { }
+
 Write-Host ''
 if (-not $KeepFolder) {
     $ans = Read-Host '是否连程序文件夹一起删除（打卡表和学习记录都在里面）？[y/N]'

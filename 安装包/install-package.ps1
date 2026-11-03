@@ -183,6 +183,30 @@ sh.Run "wscript.exe ""$dest\launch.vbs""", 0, False
     Write-Host '[演练] 会设置开机自启' -ForegroundColor Yellow
 }
 
+# ---------- 6. 注册到 Windows 卸载列表 ----------
+if (-not $DryRun) {
+    try {
+        $regKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\FeiyuVocab'
+        New-Item -Path $regKey -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'DisplayName' -Value '肥鱼背单词' -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'DisplayVersion' -Value '1.2' -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'Publisher' -Value 'Brewster-Gin' -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'InstallLocation' -Value $dest -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'NoModify' -Value 1 -PropertyType DWord -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'NoRepair' -Value 1 -PropertyType DWord -Force | Out-Null
+        $kb = [int](((Get-ChildItem $dest -Recurse -File -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum) / 1KB)
+        New-ItemProperty -Path $regKey -Name 'EstimatedSize' -Value $kb -PropertyType DWord -Force | Out-Null
+        if ($iconPath -and (Test-Path $iconPath)) {
+            New-ItemProperty -Path $regKey -Name 'DisplayIcon' -Value ($iconPath + ',0') -PropertyType String -Force | Out-Null
+        }
+        $unCmd = '"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $dest 'uninstall-package.ps1') + '"'
+        New-ItemProperty -Path $regKey -Name 'UninstallString' -Value $unCmd -PropertyType String -Force | Out-Null
+        Write-Host '[OK] 已登记到「设置 → 已安装的应用」' -ForegroundColor Green
+    } catch {
+        Write-Host ('[!!] 注册卸载项失败（不影响使用）：' + $_.Exception.Message) -ForegroundColor Yellow
+    }
+}
+
 Write-Host ''
 Write-Host '==== 安装完成 ====' -ForegroundColor Cyan
 Write-Host ('安装位置    : ' + $dest) -ForegroundColor White
