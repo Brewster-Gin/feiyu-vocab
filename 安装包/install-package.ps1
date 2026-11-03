@@ -3,10 +3,15 @@
 param(
     [switch]$DryRun,
     [switch]$NoElevate,
+    [switch]$Silent,
+    [switch]$NoDesktop,
+    [switch]$NoStartMenu,
+    [switch]$NoAutoStart,
     [string]$Path = ''
 )
 
 $ErrorActionPreference = 'Stop'
+if ($Silent) { try { [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false } catch { } }
 $src = Split-Path -Parent $MyInvocation.MyCommand.Path
 $today = (Get-Date).Date
 $taskName = 'CET6-Word-Reminder'
@@ -17,9 +22,14 @@ $startMenu = Join-Path ([Environment]::GetFolderPath('Programs')) '肥鱼背单�
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 if (-not $isAdmin -and -not $NoElevate -and -not $DryRun) {
+    $fwd = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ('"' + $PSCommandPath + '"'))
+    if ($Path) { $fwd += @('-Path', ('"' + $Path + '"')) }
+    foreach ($sw in @('Silent', 'NoDesktop', 'NoStartMenu', 'NoAutoStart')) {
+        if (Get-Variable $sw -ValueOnly) { $fwd += ('-' + $sw) }
+    }
+    $fwd += '-NoElevate'
     try {
-        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList @(
-            '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath, '-NoElevate') -Wait
+        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList $fwd -Wait
         exit 0
     } catch { }
 }
@@ -53,6 +63,8 @@ Write-Host ''
 $xlsx = Get-ChildItem $src -Filter '*.xlsx' | Select-Object -First 1
 if (-not $xlsx) { throw '安装包缺少打卡表 xlsx' }
 
+if (-not $DryRun) { $isUpgrade = Test-Path (Join-Path $dest 'words.json') } else { $isUpgrade = $false }
+
 # ---------- 1. 复制程序 ----------
 if (-not $DryRun) {
     New-Item -ItemType Directory -Path $dest -Force | Out-Null
@@ -71,14 +83,27 @@ if (-not $DryRun) {
     } else {
         Write-Host '[!!] 生成器缺失：切换词库与改每日词数将不可用' -ForegroundColor Yellow
     }
+    $keepOnUpgrade = @('words.json', 'config.json')
     foreach ($f in $files) {
         $p = Join-Path $src $f
-        if (Test-Path $p) { Copy-Item $p (Join-Path $dest $f) -Force }
+        if (-not (Test-Path $p)) { continue }
+        if ($isUpgrade -and ($keepOnUpgrade -contains $f)) {
+            Write-Host ('[--] 保留已有 ' + $f + '（不覆盖）') -ForegroundColor DarkGray
+            continue
+        }
+        Copy-Item $p (Join-Path $dest $f) -Force
     }
     Copy-Item $xlsx.FullName (Join-Path $dest $xlsx.Name) -Force
     # 词库与生成器：安装包是扁平结构（IExpress 不支持子目录），这里归位
     $deckSrc = Get-ChildItem $src -Filter '*.csv' -ErrorAction SilentlyContinue | Select-Object -First 1
-    if ($deckSrc) { Copy-Item $deckSrc.FullName (Join-Path $dest ('词库' + [IO.Path]::DirectorySeparatorChar + $deckSrc.Name)) -Force }
+    if ($deckSrc) {
+        $deckDst = Join-Path $dest ('词库' + [IO.Path]::DirectorySeparatorChar + $deckSrc.Name)
+        if ($isUpgrade -and (Test-Path $deckDst)) {
+            Write-Host '[--] 保留已有词库（不覆盖）' -ForegroundColor DarkGray
+        } else {
+            Copy-Item $deckSrc.FullName $deckDst -Force
+        }
+    }
 
     $toolNames = @('build_plan.py', 'extra_words.py', 'ipa.json')
     foreach ($fn in $toolNames) {
@@ -96,11 +121,15 @@ if (-not $DryRun) {
     Write-Host '[OK] 程序文件已复制' -ForegroundColor Green
 }
 
-# ---------- 2. 计划起点改成今天 ----------
+# ---------- 2. 计划起点 ----------
 . (Join-Path $src 'lib-dates.ps1')
-if (-not $DryRun) {
+if ($isUpgrade) {
+    Write-Host '[OK] 检测到已安装：保留原计划起点与打卡记录（升级安装）' -ForegroundColor Green
+} elseif (-not $DryRun) {
     $exam = Fix-PlanDates -Dir $dest -Start $today
-    Write-Host ('[OK] 计划排到 ' + $today.ToString('yyyy-MM-dd') + ' → ' + $exam.AddDays(-1).ToString('yyyy-MM-dd') + '（40 天）') -ForegroundColor Green
+    $days = 0
+    try { $days = (Get-Content (Join-Path $dest 'words.json') -Raw -Encoding UTF8 | ConvertFrom-Json).days.Count } catch { }
+    Write-Host ('[OK] 计划排到 ' + $today.ToString('yyyy-MM-dd') + ' → ' + $exam.AddDays(-1).ToString('yyyy-MM-dd') + '（' + $days + ' 天）') -ForegroundColor Green
 }
 
 # ---------- 3. 图标 ----------
@@ -123,16 +152,19 @@ if (-not $DryRun) {
     $vbs = Join-Path $dest 'launch.vbs'
     $ws = New-Object -ComObject WScript.Shell
 
-    $lnk = Join-Path $desk '肥鱼背单词.lnk'
-    if (Test-Path $lnk) { Remove-Item $lnk -Force }
-    $sc = $ws.CreateShortcut($lnk)
-    $sc.TargetPath = "$env:SystemRoot\System32\wscript.exe"
-    $sc.Arguments = '"' + $vbs + '" preview'
-    $sc.WorkingDirectory = $dest
-    if ($iconPath -and (Test-Path $iconPath)) { $sc.IconLocation = $iconPath + ',0' }
-    $sc.Description = '肥鱼背单词'
-    $sc.Save()
+    if (-not $NoDesktop) {
+        $lnk = Join-Path $desk '肥鱼背单词.lnk'
+        if (Test-Path $lnk) { Remove-Item $lnk -Force }
+        $sc = $ws.CreateShortcut($lnk)
+        $sc.TargetPath = "$env:SystemRoot\System32\wscript.exe"
+        $sc.Arguments = '"' + $vbs + '" preview'
+        $sc.WorkingDirectory = $dest
+        if ($iconPath -and (Test-Path $iconPath)) { $sc.IconLocation = $iconPath + ',0' }
+        $sc.Description = '肥鱼背单词'
+        $sc.Save()
+    }
 
+    if (-not $NoStartMenu) {
     New-Item -ItemType Directory -Path $startMenu -Force | Out-Null
     $m1 = Join-Path $startMenu '肥鱼背单词.lnk'
     if (Test-Path $m1) { Remove-Item $m1 -Force }
@@ -152,15 +184,16 @@ if (-not $DryRun) {
     $s2.WorkingDirectory = $dest
     $s2.Description = '卸载肥鱼背单词'
     $s2.Save()
+    }
 
-    Write-Host '[OK] 桌面图标 + 开始菜单（含「卸载肥鱼背单词」）已创建' -ForegroundColor Green
+    Write-Host '[OK] 快捷方式已创建' -ForegroundColor Green
 }
 
 # ---------- 5. 开机自启 ----------
 $vbsLauncher = Join-Path $startup 'CET6-Word-Reminder.vbs'
 $taskOk = $false
 
-if ($isAdmin -and -not $DryRun) {
+if ($isAdmin -and -not $DryRun -and -not $NoAutoStart) {
     $userId = "$env:USERDOMAIN\$env:USERNAME"
     $vbs = Join-Path $dest 'launch.vbs'
     $xmlPath = Join-Path $env:TEMP 'cet6_task.xml'
@@ -199,7 +232,7 @@ if ($isAdmin -and -not $DryRun) {
 if ($taskOk) {
     if (Test-Path $vbsLauncher) { Remove-Item $vbsLauncher -Force }
     Write-Host '[OK] 已注册提醒任务（登录 / 解锁 / 每天 20:30）' -ForegroundColor Green
-} elseif (-not $DryRun) {
+} elseif (-not $DryRun -and -not $NoAutoStart) {
     $vbsContent = @"
 ' CET-6 word reminder: run hidden at logon
 WScript.Sleep 5000
@@ -218,7 +251,7 @@ if (-not $DryRun) {
         $regKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\FeiyuVocab'
         New-Item -Path $regKey -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'DisplayName' -Value '肥鱼背单词' -PropertyType String -Force | Out-Null
-        New-ItemProperty -Path $regKey -Name 'DisplayVersion' -Value '1.2' -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regKey -Name 'DisplayVersion' -Value '1.3' -PropertyType String -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'Publisher' -Value 'Brewster-Gin' -PropertyType String -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'InstallLocation' -Value $dest -PropertyType String -Force | Out-Null
         New-ItemProperty -Path $regKey -Name 'NoModify' -Value 1 -PropertyType DWord -Force | Out-Null
@@ -244,7 +277,7 @@ Write-Host ('桌面图标    : 肥鱼背单词')
 Write-Host ('开始菜单    : 所有程序 → 肥鱼背单词 → 卸载肥鱼背单词')
 Write-Host ('卸载        : ' + (Join-Path $dest 'uninstall-package.ps1'))
 Write-Host ''
-if (-not $DryRun) {
+if (-not $DryRun -and -not $Silent) {
     $open = Read-Host '现在打开安装文件夹看吗？[y/N]'
     if ($open -match '^(y|Y)') { Start-Process explorer.exe $dest }
 }

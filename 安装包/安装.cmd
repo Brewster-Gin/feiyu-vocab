@@ -1,5 +1,2 @@
 @echo off
-chcp 65001 >nul
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0install-package.ps1"
-echo.
-pause
+start "" wscript.exe "%~dp0setup-launch.vbs"

@@ -155,34 +155,30 @@ function Get-SubText {
     return $text
 }
 
+function Set-SubMode([string]$mode) {
+    $script:subMode = $mode
+    $pill = $script:win.FindName('SubPill')
+    if ($mode -eq 'set') {
+        $pill.Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#1FFFFFFF')
+        $pill.BorderBrush = [Windows.Media.BrushConverter]::new().ConvertFromString('#40FFFFFF')
+    } else {
+        $pill.Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#33FFD98A')
+        $pill.BorderBrush = [Windows.Media.BrushConverter]::new().ConvertFromString('#FFD98A')
+    }
+}
+
 function Show-UndoBanner([string]$text) {
     $sub = $script:win.FindName('SubText')
     $sub.Text = $text
     $sub.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#FFD98A')
-    $sub.Cursor = 'Hand'
-    if (-not $script:undoHandlerSet) {
-        $sub.Add_MouseLeftButtonDown({
-                param($s2, $e2)
-                $e2.Handled = $true
-                Undo-Today
-            })
-        $script:undoHandlerSet = $true
-    }
+    Set-SubMode 'undo'
 }
 
 function Show-PausedBanner([string]$text) {
     $sub = $script:win.FindName('SubText')
     $sub.Text = $text
     $sub.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#FFD98A')
-    $sub.Cursor = 'Hand'
-    if (-not $script:pauseHandlerSet) {
-        $sub.Add_MouseLeftButtonDown({
-                param($s2, $e2)
-                $e2.Handled = $true
-                Resume-Pause
-            })
-        $script:pauseHandlerSet = $true
-    }
+    Set-SubMode 'pause'
 }
 
 function Set-Pause {
@@ -228,7 +224,7 @@ function Resume-Pause {
     }
     $sub = $script:win.FindName('SubText')
     $sub.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#CFE2F3')
-    $sub.Cursor = 'Arrow'
+    Set-SubMode 'set'
     if ($shift -gt 0) {
         $script:win.Close()
     } else {
@@ -248,8 +244,7 @@ function Undo-Today {
     $sub = $script:win.FindName('SubText')
     $sub.Text = (Get-SubText)
     $sub.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#CFE2F3')
-    $sub.Cursor = 'Arrow'
-    $sub.ToolTip = ''
+    Set-SubMode 'set'
     $script:statusText.Text = $script:S.undone
 }
 
@@ -474,7 +469,17 @@ try {
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
             <TextBlock Name="TitleText" Text="" Foreground="#FFFFFF" FontSize="19" FontWeight="Bold"/>
-            <TextBlock Name="SubText" Text="" Foreground="#CFE2F3" FontSize="12" Margin="0,5,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0" HorizontalAlignment="Left">
+              <Border Name="SubPill" CornerRadius="11" Padding="10,3" Background="#1FFFFFFF"
+                      BorderBrush="#40FFFFFF" BorderThickness="1" Cursor="Hand">
+                <TextBlock Name="SubText" Text="" Foreground="#CFE2F3" FontSize="12"/>
+              </Border>
+              <Border Name="GearBtn" Width="22" Height="22" CornerRadius="11" Margin="8,0,0,0"
+                      Background="#26FFFFFF" Cursor="Hand" ToolTip="设置：目标日期 / 每天词数">
+                <TextBlock Text="&#x2699;" FontFamily="Segoe UI Symbol" FontSize="12"
+                           Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+            </StackPanel>
           </StackPanel>
           <Border Grid.Column="1" Width="30" Height="30" CornerRadius="15" Background="#33FFFFFF"
                   VerticalAlignment="Top" Margin="0,0,8,0" Cursor="Hand" Name="DeckBtn"
@@ -697,13 +702,31 @@ try {
         $script:planPerDay = [int]$plan.perDay
         $script:planIntervals = @($plan.intervals)
         $script:planExam = $exam
-        $sub0 = $win.FindName('SubText')
-        $sub0.ToolTip = '点这里设置目标日期'
-        $sub0.Cursor = 'Hand'
-        $sub0.Add_MouseLeftButtonDown({
+        $script:subMode = 'set'
+        $pill0 = $win.FindName('SubPill')
+        $pill0.Add_MouseLeftButtonDown({
+                param($s2, $e2)
+                $e2.Handled = $true
+                if ($script:subMode -eq 'undo') { Undo-Today }
+                elseif ($script:subMode -eq 'pause') { Resume-Pause }
+                else { Open-SetLayer }
+            })
+        $pill0.Add_MouseEnter({
+                $script:win.FindName('SubPill').Background = [Windows.Media.BrushConverter]::new().ConvertFromString(
+                    $(if ($script:subMode -eq 'set') { '#33FFFFFF' } else { '#4DFFD98A' }))
+            })
+        $pill0.Add_MouseLeave({ Set-SubMode $script:subMode })
+        $gear0 = $win.FindName('GearBtn')
+        $gear0.Add_MouseLeftButtonDown({
                 param($s2, $e2)
                 $e2.Handled = $true
                 Open-SetLayer
+            })
+        $gear0.Add_MouseEnter({
+                $script:win.FindName('GearBtn').Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#4DFFFFFF')
+            })
+        $gear0.Add_MouseLeave({
+                $script:win.FindName('GearBtn').Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#26FFFFFF')
             })
         $win.FindName('SubText').Text = (Get-SubText)
 
@@ -1300,6 +1323,8 @@ try {
         if ($env:CET6_TEST_RESET) { $win.FindName('ResetLayer').Visibility = 'Visible' }
         if ($env:CET6_TEST_REV) { foreach ($t in $flatList) { $t.Visibility = 'Collapsed' }; foreach ($t in $detailList) { $t.Visibility = 'Visible' }; $revToggle.Content = $S.revHide }
         if ($env:CET6_TEST_SCROLL) { $win.FindName('BodyPanel').Parent.ScrollToEnd() }
+if ($env:CET6_TEST_UNDO) { Show-UndoBanner $S.undoSkip }
+if ($env:CET6_TEST_PAUSEBANNER) { Show-PausedBanner ([string]::Format($S.pausedBanner, '11月9日')) }
         $timer = New-Object Windows.Threading.DispatcherTimer
         $timer.Interval = [TimeSpan]::FromMilliseconds(1000)
         $timer.Add_Tick({

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""用验证过的方式直接打正式包：ASCII 源/目标 -> 复制回项目"""
+"""用 IExpress 打正式包：在 ASCII 临时目录构建（中文/空格路径会让它静默失败）"""
 import io
 import os
 import shutil
@@ -14,8 +14,18 @@ FINAL = r'D:\MyProject\Big Fat Fish Vocabulary\CET6-Plan\肥鱼背单词-安装�
 if os.path.isdir(SRC):
     shutil.rmtree(SRC)
 shutil.copytree(PKG, SRC)
+# 不要把预览图和构建残留打进包
+for junk in ('installer-preview.png', 'build.sed'):
+    p = os.path.join(SRC, junk)
+    if os.path.exists(p):
+        os.remove(p)
 files = [f for f in sorted(os.listdir(SRC)) if os.path.isfile(os.path.join(SRC, f))]
 print('files:', len(files))
+for f in files:
+    print('  -', f)
+
+if 'setup-gui.ps1' not in files or 'setup-launch.vbs' not in files:
+    raise SystemExit('缺少 setup-gui.ps1 / setup-launch.vbs')
 
 lines = [
     '[Version]', 'Class=IEXPRESS', 'SEDVersion=3', '[Options]',
@@ -23,7 +33,7 @@ lines = [
     'UseLongFileName=1', 'InsideCompressed=0', 'CAB_FixedSize=0', 'CAB_ResvCodeSigning=0',
     'RebootMode=N', 'InstallPrompt=', 'DisplayLicense=', 'FinishMessage=',
     'TargetName=' + OUT, 'FriendlyName=FeiyuVocab Setup',
-    'AppLaunched=powershell.exe -NoProfile -ExecutionPolicy Bypass -File install-package.ps1',
+    'AppLaunched=wscript.exe setup-launch.vbs',
     'PostInstallCmd=<None>', 'AdminQuietInstCmd=', 'UserQuietInstCmd=',
     'SourceFiles=SourceFiles', '[Strings]',
 ]
@@ -43,6 +53,10 @@ r = subprocess.run([os.path.join(os.environ['SystemRoot'], 'System32', 'iexpress
 size = os.path.getsize(OUT) if os.path.exists(OUT) else 0
 print('iexpress exit', r.returncode, 'size', size)
 if size > 100000:
+    # 校验：CAB 头里能搜到关键文件名
+    blob = io.open(OUT, 'rb').read()
+    for probe in (b'setup-gui.ps1', b'setup-launch.vbs', b'install-package.ps1', b'build_plan.py'):
+        print('  contains', probe.decode(), probe in blob)
     if os.path.exists(FINAL):
         for _ in range(5):
             try:
