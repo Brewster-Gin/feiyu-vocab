@@ -14,11 +14,11 @@ FINAL = r'D:\MyProject\Big Fat Fish Vocabulary\CET6-Plan\肥鱼背单词-安装�
 if os.path.isdir(SRC):
     shutil.rmtree(SRC)
 shutil.copytree(PKG, SRC)
-# 不要把预览图和构建残留打进包
-for junk in ('installer-preview.png', 'build.sed'):
-    p = os.path.join(SRC, junk)
-    if os.path.exists(p):
-        os.remove(p)
+# 不要把预览图、截图、日志和构建残留打进包
+for junk in os.listdir(SRC):
+    low = junk.lower()
+    if low == 'build.sed' or low.endswith('.png') or low.endswith('.log'):
+        os.remove(os.path.join(SRC, junk))
 files = [f for f in sorted(os.listdir(SRC)) if os.path.isfile(os.path.join(SRC, f))]
 print('files:', len(files))
 for f in files:
