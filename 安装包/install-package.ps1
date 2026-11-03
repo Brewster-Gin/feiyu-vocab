@@ -69,7 +69,7 @@ if (-not $DryRun) { $isUpgrade = Test-Path (Join-Path $dest 'words.json') } else
 if (-not $DryRun) {
     New-Item -ItemType Directory -Path $dest -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $dest '词库') -Force | Out-Null
-    $files = @('reminder.ps1', 'spell.ps1', 'strings.json', 'words.json', 'launch.vbs', 'run-spell.vbs', 'lib-dates.ps1', 'deck-manager.ps1', 'uninstall-package.ps1')
+    $files = @('reminder.ps1', 'spell.ps1', 'strings.json', 'words.json', 'launch.vbs', 'run-spell.vbs', 'lib-dates.ps1', 'deck-manager.ps1', 'uninstall-package.ps1', 'uninstall-gui.ps1', 'uninstall-launch.vbs', 'setup-gui.ps1', 'setup-launch.vbs')
     New-Item -ItemType Directory -Path (Join-Path $dest '工具') -Force | Out-Null
     # 兜底：压缩包对子目录处理不稳，生成器若没到 工具\，从根目录补
     if (-not (Test-Path (Join-Path $dest '工具\build_plan.py'))) {
@@ -180,7 +180,8 @@ if (-not $DryRun) {
     if (Test-Path $m2) { Remove-Item $m2 -Force }
     $s2 = $ws.CreateShortcut($m2)
     $s2.TargetPath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
-    $s2.Arguments = '-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $dest 'uninstall-package.ps1') + '"'
+    $s2.TargetPath = 'C:\Windows\System32\wscript.exe'
+    $s2.Arguments = '"' + (Join-Path $dest 'uninstall-launch.vbs') + '"'
     $s2.WorkingDirectory = $dest
     $s2.Description = '卸载肥鱼背单词'
     $s2.Save()
@@ -261,7 +262,7 @@ if (-not $DryRun) {
         if ($iconPath -and (Test-Path $iconPath)) {
             New-ItemProperty -Path $regKey -Name 'DisplayIcon' -Value ($iconPath + ',0') -PropertyType String -Force | Out-Null
         }
-        $unCmd = '"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $dest 'uninstall-package.ps1') + '"'
+        $unCmd = '"C:\Windows\System32\wscript.exe" "' + (Join-Path $dest 'uninstall-launch.vbs') + '"'
         New-ItemProperty -Path $regKey -Name 'UninstallString' -Value $unCmd -PropertyType String -Force | Out-Null
         Write-Host '[OK] 已登记到「设置 → 已安装的应用」' -ForegroundColor Green
     } catch {
@@ -275,7 +276,7 @@ Write-Host ('安装位置    : ' + $dest) -ForegroundColor White
 Write-Host ('打卡表      : ' + (Join-Path $dest $xlsx.Name))
 Write-Host ('桌面图标    : 肥鱼背单词')
 Write-Host ('开始菜单    : 所有程序 → 肥鱼背单词 → 卸载肥鱼背单词')
-Write-Host ('卸载        : ' + (Join-Path $dest 'uninstall-package.ps1'))
+Write-Host '卸载        : 开始菜单「卸载肥鱼背单词」（图形界面）'
 Write-Host ''
 if (-not $DryRun -and -not $Silent) {
     $open = Read-Host '现在打开安装文件夹看吗？[y/N]'
