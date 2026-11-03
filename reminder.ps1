@@ -1103,7 +1103,7 @@ try {
 
         Fix-PlanDates -Dir $script:root -Start $newStart -Exam $script:planExam | Out-Null
         Write-Log ('提前一天: 计划起点改为 ' + $newStart.ToString('yyyy-MM-dd'))
-        $script:closeTimer.Stop()
+        if ($script:closeTimer) { $script:closeTimer.Stop() }
         Restart-Self
     }
 
@@ -1444,6 +1444,10 @@ try {
         $script:restartReady = Join-Path $script:stateDir 'restart-ready.txt'
         if (Test-Path $script:restartReady) { Remove-Item $script:restartReady -Force -ErrorAction SilentlyContinue }
         try { $mtx.ReleaseMutex() } catch { Write-Log ('release mutex failed: ' + $_.Exception.Message) }
+        foreach ($ln in @('SetLayer', 'DeckLayer', 'ResetLayer', 'ConfirmLayer', 'PauseLayer')) {
+            $el = $script:win.FindName($ln)
+            if ($el) { $el.Visibility = 'Collapsed' }
+        }
         $script:win.Topmost = $false
         Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\wscript.exe') -ArgumentList @(
             ('"' + (Join-Path $script:root 'launch.vbs') + '"'), 'preview')
@@ -1453,7 +1457,7 @@ try {
         $script:restartTimer.Add_Tick({
             $done = (Test-Path $script:restartReady)
             $waited = ([DateTime]::Now - $script:restartStart).TotalSeconds
-            if ($done -and $waited -gt 0.4) { $script:restartTimer.Stop(); $script:win.Close() }
+            if ($done) { $script:restartTimer.Stop(); $script:win.Close() }
             elseif ($waited -gt 15) { $script:restartTimer.Stop(); $script:win.Close() }
         })
         $script:restartTimer.Start()
@@ -1680,14 +1684,23 @@ if ($env:CET6_TEST_PAUSEBANNER) { Show-PausedBanner ([string]::Format($S.pausedB
     }
 
     $script:readyTimer = New-Object Windows.Threading.DispatcherTimer
-    $script:readyTimer.Interval = [TimeSpan]::FromMilliseconds(450)
+    $script:readyTimer.Interval = [TimeSpan]::FromMilliseconds(350)
     $script:readyTimer.Add_Tick({
         $script:readyTimer.Stop()
+        if (-not $script:win.IsVisible) { $script:readyTimer.Start(); return }
         try {
             Set-Content -Path (Join-Path $script:stateDir 'restart-ready.txt') -Value ([DateTime]::Now.Ticks) -Encoding UTF8
         } catch { }
     })
     $script:readyTimer.Start()
+
+    if ($env:CET6_TEST_NEXTDAY -and -not (Test-Path (Join-Path $script:stateDir 'nextday-once.txt'))) {
+        Set-Content -Path (Join-Path $script:stateDir 'nextday-once.txt') -Value '1' -Encoding UTF8
+        $script:ndTimer = New-Object Windows.Threading.DispatcherTimer
+        $script:ndTimer.Interval = [TimeSpan]::FromMilliseconds(1200)
+        $script:ndTimer.Add_Tick({ $script:ndTimer.Stop(); Start-NextDay })
+        $script:ndTimer.Start()
+    }
 
     if ($env:CET6_TEST_RESTART -and -not (Test-Path (Join-Path $script:stateDir 'restart-once.txt'))) {
         Set-Content -Path (Join-Path $script:stateDir 'restart-once.txt') -Value '1' -Encoding UTF8
