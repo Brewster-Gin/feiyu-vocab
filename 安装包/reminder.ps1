@@ -376,6 +376,9 @@ try {
 
     # ---------- data ----------
     $isFinished = $dayIdx -gt $totalDays
+    $todayStamp = Join-Path $stateDir ($today.ToString('yyyy-MM-dd') + '.txt')
+    $todayState = ''
+    if (Test-Path $todayStamp) { $todayState = (Get-Content $todayStamp -Raw).Trim() }
     $day = $null
     if (-not $isFinished) { $day = $plan.days[$dayIdx - 1] }
 
@@ -1314,6 +1317,11 @@ try {
 
     if (-not $isFinished) {
         $compactPanel = $win.FindName('CompactPanel')
+        if ($todayState -eq 'done') {
+            $compactPanel.Children.Add((New-Line $S.cmpDone 10.5 '#2E7D4F' 'Bold' 0)) | Out-Null
+        } elseif ($todayState -eq 'skip') {
+            $compactPanel.Children.Add((New-Line $S.cmpSkip 10.5 '#C0392B' 'Bold' 0)) | Out-Null
+        }
         $compactPanel.Children.Add((New-Text ($S.secNew -f $day.words.Count) 10 '#1F4E79' 'Bold' 0)) | Out-Null
         foreach ($w in $day.words) {
             $row = New-Object Windows.Controls.RichTextBox
@@ -1483,7 +1491,18 @@ try {
     }
 
     # ---------- buttons ----------
-    if (-not $isFinished) {
+    $already = ($todayState -eq 'done' -or $todayState -eq 'skip')
+    if (-not $isFinished -and $already) {
+        Add-Btn $S.btnNextDay '#1F4E79' '#FFFFFF' { Start-NextDay }
+        Add-Btn $S.btnOpen '#EDF2F8' '#1F4E79' {
+            $x = Get-ChildItem $script:root -Filter '*.xlsx' | Select-Object -First 1
+            if ($x) { Start-Process $x.FullName }
+        }
+        Add-Btn $S.btnOk '#EDF2F8' '#1F4E79' { $script:win.Close() }
+        $cPanel2 = $win.FindName('CompactBtnPanel')
+        Add-Btn $S.btnNextDay '#1F4E79' '#FFFFFF' { Start-NextDay } $cPanel2 | Out-Null
+    }
+    elseif (-not $isFinished) {
         Add-Btn $S.btnDone '#1F4E79' '#FFFFFF' { Invoke-DoneFlow $false }
         Add-Btn $S.btnSnooze '#EDF2F8' '#1F4E79' {
             Write-Log $script:S.logSnooze

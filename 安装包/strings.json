@@ -82,5 +82,7 @@
   "copyOne": "复制这一行",
   "btnNarrow": "窄条",
   "btnWide": "标准",
-  "secReviewShort": "复习 · {0} 组 {1} 词"
+  "secReviewShort": "复习 · {0} 组 {1} 词",
+  "cmpDone": "✓ 今天已完成",
+  "cmpSkip": "今天已跳过"
 }
