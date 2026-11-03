@@ -29,7 +29,7 @@ if (-not $isAdmin -and -not $NoElevate -and -not $DryRun) {
     }
     $fwd += '-NoElevate'
     try {
-        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList $fwd -Wait
+        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList $fwd -WindowStyle Hidden -Wait
         exit 0
     } catch { }
 }

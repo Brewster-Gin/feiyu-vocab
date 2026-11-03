@@ -17,8 +17,8 @@ $logErr = Join-Path $env:TEMP 'feiyu-uninstall-err.log'
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin -and -not $NoElevate -and -not $Test -and -not $DryRun) {
     try {
-        $argLine = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -NoElevate'
-        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList $argLine -Wait | Out-Null
+        $argLine = '-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + $PSCommandPath + '" -NoElevate'
+        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList $argLine -WindowStyle Hidden -Wait | Out-Null
         exit 0
     } catch {
         # 用户拒绝 UAC：留在非管理员模式继续
@@ -297,9 +297,12 @@ $script:timer.Add_Tick({
         Update-Log
         $script:running = $false
         $code = 0
-        if ($script:proc) { $code = $script:proc.ExitCode }
+        if ($script:proc) { try { $code = $script:proc.ExitCode } catch { $code = -1 } }
+        $uniLog = ''
+        try { $uniLog = [IO.File]::ReadAllText((Join-Path $env:TEMP 'feiyu-uninstall-out.log'), [Text.Encoding]::UTF8) } catch { }
+        $uniDone = ($DryRun -or $uniLog -match '卸载完成')
 
-        if ($DryRun -or $code -eq 0) {
+        if ($uniDone) {
             $statusText.Text = if ($script:mode -eq 'keep') { '卸载完成，打卡表和学习记录保留在原文件夹' } else { '卸载完成' }
             $btnGo.Visibility = 'Collapsed'
             $btnCancel.Visibility = 'Collapsed'

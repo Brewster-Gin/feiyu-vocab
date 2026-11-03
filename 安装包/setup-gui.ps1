@@ -27,8 +27,8 @@ $dest0 = if ($Path) { $Path } else { $defaultDest }
 # ---------- 提权（一次，启动时） ----------
 if (-not $isAdmin -and -not $NoElevate -and -not $Test -and -not $DryRun) {
     try {
-        $argLine = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -NoElevate -Path "' + $dest0 + '"'
-        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList $argLine -Wait | Out-Null
+        $argLine = '-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + $PSCommandPath + '" -NoElevate -Path "' + $dest0 + '"'
+        Start-Process -FilePath 'powershell.exe' -Verb RunAs -ArgumentList $argLine -WindowStyle Hidden -Wait | Out-Null
         exit 0
     } catch {
         # 用户拒绝 UAC：留在非管理员模式继续
@@ -252,12 +252,15 @@ function Complete-Install {
     $err = Read-Shared $script:errFile
     if ($err) { Append-Log ('[stderr] ' + $err.Trim()) }
     $dest = $destBox.Text.Trim()
-    if ($code -eq 0) {
+    $text = Read-Shared $script:outFile
+    $finished = ($text -match '==== 安装完成 ====')
+    if ($finished) {
         try { Copy-Item $script:outFile $logFile -Force } catch { }
+        if ($code -ne 0) { Append-Log ('[--] 安装脚本退出码 ' + $code + '（日志显示已装完，按成功处理）') }
         Show-Done $true $dest
     } else {
         Show-Done $false $dest
-        Append-Log ('[!!] 安装脚本退出码 ' + $code)
+        if ($code -ne 0) { Append-Log ('[!!] 安装脚本退出码 ' + $code) }
     }
 }
 
