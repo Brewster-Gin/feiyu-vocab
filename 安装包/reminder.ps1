@@ -741,7 +741,7 @@ try {
             if ($stateToday -eq 'skip') { Show-UndoBanner $S.undoSkip } else { Show-UndoBanner $S.undoDone }
         }
 
-        $body.Children.Add((New-Text $S.secNew 12 '#1F4E79' 'Bold')) | Out-Null
+        $body.Children.Add((New-Text ($S.secNew -f $day.words.Count) 12 '#1F4E79' 'Bold')) | Out-Null
         $colCount = 2
         $rowCount = [int][math]::Ceiling($day.words.Count / $colCount)
         $grid = New-Object Windows.Controls.Grid
