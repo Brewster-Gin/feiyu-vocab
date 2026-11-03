@@ -81,5 +81,6 @@
   "deckConfirmNo": "取消",
   "copyOne": "复制这一行",
   "btnNarrow": "窄条",
-  "btnWide": "标准"
+  "btnWide": "标准",
+  "secReviewShort": "复习 · {0} 组 {1} 词"
 }

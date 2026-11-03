@@ -1346,6 +1346,74 @@ try {
             Add-CopyMenu $row (($w.w + '  ' + $w.cn).Trim())
             $compactPanel.Children.Add($row) | Out-Null
         }
+
+        if ($groups.Count -gt 0) {
+            $cTotal = 0
+            foreach ($gp in $groups) { $cTotal += $gp.Words.Count }
+
+            $cLine = New-Object Windows.Controls.Border
+            $cLine.Height = 1
+            $cLine.Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#EDEDED')
+            $cLine.Margin = New-Object Windows.Thickness(0, 12, 0, 10)
+            $compactPanel.Children.Add($cLine) | Out-Null
+
+            $compactPanel.Children.Add((New-Line ($S.secReviewShort -f $groups.Count, $cTotal) 10 '#1F4E79' 'Bold' 0)) | Out-Null
+
+            foreach ($gp in $groups) {
+                $cHdr = New-Line (([char]0x25BE + ' ' + $gp.Label)) 9.5 '#999999' 'Bold' 8
+                $cHdr.Cursor = 'Hand'
+                $compactPanel.Children.Add($cHdr) | Out-Null
+
+                $cFlat = New-Sel ((($gp.Words | ForEach-Object { $_.w }) -join $S.wordSep)) 10.5 '#555555' 'Normal' 2
+                $compactPanel.Children.Add($cFlat) | Out-Null
+
+                $cDet = New-Object Windows.Controls.StackPanel
+                $cDet.Visibility = 'Collapsed'
+                $cDet.Margin = New-Object Windows.Thickness(0, 2, 0, 2)
+                foreach ($rw in $gp.Words) {
+                    $p2 = New-Object Windows.Controls.TextBlock
+                    $p2.TextWrapping = 'Wrap'
+                    $p2.Margin = New-Object Windows.Thickness(0, 2, 0, 2)
+                    $r1 = New-Object Windows.Documents.Run($rw.w)
+                    $r1.FontWeight = 'Bold'
+                    $r1.FontSize = 10.5
+                    $r1.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1A1A1A')
+                    $p2.Inlines.Add($r1) | Out-Null
+                    if ($rw.pos) {
+                        $rp = New-Object Windows.Documents.Run(('  ' + $rw.pos))
+                        $rp.FontSize = 9
+                        $rp.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#999999')
+                        $p2.Inlines.Add($rp) | Out-Null
+                    }
+                    $r3 = New-Object Windows.Documents.Run(('  ' + $rw.cn))
+                    $r3.FontSize = 10
+                    $r3.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#555555')
+                    $p2.Inlines.Add($r3) | Out-Null
+                    $cDet.Children.Add($p2) | Out-Null
+                }
+                $compactPanel.Children.Add($cDet) | Out-Null
+
+                $cState = @{ open = $false }
+                $cHdrText = $gp.Label
+                $cHandler = {
+                    param($s2, $e2)
+                    if ($e2) { $e2.Handled = $true }
+                    $open = -not $cState.open
+                    $cState.open = $open
+                    if ($open) {
+                        $cDet.Visibility = 'Visible'
+                        $cFlat.Visibility = 'Collapsed'
+                        $s2.Text = ([char]0x25B4 + ' ' + $cHdrText)
+                    } else {
+                        $cDet.Visibility = 'Collapsed'
+                        $cFlat.Visibility = 'Visible'
+                        $s2.Text = ([char]0x25BE + ' ' + $cHdrText)
+                    }
+                }.GetNewClosure()
+                $cHdr.Add_MouseLeftButtonDown($cHandler)
+                $script:cmpRevLast = @{ fn = $cHandler; sender = $cHdr }
+            }
+        }
     }
 
     function Invoke-DoneFlow([bool]$compact) {
@@ -1532,7 +1600,8 @@ try {
         if ($env:CET6_TEST_SET) { Open-SetLayer }
         if ($env:CET6_TEST_RESET) { $win.FindName('ResetLayer').Visibility = 'Visible' }
         if ($env:CET6_TEST_REV) { foreach ($t in $flatList) { $t.Visibility = 'Collapsed' }; foreach ($t in $detailList) { $t.Visibility = 'Visible' }; $revToggle.Content = $S.revHide }
-        if ($env:CET6_TEST_SCROLL) { $win.FindName('BodyPanel').Parent.ScrollToEnd() }
+        if ($env:CET6_TEST_CMPREV -and $script:cmpRevLast) { & $script:cmpRevLast.fn $script:cmpRevLast.sender $null }
+if ($env:CET6_TEST_SCROLL) { $win.FindName('BodyPanel').Parent.ScrollToEnd(); $cs = $win.FindName('CompactScroll'); if ($cs -and $cs.Visibility -eq 'Visible') { $cs.ScrollToEnd() } }
 if ($env:CET6_TEST_UNDO) { Show-UndoBanner $S.undoSkip }
 if ($env:CET6_TEST_PAUSEBANNER) { Show-PausedBanner ([string]::Format($S.pausedBanner, '11月9日')) }
         $timer = New-Object Windows.Threading.DispatcherTimer
