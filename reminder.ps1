@@ -440,12 +440,12 @@ try {
       </Setter>
     </Style>
   </Window.Resources>
-  <Border CornerRadius="16" Background="#FFFFFF" Margin="18">
+  <Border CornerRadius="14" Background="#FFFFFF" Margin="8">
     <Border.LayoutTransform>
       <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
     </Border.LayoutTransform>
     <Border.Effect>
-      <DropShadowEffect BlurRadius="28" ShadowDepth="6" Opacity="0.28" Color="#000000"/>
+      <DropShadowEffect BlurRadius="14" ShadowDepth="3" Opacity="0.18" Color="#000000"/>
     </Border.Effect>
     <Grid>
       <Grid.RowDefinitions>
