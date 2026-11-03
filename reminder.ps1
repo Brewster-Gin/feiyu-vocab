@@ -1088,6 +1088,7 @@ try {
     }
 
     function Start-NextDay {
+        if (-not (Enter-Busy)) { return }
         $planFile = Join-Path $script:root 'words.json'
         $plan = Get-Content $planFile -Raw -Encoding UTF8 | ConvertFrom-Json
         $curStart = [datetime]::ParseExact($plan.start, 'yyyy-MM-dd', $null)
@@ -1108,6 +1109,7 @@ try {
     }
 
     function Invoke-ResetDeck {
+        if (-not (Enter-Busy)) { return }
         $cfgFile = Join-Path $script:root 'config.json'
         $deckName = ''
         if (Test-Path $cfgFile) {
@@ -1212,6 +1214,7 @@ try {
     }
 
     function Invoke-DeckSwitch([string]$path) {
+        if (-not (Enter-Busy)) { return }
         try { Invoke-DeckSwitchInner $path }
         catch {
             Write-Log ('切换词库异常: ' + $_.Exception.Message)
@@ -1260,6 +1263,17 @@ try {
     }
 
     # ---------- compact (narrow) layout ----------
+    function Enter-Busy {
+        if ($script:busy) { Write-Log 'busy: 上一个操作还没结束，忽略本次点击'; return $false }
+        $script:busy = $true
+        try {
+            foreach ($c in $script:btnPanel.Children) { $c.IsEnabled = $false }
+            $cp = $script:win.FindName('CompactBtnPanel')
+            if ($cp) { foreach ($c in $cp.Children) { $c.IsEnabled = $false } }
+        } catch { }
+        return $true
+    }
+
     function Set-UiMode([string]$mode) {
         $m = 'normal'
         if ($mode -eq 'compact') { $m = 'compact' }
@@ -1461,25 +1475,28 @@ try {
         $script:restartTimer.Add_Tick({
             $done = $false
             if (Test-Path $script:restartReady) {
-                try { $done = ((Get-Content $script:restartReady -Raw).Trim() -eq $script:restartToken) } catch { }
+                try { $done = ((Get-Item $script:restartReady).LastWriteTime -gt $script:restartStart) } catch { }
             }
             $waited = ([DateTime]::Now - $script:restartStart).TotalSeconds
             if ($done) { $script:restartTimer.Stop(); $script:win.Close() }
-            elseif ($waited -gt 15) { $script:restartTimer.Stop(); $script:win.Close() }
+            elseif ($waited -gt 8) { $script:restartTimer.Stop(); $script:win.Close() }
         })
         $script:restartTimer.Start()
         Write-Log 'restart: waiting for new window'
     }
 
     function Invoke-DoneFlow([bool]$compact) {
+        if (-not (Enter-Busy)) { return }
         # spelling test first: only a full pass may check the day in.
         # never Hide() this window: hiding a ShowDialog window kills the modal loop.
         # 拼写期间不能有任何单词窗口留在屏幕上：先收掉同目录的其它实例
         try {
             $me = $PID
-            $mine = '*' + (Join-Path $script:root 'reminder.ps1') + '*'
+            $patA = '*' + (Join-Path $script:root 'reminder.ps1') + '*'
+            $patB = '*' + (Join-Path $script:root 'spell.ps1') + '*'
             foreach ($pr in @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe'")) {
-                if ($pr.ProcessId -ne $me -and $pr.CommandLine -and $pr.CommandLine -like $mine) {
+                $isMine = $pr.CommandLine -and (($pr.CommandLine -like $patA) -or ($pr.CommandLine -like $patB))
+                if ($pr.ProcessId -ne $me -and $isMine) {
                     Stop-Process -Id $pr.ProcessId -Force -ErrorAction SilentlyContinue
                     Write-Log ('拼写前关闭重复窗口 pid=' + $pr.ProcessId)
                 }
@@ -1714,6 +1731,14 @@ if ($env:CET6_TEST_PAUSEBANNER) { Show-PausedBanner ([string]::Format($S.pausedB
         } catch { }
     })
     $script:readyTimer.Start()
+
+    if ($env:CET6_TEST_NEXT2 -and -not (Test-Path (Join-Path $script:stateDir 'next2-once.txt'))) {
+        Set-Content -Path (Join-Path $script:stateDir 'next2-once.txt') -Value '1' -Encoding UTF8
+        $script:nd2Timer = New-Object Windows.Threading.DispatcherTimer
+        $script:nd2Timer.Interval = [TimeSpan]::FromMilliseconds(1200)
+        $script:nd2Timer.Add_Tick({ $script:nd2Timer.Stop(); Start-NextDay; Start-NextDay })
+        $script:nd2Timer.Start()
+    }
 
     if ($env:CET6_TEST_NEXTDAY -and -not (Test-Path (Join-Path $script:stateDir 'nextday-once.txt'))) {
         Set-Content -Path (Join-Path $script:stateDir 'nextday-once.txt') -Value '1' -Encoding UTF8
