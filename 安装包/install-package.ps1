@@ -64,6 +64,17 @@ if (-not $DryRun) {
     }
     Copy-Item $xlsx.FullName (Join-Path $dest $xlsx.Name) -Force
     Copy-Item (Join-Path $src '词库\*.csv') (Join-Path $dest '词库\') -Force -ErrorAction SilentlyContinue
+    # 兜底：压缩包对子目录处理不稳，词库若没拷进去，就从根目录的 csv 补
+    $deckCount = @(Get-ChildItem (Join-Path $dest '词库') -Filter '*.csv' -ErrorAction SilentlyContinue).Count
+    if ($deckCount -eq 0) {
+        $rootCsv = Get-ChildItem $src -Filter '*.csv' -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($rootCsv) {
+            Copy-Item $rootCsv.FullName (Join-Path $dest ('词库\' + $rootCsv.Name)) -Force
+            $deckCount = 1
+        }
+    }
+    if ($deckCount -gt 0) { Write-Host ('[OK] 词库已就位（' + $deckCount + ' 套）') -ForegroundColor Green }
+    else { Write-Host '[!!] 词库没拷进去，安装后需要手动添加词库' -ForegroundColor Yellow }
     Write-Host '[OK] 程序文件已复制' -ForegroundColor Green
 }
 

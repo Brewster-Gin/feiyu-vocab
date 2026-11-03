@@ -24,7 +24,10 @@ try {
 } catch {
     $mutexOk = $true
 }
-if (-not $mutexOk) { exit 0 }
+if (-not $mutexOk) {
+    try { Add-Content -Path (Join-Path $PSScriptRoot 'reminder.log') -Value ('[' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + '] 已有实例在运行，本次退出') -Encoding UTF8 } catch { }
+    exit 0
+}
 
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $selfPath = $PSCommandPath
@@ -1221,9 +1224,24 @@ try {
             $dlg.Filter = '词表 (*.csv;*.txt)|*.csv;*.txt'
             if ($dlg.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
                 $mgr = Join-Path $script:root 'deck-manager.ps1'
-                Start-Process -FilePath 'powershell.exe' -WindowStyle Hidden -Wait -ArgumentList @(
-                    '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $mgr, '-ImportFile', $dlg.FileName)
-                Update-DeckList
+                # 不等待：导入跑在独立进程里，界面保持可用
+                Start-Process -FilePath 'powershell.exe' -WindowStyle Hidden -ArgumentList @(
+                    '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $mgr, '-ImportFile', $dlg.FileName) | Out-Null
+                $script:statusText.Text = '正在导入…'
+                $script:deckTicks = 0
+                if ($null -eq $script:deckPoll) {
+                    $script:deckPoll = New-Object Windows.Threading.DispatcherTimer
+                    $script:deckPoll.Interval = [TimeSpan]::FromMilliseconds(700)
+                    $script:deckPoll.Add_Tick({
+                            $script:deckTicks++
+                            Update-DeckList
+                            if ($script:deckTicks -ge 8) {
+                                $script:deckPoll.Stop()
+                                $script:statusText.Text = ''
+                            }
+                        })
+                }
+                $script:deckPoll.Start()
             }
         })
 
