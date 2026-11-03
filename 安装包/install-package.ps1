@@ -59,24 +59,40 @@ if (-not $DryRun) {
     New-Item -ItemType Directory -Path (Join-Path $dest '词库') -Force | Out-Null
     $files = @('reminder.ps1', 'spell.ps1', 'strings.json', 'words.json', 'launch.vbs', 'run-spell.vbs', 'lib-dates.ps1', 'deck-manager.ps1', 'uninstall-package.ps1')
     New-Item -ItemType Directory -Path (Join-Path $dest '工具') -Force | Out-Null
-    Copy-Item (Join-Path $src '工具\*') (Join-Path $dest '工具\') -Force -ErrorAction SilentlyContinue
+    # 兜底：压缩包对子目录处理不稳，生成器若没到 工具\，从根目录补
+    if (-not (Test-Path (Join-Path $dest '工具\build_plan.py'))) {
+        foreach ($fn in @('build_plan.py', 'extra_words.py', 'ipa.json')) {
+            $srcFile = Join-Path $src $fn
+            if (Test-Path $srcFile) { Copy-Item $srcFile (Join-Path $dest ('工具\' + $fn)) -Force }
+        }
+    }
+    if (Test-Path (Join-Path $dest '工具\build_plan.py')) {
+        Write-Host '[OK] 生成器已就位（支持切换词库/改每日词数）' -ForegroundColor Green
+    } else {
+        Write-Host '[!!] 生成器缺失：切换词库与改每日词数将不可用' -ForegroundColor Yellow
+    }
     foreach ($f in $files) {
         $p = Join-Path $src $f
         if (Test-Path $p) { Copy-Item $p (Join-Path $dest $f) -Force }
     }
     Copy-Item $xlsx.FullName (Join-Path $dest $xlsx.Name) -Force
-    Copy-Item (Join-Path $src '词库\*.csv') (Join-Path $dest '词库\') -Force -ErrorAction SilentlyContinue
-    # 兜底：压缩包对子目录处理不稳，词库若没拷进去，就从根目录的 csv 补
-    $deckCount = @(Get-ChildItem (Join-Path $dest '词库') -Filter '*.csv' -ErrorAction SilentlyContinue).Count
-    if ($deckCount -eq 0) {
-        $rootCsv = Get-ChildItem $src -Filter '*.csv' -ErrorAction SilentlyContinue | Select-Object -First 1
-        if ($rootCsv) {
-            Copy-Item $rootCsv.FullName (Join-Path $dest ('词库\' + $rootCsv.Name)) -Force
-            $deckCount = 1
-        }
+    # 词库与生成器：安装包是扁平结构（IExpress 不支持子目录），这里归位
+    $deckSrc = Get-ChildItem $src -Filter '*.csv' -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($deckSrc) { Copy-Item $deckSrc.FullName (Join-Path $dest ('词库' + [IO.Path]::DirectorySeparatorChar + $deckSrc.Name)) -Force }
+
+    $toolNames = @('build_plan.py', 'extra_words.py', 'ipa.json')
+    foreach ($fn in $toolNames) {
+        $p = Join-Path $src $fn
+        if (Test-Path $p) { Copy-Item $p (Join-Path $dest ('工具' + [IO.Path]::DirectorySeparatorChar + $fn)) -Force }
     }
+
+    $genOk = Test-Path (Join-Path $dest ('工具' + [IO.Path]::DirectorySeparatorChar + 'build_plan.py'))
+    if ($genOk) { Write-Host '[OK] 生成器已就位（可切换词库/改每日词数）' -ForegroundColor Green }
+    else { Write-Host '[!!] 生成器缺失：切换词库与改每日词数将不可用' -ForegroundColor Yellow }
+    $deckCount = @(Get-ChildItem (Join-Path $dest '词库') -Filter '*.csv' -ErrorAction SilentlyContinue).Count
     if ($deckCount -gt 0) { Write-Host ('[OK] 词库已就位（' + $deckCount + ' 套）') -ForegroundColor Green }
-    else { Write-Host '[!!] 词库没拷进去，安装后需要手动添加词库' -ForegroundColor Yellow }
+    else { Write-Host '[!!] 词库没拷进去，安装后需手动添加' -ForegroundColor Yellow }
+
     Write-Host '[OK] 程序文件已复制' -ForegroundColor Green
 }
 

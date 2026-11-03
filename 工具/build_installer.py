@@ -4,12 +4,14 @@ import io
 import os
 import shutil
 import subprocess
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 PKG = os.path.join(ROOT, '安装包')
 WORK = os.path.join(os.environ['TEMP'], 'cet6pkg')
-REAL = os.path.join(ROOT, '肥鱼背单词-安装包.exe')
+REAL = os.path.join(os.environ['TEMP'], 'feiyu_setup.exe')
+FINAL = os.path.join(ROOT, '肥鱼背单词-安装包.exe')
 TEST = os.path.join(os.environ['TEMP'], 'cet6_setup_test.exe')
 DRY_LOG = os.path.join(os.environ['TEMP'], 'cet6_dry.txt')
 IEX = os.path.join(os.environ['SystemRoot'], 'System32', 'iexpress.exe')
@@ -80,3 +82,18 @@ if build(TEST, app_test, 'test'):
 app_real = 'powershell.exe -NoProfile -ExecutionPolicy Bypass -File install-package.ps1'
 build(REAL, app_real, 'real')
 print('output:', REAL, os.path.getsize(REAL) if os.path.exists(REAL) else 0)
+
+# 3. 打包成功后复制回项目目录（目标可能被占用，失败重试）
+if os.path.exists(FINAL):
+    for _ in range(5):
+        try:
+            os.remove(FINAL)
+            break
+        except Exception:
+            time.sleep(0.6)
+try:
+    shutil.copyfile(REAL, FINAL)
+    print('copied to', FINAL, os.path.getsize(FINAL))
+except Exception as e:
+    print('copy failed:', e)
+    print('installer left at', REAL)

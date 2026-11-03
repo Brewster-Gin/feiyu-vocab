@@ -1079,14 +1079,14 @@ try {
         $row.Margin = New-Object Windows.Thickness(0, 14, 0, 0)
 
         $ok = New-Object Windows.Controls.Button
-        $ok.Content = $script:S.confirmSkipYes
+        $ok.Content = $script:S.deckConfirmYes
         $ok.Style = $script:win.Resources['FlatBtn']
         $ok.Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#1F4E79')
         $ok.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#FFFFFF')
         $ok.Add_Click({ param($s2, $e2) Invoke-DeckSwitch $path }.GetNewClosure())
 
         $no = New-Object Windows.Controls.Button
-        $no.Content = $script:S.confirmSkipNo
+        $no.Content = $script:S.deckConfirmNo
         $no.Style = $script:win.Resources['FlatBtn']
         $no.Background = [Windows.Media.BrushConverter]::new().ConvertFromString('#EDF2F8')
         $no.Foreground = [Windows.Media.BrushConverter]::new().ConvertFromString('#1F4E79')

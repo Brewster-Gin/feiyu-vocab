@@ -1,0 +1,41 @@
+;Auto-generated Diamond Directive File. Can be deleted without harm.
+.Set CabinetNameTemplate=D:\MyProject\Big Fat Fish Vocabulary\CET6-Plan\~肥鱼背单词-安装包.CAB
+.Set CompressionType=LZX
+.Set CompressionLevel=7
+.Set InfFileName=D:\MyProject\Big Fat Fish Vocabulary\CET6-Plan\~肥鱼背单词-安装包_LAYOUT.INF
+.Set RptFileName=D:\MyProject\Big Fat Fish Vocabulary\CET6-Plan\~肥鱼背单词-安装包.RPT
+.Set MaxDiskSize=CDROM
+.Set ReservePerCabinetSize=0
+.Set InfCabinetLineFormat=*cab#*=Application Source Media,*cabfile*,0
+.Set Compress=on
+.Set CompressionMemory=21
+.Set DiskDirectoryTemplate=
+.Set Cabinet=ON
+.Set MaxCabinetSize=999999999
+.Set InfDiskHeader=
+.Set InfDiskLineFormat=
+.Set InfCabinetHeader=[SourceDisksNames]
+.Set InfFileHeader=
+.Set InfFileHeader1=[SourceDisksFiles]
+.Set InfFileLineFormat=*file*=*cab#*,,*size*,*csum*
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\build_plan.py"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\cet6.ico"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\deck-manager.ps1"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\extra_words.py"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\install-package.ps1"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\ipa.json"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\launch.vbs"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\lib-dates.ps1"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\reminder.ps1"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\run-spell.vbs"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\spell.ps1"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\strings.json"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\uninstall-package.ps1"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\words.json"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\六级单词6周打卡表.xlsx"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\卸载.cmd"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\安装.cmd"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\工具\build_plan.py"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\工具\extra_words.py"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\工具\ipa.json"
+"C:\Users\Lenovo\AppData\Local\Temp\cet6pkg\默认词库.csv"
