@@ -1440,8 +1440,12 @@ try {
     }
 
     function Restart-Self {
+        if ($script:restarting) { Write-Log 'restart: already in progress, ignored'; return }
+        $script:restarting = $true
         # 先放出互斥体，再拉起新实例；旧窗口保持可见，直到新窗口就绪才关闭。
         $script:restartReady = Join-Path $script:stateDir 'restart-ready.txt'
+        $script:restartToken = [DateTime]::Now.Ticks.ToString()
+        Set-Content -Path (Join-Path $script:stateDir 'restart-token.txt') -Value $script:restartToken -Encoding UTF8
         if (Test-Path $script:restartReady) { Remove-Item $script:restartReady -Force -ErrorAction SilentlyContinue }
         try { $mtx.ReleaseMutex() } catch { Write-Log ('release mutex failed: ' + $_.Exception.Message) }
         foreach ($ln in @('SetLayer', 'DeckLayer', 'ResetLayer', 'ConfirmLayer', 'PauseLayer')) {
@@ -1455,7 +1459,10 @@ try {
         $script:restartTimer = New-Object Windows.Threading.DispatcherTimer
         $script:restartTimer.Interval = [TimeSpan]::FromMilliseconds(100)
         $script:restartTimer.Add_Tick({
-            $done = (Test-Path $script:restartReady)
+            $done = $false
+            if (Test-Path $script:restartReady) {
+                try { $done = ((Get-Content $script:restartReady -Raw).Trim() -eq $script:restartToken) } catch { }
+            }
             $waited = ([DateTime]::Now - $script:restartStart).TotalSeconds
             if ($done) { $script:restartTimer.Stop(); $script:win.Close() }
             elseif ($waited -gt 15) { $script:restartTimer.Stop(); $script:win.Close() }
@@ -1467,6 +1474,17 @@ try {
     function Invoke-DoneFlow([bool]$compact) {
         # spelling test first: only a full pass may check the day in.
         # never Hide() this window: hiding a ShowDialog window kills the modal loop.
+        # 拼写期间不能有任何单词窗口留在屏幕上：先收掉同目录的其它实例
+        try {
+            $me = $PID
+            $mine = '*' + (Join-Path $script:root 'reminder.ps1') + '*'
+            foreach ($pr in @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe'")) {
+                if ($pr.ProcessId -ne $me -and $pr.CommandLine -and $pr.CommandLine -like $mine) {
+                    Stop-Process -Id $pr.ProcessId -Force -ErrorAction SilentlyContinue
+                    Write-Log ('拼写前关闭重复窗口 pid=' + $pr.ProcessId)
+                }
+            }
+        } catch { }
         $script:win.Topmost = $false
         $script:win.Opacity = 0
         $script:savedLeft = $script:win.Left
@@ -1689,7 +1707,10 @@ if ($env:CET6_TEST_PAUSEBANNER) { Show-PausedBanner ([string]::Format($S.pausedB
         $script:readyTimer.Stop()
         if (-not $script:win.IsVisible) { $script:readyTimer.Start(); return }
         try {
-            Set-Content -Path (Join-Path $script:stateDir 'restart-ready.txt') -Value ([DateTime]::Now.Ticks) -Encoding UTF8
+            $tokFile = Join-Path $script:stateDir 'restart-token.txt'
+            $tok = ''
+            if (Test-Path $tokFile) { $tok = (Get-Content $tokFile -Raw).Trim() }
+            Set-Content -Path (Join-Path $script:stateDir 'restart-ready.txt') -Value $tok -Encoding UTF8
         } catch { }
     })
     $script:readyTimer.Start()
